@@ -37,7 +37,6 @@ class GameScene: SKScene {
             }
         }
         
-        print("delerhas as :"+String(dealerHasAs))
         if dealerHasAs == 0 { ///////////////// LE DEALER N'AS PAS D'AS
             dealerScoreLabel.text = "\(dealerScore)"
         }
@@ -57,7 +56,6 @@ class GameScene: SKScene {
                     dealerScoreLabel.text = "\(dealerScore)"
                     }else if vare == true {
                         if noas == true {
-                            print("LA CA DEVRAI RRR")
                             dealerScore += 1
                             dealerScoreLabel.text = "\(dealerScore)"
                         }else if noas == false{
@@ -72,7 +70,6 @@ class GameScene: SKScene {
 
     }
     func checkwin(){
-        print("CHECKININWINWIN")
         if dealerScore > 21 {
             won(alt: "DealerBust")
         }
@@ -390,11 +387,6 @@ class GameScene: SKScene {
             }else if randInt == 14{
                 dealerHasAs += 1
             }
-            
-
-
-            print("dealer:" + String(dealerScore))
-
             }
         
         else if user == "Player"{
@@ -468,8 +460,7 @@ class GameScene: SKScene {
             card.run(SKAction.scaleX(to: 0.5, duration: 0.15))
 
         }
-        print("dealer as ass: "+String(dealerHasAs))
-        print("dealer : "+String(dealerScore))
+
         run(swapCardSide)
         return(card)
     }
@@ -505,7 +496,6 @@ class GameScene: SKScene {
         
         DealerNewCardX = 70
         DealerNewCardY = 90
-        print(self.frame.midY)
         zCardPositions = 0
         addedValue = 1
         
@@ -662,6 +652,8 @@ class GameScene: SKScene {
                         self.dealerScore += randInt
                     }else if randInt == 14 {
                         self.dealerHasAs += 1
+                    }else{
+                        self.dealerScore += randInt
                     }
                     self.updateDealerScore()
                 }
