@@ -13,7 +13,6 @@ import UIKit
 class GameScene: SKScene {
 
     var noas : Bool!
-
     override func didMove(to view: SKView) {
         //let waitInteraction = SKAction.wait(forDuration: 1)
         //isUserInteractionEnabled = false
@@ -85,7 +84,7 @@ class GameScene: SKScene {
             push()
         }
     }
-    
+
     func updatePlayerScoreStayPressed(){
         if playerHasAs > 0 {
             if playerHasOut10 == false { ////////////// STAY APPUYÉ :   SI LE SCORE DU  JOUEUR N'A PAS DEPASSSÉ 10 :     4,14 === > 14
@@ -185,6 +184,7 @@ class GameScene: SKScene {
     var playerHasAs = 0
     var dealerHasAs = 0
     
+    let previousExp = defaults.integer(forKey: "UserExp")
     
     var DealerReturnedCard : SKSpriteNode!
     var playerHasOut10 = false
@@ -229,7 +229,7 @@ class GameScene: SKScene {
 
         if way == "Bust"{
             let playerBust = SKLabelNode(fontNamed: "TextaW00-Heavy")
-            playerBust.text = "BUST"
+            playerBust.text = "BUST -20xp"
             playerBust.position = CGPoint(x: frame.midX, y: frame.maxY-80)
             playerBust.fontColor = UIColor.red
             
@@ -238,7 +238,7 @@ class GameScene: SKScene {
             
         }else if way == "DealerBetterScore"{
             let playerLost = SKLabelNode(fontNamed: "TextaW00-Heavy")
-            playerLost.text = "DEALER WINS"
+            playerLost.text = "DEALER WINS -25xp"
             playerLost.position = CGPoint(x: frame.midX, y: frame.maxY-80)
             playerLost.fontColor = UIColor.red
             
@@ -271,9 +271,9 @@ class GameScene: SKScene {
         if alt == "DealerBust"{
             let WinDealerBustLabel = SKLabelNode(fontNamed:"TextaW00-Heavy")
             let WinningAction = SKAction.run({self.addChild(WinDealerBustLabel)})
-
+            defaults.set((40 + previousExp), forKey: "UserExp")
             WinDealerBustLabel.position = CGPoint(x: frame.midX, y: frame.maxY-80)
-            WinDealerBustLabel.text = "DEALERBUST"
+            WinDealerBustLabel.text = "DEALERBUST +40xp"
             WinDealerBustLabel.fontColor = UIColor.orange
             run(SKAction.sequence([WinningAction,wait,trans]))
 
@@ -281,18 +281,18 @@ class GameScene: SKScene {
         }else if alt == "VICTORY"{
             let WinningLabel = SKLabelNode(fontNamed: "TextaW00-Heavy")
             let WinninglabelAction = SKAction.run({self.addChild(WinningLabel)})
-
+            defaults.set((45 + previousExp), forKey: "UserExp")
             WinningLabel.position = CGPoint(x: frame.midX, y: frame.maxY-80)
-            WinningLabel.text = "PLAYER WINS"
+            WinningLabel.text = "PLAYER WINS +45xp"
             WinningLabel.fontColor = UIColor.green
             run(SKAction.sequence([WinninglabelAction,wait,trans]))
 
         }else if alt == "BLACKJACK"{
             let BlackjackLabel = SKLabelNode(fontNamed: "TextaW00-Heavy")
             let BlackjackLabelAction = SKAction.run({self.addChild(BlackjackLabel)})
-            
+            defaults.set((45 + previousExp), forKey: "UserExp")
             BlackjackLabel.position = CGPoint(x: frame.midX, y: frame.maxY-80)
-            BlackjackLabel.text = "blackjack bro"
+            BlackjackLabel.text = "blackjack bro +60xp"
             BlackjackLabel.fontColor = UIColor.green
             run(SKAction.sequence([BlackjackLabelAction,wait,trans]))
         }
@@ -577,7 +577,7 @@ class GameScene: SKScene {
                                        dealerCard2Action]))
 
                 updatePlayerScore()
-                updateDealerScore()
+                _ = updateDealerScore()
                 
                 if playerScore == 10 {
                     playerHas10onStart += 1

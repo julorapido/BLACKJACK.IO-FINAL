@@ -8,14 +8,16 @@
 import SpriteKit
 import UIKit
 import SwiftUI
+public let defaults = UserDefaults.standard
 
 class MenuScene: SKScene {
-
+ 
     override func didMove(to view: SKView) {
         backgroundColor = UIColor(red: 15/255, green: 33/255, blue: 46/255, alpha: 1.0)
         layoutScene()
         playbuttonFunc()
         blackjackpng()
+        defaults.synchronize()
         //for family: String in UIFont.familyNames{
         //    print(family)
         //}
@@ -26,9 +28,14 @@ class MenuScene: SKScene {
         //    {
         //        print("== \(names)")
         //  }
-        //}
     }
-
+    public let defaults = UserDefaults.standard
+    public func intUserDefaults(value: Int, key: String){
+        defaults.set(key, forKey: "\(key)")
+    }
+    func StartPlayerData(){
+        intUserDefaults(value: 0, key: "UserExp")
+    }
     var playRec : SKShapeNode!
     var playbutton : SKLabelNode!
     var CoinsValue = 500
@@ -50,6 +57,10 @@ class MenuScene: SKScene {
         //let backgroundInfinite = SKAction.repeatForever(backgroundAnimation)
         //background.position = CGPoint(x : frame.midX,y: frame.midY)
         //background.run(backgroundInfinite)
+        let expText = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        expText.position = CGPoint(x: frame.minX + 40, y: frame.maxY - 65)
+        expText.text = "\(defaults.integer(forKey: "UserExp")) / 100"
+        expText.fontSize = 15
         let pic = SKSpriteNode(imageNamed: "3 PIC")
         pic.position = CGPoint(x: frame.minX + 45, y: frame.midY)
         pic.xScale = 0.45
@@ -61,12 +72,12 @@ class MenuScene: SKScene {
         let hit = SKSpriteNode(imageNamed: "hit")
         hit.xScale = 0.7
         hit.yScale = 0.7
-        hit.position = CGPoint(x: frame.midX, y: frame.midY)
+        hit.position = CGPoint(x: frame.midX , y: frame.midY)
         
         let bar = SKShapeNode(rectOf: CGSize(width: 300, height: 20), cornerRadius: 8)
         bar.fillColor = .clear
         bar.lineWidth = CGFloat(2.5)
-        bar.position = CGPoint(x: frame.midX, y: frame.maxY - 60)
+        bar.position = CGPoint(x: frame.midX + 25, y: frame.maxY - 60)
         
         let rect = SKShapeNode(rectOf: CGSize(width: frame.maxX, height: frame.midY))
         rect.position = CGPoint(x: frame.midX, y: frame.minY)
@@ -77,6 +88,7 @@ class MenuScene: SKScene {
         addChild(hit)
         addChild(stand)
         addChild(pic)
+        addChild(expText)
     }
     
     func playbuttonFunc(){
