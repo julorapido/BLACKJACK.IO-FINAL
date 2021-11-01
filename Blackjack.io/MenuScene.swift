@@ -8,15 +8,14 @@
 import SpriteKit
 import UIKit
 import SwiftUI
-public let defaults = UserDefaults.standard
 
 class MenuScene: SKScene {
- 
     override func didMove(to view: SKView) {
         backgroundColor = UIColor(red: 15/255, green: 33/255, blue: 46/255, alpha: 1.0)
         layoutScene()
         playbuttonFunc()
         blackjackpng()
+        defaults.set(true, forKey: "FirstLaunch")
         defaults.synchronize()
         //for family: String in UIFont.familyNames{
         //    print(family)
@@ -28,25 +27,39 @@ class MenuScene: SKScene {
         //    {
         //        print("== \(names)")
         //  }
+
     }
     public let defaults = UserDefaults.standard
     public func intUserDefaults(value: Int, key: String){
         defaults.set(key, forKey: "\(key)")
     }
+    let firstLaunch: Void = UserDefaults.standard.set(true, forKey: "FirstLaunch")
     func StartPlayerData(){
-        intUserDefaults(value: 0, key: "UserExp")
+            if defaults.bool(forKey: "FirsLaunch") == true {
+            intUserDefaults(value: 0, key: "UserExp")
+            intUserDefaults(value: 1, key: "UserLvl")
+                defaults.set(false, forKey: "FirstLaunch")
+        }
     }
+
     var playRec : SKShapeNode!
     var playbutton : SKLabelNode!
     var CoinsValue = 500
     let fadeAction = SKAction.fadeAlpha(to: 0.1, duration: 0.2)
     let pressedAction = SKAction.scale(to: 0.7, duration: 0.3)
     let RectPressedAction = SKAction.scale(to: CGSize(width: 95, height: 45), duration: 0.3)
-    func UserCoins(){
-        UserDefaults.standard.setValue(CoinsValue, forKey: "UserCoins")
-
-    }
     func layoutScene(){
+        StartPlayerData()
+        let previousLevel = defaults.integer(forKey: "UserLvl")
+        let previousExp = defaults.integer(forKey: "UserExp")
+        if defaults.integer(forKey: "UserExp") > (defaults.integer(forKey: "UserLvl") * 100){
+            print("Level up")
+            defaults.set(1 + previousLevel, forKey: "UserLvl")
+            defaults.set(previousExp - previousLevel * 100 , forKey: "UserExp")
+        }
+        //defaults.integer(forKey: "UserExp")
+        //var p = CGFloat()
+        //var percent : CGFloat = defaults.CGfloat(forKey: "UserExp")
         //var backgroundsTextures : [SKTexture] = []
         //for i in 1...6 {
         //    backgroundsTextures.append(SKTexture(imageNamed:"background\(i)"))
@@ -57,14 +70,20 @@ class MenuScene: SKScene {
         //let backgroundInfinite = SKAction.repeatForever(backgroundAnimation)
         //background.position = CGPoint(x : frame.midX,y: frame.midY)
         //background.run(backgroundInfinite)
+        let usexp = defaults.double(forKey: "UserExp")
+        let uselvl = defaults.double(forKey: "UserLvl")
+        let expNeeded = uselvl * 100
+        let pourcentage = (usexp / expNeeded) * 100
+        let expTaille = (pourcentage / 100 ) * 300
+        
+        let lvltext = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        lvltext.position = CGPoint(x: frame.maxX - 43, y: frame.maxY - 90)
+        lvltext.fontSize = 15
+        lvltext.text = "LVL \(defaults.integer(forKey: "UserLvl"))"
         let expText = SKLabelNode(fontNamed: "TextaW00-Heavy")
         expText.position = CGPoint(x: frame.minX + 40, y: frame.maxY - 65)
-        expText.text = "\(defaults.integer(forKey: "UserExp")) / 100"
+        expText.text = "\(Int(usexp)) / \((Int(uselvl)) * 100)"
         expText.fontSize = 15
-        let pic = SKSpriteNode(imageNamed: "3 PIC")
-        pic.position = CGPoint(x: frame.minX + 45, y: frame.midY)
-        pic.xScale = 0.45
-        pic.yScale = 0.45
         let stand = SKSpriteNode(imageNamed: "stand")
         stand.xScale = 0.7
         stand.yScale = 0.7
@@ -73,6 +92,11 @@ class MenuScene: SKScene {
         hit.xScale = 0.7
         hit.yScale = 0.7
         hit.position = CGPoint(x: frame.midX , y: frame.midY)
+        
+        let expBar = SKShapeNode(rectOf: CGSize(width: expTaille, height: 20), cornerRadius: 8)
+        expBar.fillColor = .white
+        expBar.position = CGPoint(x: frame.midX + 25, y: frame.maxY - 60)
+        expBar.lineWidth = CGFloat(2.5)
         
         let bar = SKShapeNode(rectOf: CGSize(width: 300, height: 20), cornerRadius: 8)
         bar.fillColor = .clear
@@ -85,10 +109,11 @@ class MenuScene: SKScene {
         rect.strokeColor = UIColor(red: 33/255, green: 55/255, blue: 67/255, alpha: 1.0)
         addChild(rect)
         addChild(bar)
+        addChild(expBar)
         addChild(hit)
         addChild(stand)
-        addChild(pic)
         addChild(expText)
+        addChild(lvltext)
     }
     
     func playbuttonFunc(){
