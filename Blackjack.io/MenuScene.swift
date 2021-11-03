@@ -17,6 +17,7 @@ class MenuScene: SKScene {
         blackjackpng()
         defaults.set(true, forKey: "FirstLaunch")
         defaults.synchronize()
+
         //for family: String in UIFont.familyNames{
         //    print(family)
         //}
@@ -29,6 +30,8 @@ class MenuScene: SKScene {
         //  }
 
     }
+        
+    
     public let defaults = UserDefaults.standard
     public func intUserDefaults(value: Int, key: String){
         defaults.set(key, forKey: "\(key)")
@@ -93,15 +96,19 @@ class MenuScene: SKScene {
         hit.yScale = 0.7
         hit.position = CGPoint(x: frame.midX , y: frame.midY)
         
-        let expBar = SKShapeNode(rectOf: CGSize(width: expTaille, height: 20), cornerRadius: 8)
-        expBar.fillColor = .white
+        let expBar = SKShapeNode(rectOf: CGSize(width: expTaille, height: 20), cornerRadius: 7)
+        expBar.strokeColor = .clear
+        expBar.fillColor = UIColor(red: 232/255, green: 233/255, blue: 243/255, alpha: 1)
         expBar.position = CGPoint(x: frame.midX + 25, y: frame.maxY - 60)
         expBar.lineWidth = CGFloat(2.5)
+        expBar.zPosition = -10
         
         let bar = SKShapeNode(rectOf: CGSize(width: 300, height: 20), cornerRadius: 8)
         bar.fillColor = .clear
-        bar.lineWidth = CGFloat(2.5)
+        bar.lineWidth = CGFloat(4)
+        bar.strokeColor = UIColor(red: 135/255, green: 134/255, blue: 140/255, alpha: 1.0)
         bar.position = CGPoint(x: frame.midX + 25, y: frame.maxY - 60)
+        bar.zPosition = 10
         
         let rect = SKShapeNode(rectOf: CGSize(width: frame.maxX, height: frame.midY))
         rect.position = CGPoint(x: frame.midX, y: frame.minY)
@@ -118,19 +125,20 @@ class MenuScene: SKScene {
     
     func playbuttonFunc(){
         
-        let Playpos = CGPoint(x:frame.midX, y: frame.midY - 100)
         
         playbutton = SKLabelNode(fontNamed:"TextaW00-Heavy")
-        playRec = SKShapeNode(rect: CGRect(x: frame.midX-52.5, y: frame.midY-112, width: 105, height: 50),cornerRadius: 5)
+        playRec = SKShapeNode(rectOf: CGSize(width: 140, height: 70),cornerRadius: 5)
         playRec.name = "rectbutton" 
         playRec.fillColor = UIColor(red: 4/255, green: 123/255, blue: 251/255, alpha: 1.0)
         playRec.strokeColor = UIColor(red: 4/255, green: 123/255, blue: 251/255, alpha: 1.0)
+        playRec.position = CGPoint(x: frame.midX, y: frame.midY-112)
+        
         playRec.name = "playrectangle"
         playbutton.text = "PLAY"
         playbutton.name = "playbutton"
-        playbutton.position = Playpos
+        playbutton.position = CGPoint(x: frame.midX, y: frame.midY - 125)
         playbutton.zPosition = 1
-        playbutton.fontSize = 32
+        playbutton.fontSize = 45
         //let scaleUpAction = SKAction.scale(to: 1.5, duration: 0.6)
         //let scaleDownAction = SKAction.scale(to: 1, duration: 0.6)
         //let waitAction = SKAction.wait(forDuration: 0.2)

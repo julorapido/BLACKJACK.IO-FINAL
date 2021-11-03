@@ -45,7 +45,6 @@ class GameScene: SKScene {
             if dealerHasAs + dealerScore + 10 < 21 {//////////// 11 FAIT PAS BUST
                 dealerScoreLabel.text = "\(dealerScore+dealerHasAs), \(dealerScore+10+dealerHasAs)"
                 return(0)
-
             }else{///////////// LE 11 AS L'AURAIT FAIT BUST
                 justdepasse11 = true
                 if justdepasse11 == false {
@@ -66,17 +65,8 @@ class GameScene: SKScene {
                         }else if noas == false{
                             dealerScoreLabel.text = "\(dealerScore)"
                             return(0)
-
                         }
                     }
-                }
-            }
-            if dealerHasAs + dealerScore + 10 < 21 {
-                if dealerHasAs + dealerScore + 10 > playerScore {
-                    dealerScore += dealerHasAs +  10
-                    dealerScoreLabel.text = "\(dealerScore)"
-                    return(0)
-
                 }
             }
         }
@@ -88,9 +78,7 @@ class GameScene: SKScene {
             won(alt: "DealerBust")
         }
         if dealerScore <= 21{
-            if playerScore + playerHasAs < dealerScore {
-                    lost(way: "DealerBetterScore")
-            }else if dealerScore < playerScore + playerHasAs{
+          if dealerScore < playerScore + playerHasAs{
                 won(alt: "VICTORY")
                 
             }
@@ -243,12 +231,20 @@ class GameScene: SKScene {
         let wait = SKAction.wait(forDuration: 2)
         let trans = SKAction.run({self.transition()})
         if way == "Bust"{
+            let playerBustRect = SKShapeNode(rectOf: CGSize(width: 120, height: 35),cornerRadius: 10)
+            playerBustRect.fillColor = UIColor(red: 47/255, green: 69/255, blue: 83/255, alpha: 1.0)
+            playerBustRect.strokeColor = UIColor(red: 25/255, green: 44/255, blue: 56/255, alpha: 1.0)
+            playerBustRect.position = CGPoint(x: frame.midX + 35, y: frame.midY - 45)
             let playerBust = SKLabelNode(fontNamed: "TextaW00-Heavy")
+            playerBust.fontSize = 23
             playerBust.text = "BUST -20xp"
-            playerBust.position = CGPoint(x: frame.midX, y: frame.maxY-80)
+            playerBust.position = CGPoint(x: frame.midX + 35, y: frame.midY - 51)
             playerBust.fontColor = UIColor.red
             defo.set(previousExp - 20 , forKey: "UserExp")
-            let playerBustAction = SKAction.run({self.addChild(playerBust)})
+            let playerBustAction = SKAction.run({
+                self.addChild(playerBust)
+                self.addChild(playerBustRect)
+            })
             run(SKAction.sequence([playerBustAction,wait,trans]))
             
         }else if way == "DealerBetterScore"{
@@ -293,10 +289,18 @@ class GameScene: SKScene {
 
             
         }else if alt == "VICTORY"{
+            let WinningRect = SKShapeNode(rectOf: CGSize(width: 120, height: 35),cornerRadius: 10)
+            WinningRect.fillColor = UIColor(red: 47/255, green: 69/255, blue: 83/255, alpha: 1.0)
+            WinningRect.strokeColor = UIColor(red: 25/255, green: 44/255, blue: 56/255, alpha: 1.0)
+            WinningRect.position = CGPoint(x: frame.midX + 35, y: frame.midY - 45)
             let WinningLabel = SKLabelNode(fontNamed: "TextaW00-Heavy")
-            let WinninglabelAction = SKAction.run({self.addChild(WinningLabel)})
+            let WinninglabelAction = SKAction.run({
+                self.addChild(WinningLabel)
+                self.addChild(WinningRect)
+            })
             defo.set(45 + previouswin, forKey: "UserExp")
-            WinningLabel.position = CGPoint(x: frame.midX, y: frame.maxY-80)
+            WinningLabel.fontSize = 23
+            WinningLabel.position = CGPoint(x: frame.midX + 35, y: frame.midY - 45)
             WinningLabel.text = "PLAYER WINS +45xp"
             WinningLabel.fontColor = UIColor.green
             run(SKAction.sequence([WinninglabelAction,wait,trans]))
@@ -322,25 +326,37 @@ class GameScene: SKScene {
         func TopRect(){
             let rect = SKShapeNode(rectOf: CGSize(width: frame.maxX , height: frame.midY / 3),cornerRadius: 40)
             rect.position = CGPoint(x: frame.midX, y: frame.maxY)
-            rect.fillColor = UIColor(red: 14/255, green: 120/255, blue: 46/255, alpha: 1.0)
-            rect.strokeColor = UIColor(red: 48/255, green: 69/255, blue: 83/255, alpha: 1.0)
+            rect.fillColor = UIColor(red: 1/255, green: 79/255, blue: 134/255, alpha: 1.0)
+            rect.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1.0)
             rect.lineWidth = CGFloat(10)
             rect.zPosition = 10
             addChild(rect)
             
         }
+        func MidRect(){
+
+            let rect = SKShapeNode(rectOf: CGSize(width: frame.maxX + 30, height: frame.midY + 53))
+            rect.position = CGPoint(x: frame.midX, y: frame.midY)
+            rect.fillColor = UIColor(red: 1/255, green: 79/255, blue: 134/255, alpha: 0.3)
+            rect.strokeColor = UIColor(red: 47/255, green: 69/255, blue: 83/255, alpha: 1.0)
+            rect.lineWidth = CGFloat(9)
+            rect.zPosition = -10
+            addChild(rect)
+
+        }
+
         func BottomRect(){
-            let rect = SKShapeNode(rectOf: CGSize(width: frame.maxX - 25, height: frame.midY),cornerRadius: 35)
+            let rect = SKShapeNode(rectOf: CGSize(width: frame.maxX - 25, height: frame.midY/1.5),cornerRadius: 35)
             rect.position = CGPoint(x: frame.midX, y: frame.minY)
-            rect.fillColor = UIColor(red: 14/255, green: 120/255, blue: 46/255, alpha: 1.0)
-            rect.strokeColor = UIColor(red: 48/255, green: 69/255, blue: 83/255, alpha: 1.0)
+            rect.fillColor = UIColor(red: 1/255, green: 79/255, blue: 134/255, alpha: 1.0)
+            rect.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1.0)
             rect.lineWidth = CGFloat(9)
             addChild(rect)
         }
         
         func deck(){
             let deck = SKSpriteNode(imageNamed: "HALLOWEEN DECK")
-            deck.position = CGPoint(x: frame.maxX - 75, y: frame.maxY - 100)
+            deck.position = CGPoint(x: frame.maxX - 75, y: frame.maxY - 105)
             deck.xScale = 0.5
             deck.yScale = 0.5
             deck.zPosition = -10
@@ -351,8 +367,8 @@ class GameScene: SKScene {
             hitbutton.position = CGPoint(x:frame.midX - 90, y: frame.minY + 100)
             hitbutton.name = "ButtonHit"
             hitbutton.zPosition = 1
-            hitbutton.xScale = 0.145
-            hitbutton.yScale = 0.17
+            hitbutton.xScale = 0.38
+            hitbutton.yScale = 0.38
             addChild(hitbutton)
             
         }
@@ -361,8 +377,8 @@ class GameScene: SKScene {
             staybutton.position = CGPoint(x:frame.midX + 90, y: frame.minY + 100)
             staybutton.name = "ButtonStay"
             staybutton.zPosition = 1
-            staybutton.xScale = 0.145
-            staybutton.yScale = 0.17
+            staybutton.xScale = 0.38
+            staybutton.yScale = 0.38
             addChild(staybutton)
         }
         func bjbaneer(){
@@ -372,6 +388,7 @@ class GameScene: SKScene {
             baneer.yScale = 0.5
             addChild(baneer)
         }
+        MidRect()
         deck()
         bjbaneer()
         hitfunc()
@@ -451,7 +468,7 @@ class GameScene: SKScene {
         //let moveToPointY = SKAction.moveTo(y: yPos, duration: 0.5)
         //let moveXandY = SKAction.sequence([moveToPointX,moveToPointY])
         let waitCardVector = SKAction.wait(forDuration: 0.55)
-        let topleft = CGPoint(x: frame.maxX - 75, y: frame.maxY - 100)
+        let topleft = CGPoint(x: frame.maxX - 70, y: frame.maxY - 75)
         let CardPoint = CGPoint(x: xPos, y: yPos)
         let vector = CGVector(dx: CardPoint.x - topleft.x, dy: CardPoint.y - topleft.y)
         let vectorAction = SKAction.move(by: vector, duration: 0.4)
@@ -723,25 +740,20 @@ class GameScene: SKScene {
             {
 
                 
-                let wait = SKAction.wait(forDuration: 0.3)
-                
-                let doStay = SKAction.run {
-                    self.staybutton.texture = SKTexture(imageNamed: "STAND CLICKED ON")
-                }
-                let undoStay =  SKAction.run {
-                    self.staybutton.texture = SKTexture(imageNamed: "STAND")
-                }
+                let wait = SKAction.wait(forDuration: 0.1)
                 
                 
                 
-                let ScaleDown = SKAction.scale(by: 0.8, duration: 0.15)
-                let FadeDown = SKAction.fadeAlpha(to: 0.8, duration: 0.05)
+                
+                let ScaleDown = SKAction.scale(by: 0.85, duration: 0.11)
+                let FadeDown = SKAction.fadeAlpha(to: 0.92, duration: 0.11)
                 
                 
-                let ScaleBack = SKAction.scale(by: 1, duration: 0.15)
-                let FadeBack = SKAction.fadeAlpha(to: 1, duration: 0.05)
+                let ScaleBack = SKAction.scale(to: 0.35, duration: 0.11)
+          
+                let FadeBack = SKAction.fadeAlpha(to: 1, duration: 0.11)
                 
-                let Pressedbutton = SKAction.sequence([ScaleDown,FadeDown,wait,ScaleBack,FadeBack])
+                let Pressedbutton = SKAction.sequence([ScaleDown,FadeDown,ScaleBack,FadeBack])
                 
                 for touch in touches {
                     
