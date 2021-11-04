@@ -18,7 +18,54 @@ class GameViewController: UIViewController {
         let gradient: CAGradientLayer = CAGradientLayer()
         var gradientColorSet: [[CGColor]] = []
         var colorIndex: Int = 0
+    
+        func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+            if flag {
+                animateGradient()
+            }
+        }
+        
+        func setupGradient(){
+            gradientColorSet = [
+                [color1, color2],
+                [color2, color3],
+                [color3, color1]
+            ]
+            gradient.frame = self.view.bounds
+            gradient.colors = gradientColorSet[colorIndex]
+            self.view.layer.addSublayer(gradient)
+        }
+        
+    
+    
+    
+    
+        func animateGradient() {
+            gradient.colors = gradientColorSet[colorIndex]
+            
+            let gradientAnimation = CABasicAnimation(keyPath: "colors")
+            gradientAnimation.duration = 3.0
+            
+            updateColorIndex()
+            gradientAnimation.toValue = gradientColorSet[colorIndex]
+            
+            gradientAnimation.fillMode = .forwards
+            gradientAnimation.isRemovedOnCompletion = false
+            
+            gradient.add(gradientAnimation, forKey: "colors")
+        }
+        func updateColorIndex(){
+            if colorIndex < gradientColorSet.count - 1 {
+                colorIndex += 1
+            } else {
+                colorIndex = 0
+            }
+        }
 
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,6 +76,7 @@ class GameViewController: UIViewController {
                 view.showsFPS = true
                 view.ignoresSiblingOrder = true
                 view.showsNodeCount = true
+            
             }
         }
 }

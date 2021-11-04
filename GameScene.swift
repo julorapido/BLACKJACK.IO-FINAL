@@ -24,6 +24,7 @@ class GameScene: SKScene {
         let game = SKAction.run({self.gameSetup();self.displaycards()})
         let wait = SKAction.wait(forDuration: 0.2)
         run(SKAction.sequence([layout,wait,game]))
+        print(frame.maxY / 4)
     }
     func updateDealerScore() -> Int{
         if dealerHasAs == 1 {////////////////// LE DEALER A 21
@@ -43,8 +44,14 @@ class GameScene: SKScene {
         
         if dealerHasAs >= 1 {///////// LE DEALER A UN AS OU PLUS
             if dealerHasAs + dealerScore + 10 < 21 {//////////// 11 FAIT PAS BUST
-                dealerScoreLabel.text = "\(dealerScore+dealerHasAs), \(dealerScore+10+dealerHasAs)"
-                return(0)
+                if dealerHasAs + dealerScore + 10 > playerScore + playerHasAs {
+                    dealerScore += dealerHasAs + 10
+                    dealerScoreLabel.text = "\(dealerScore)"
+                    return(0)
+                }else {
+                    dealerScoreLabel.text = "\(dealerScore+dealerHasAs), \(dealerScore+10+dealerHasAs)"
+                    return(0)
+                }
             }else{///////////// LE 11 AS L'AURAIT FAIT BUST
                 justdepasse11 = true
                 if justdepasse11 == false {
@@ -85,6 +92,10 @@ class GameScene: SKScene {
             }
         if dealerScore == playerScore+playerHasAs {
             push()
+        }
+        
+        if dealerScore > playerScore+playerHasAs {
+            lost(way: "DealerBetterScore")
         }
     }
 
@@ -335,11 +346,11 @@ class GameScene: SKScene {
         }
         func MidRect(){
 
-            let rect = SKShapeNode(rectOf: CGSize(width: frame.maxX + 30, height: frame.midY + 53))
+            let rect = SKShapeNode(rectOf: CGSize(width: frame.maxX - 10, height: frame.midY + 60), cornerRadius: 10)
             rect.position = CGPoint(x: frame.midX, y: frame.midY)
-            rect.fillColor = UIColor(red: 1/255, green: 79/255, blue: 134/255, alpha: 0.3)
-            rect.strokeColor = UIColor(red: 47/255, green: 69/255, blue: 83/255, alpha: 1.0)
-            rect.lineWidth = CGFloat(9)
+            rect.fillColor = UIColor(red: 15/255, green: 33/255, blue: 46/255, alpha: 1.0)
+            rect.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0.4)
+            rect.lineWidth = CGFloat(4.5)
             rect.zPosition = -10
             addChild(rect)
 
@@ -356,7 +367,7 @@ class GameScene: SKScene {
         
         func deck(){
             let deck = SKSpriteNode(imageNamed: "HALLOWEEN DECK")
-            deck.position = CGPoint(x: frame.maxX - 75, y: frame.maxY - 105)
+            deck.position = CGPoint(x: frame.maxX - 75, y: ((frame.maxY)-(frame.maxY / 8.3)))
             deck.xScale = 0.5
             deck.yScale = 0.5
             deck.zPosition = -10
@@ -364,28 +375,28 @@ class GameScene: SKScene {
         }
         func hitfunc(){
             hitbutton = SKSpriteNode(imageNamed: "HIT")
-            hitbutton.position = CGPoint(x:frame.midX - 90, y: frame.minY + 100)
+            hitbutton.position = CGPoint(x:frame.midX - 85, y: frame.maxY / 10)
             hitbutton.name = "ButtonHit"
             hitbutton.zPosition = 1
-            hitbutton.xScale = 0.38
-            hitbutton.yScale = 0.38
+            hitbutton.xScale = 0.36
+            hitbutton.yScale = 0.36
             addChild(hitbutton)
             
         }
         func stayfunc(){
             staybutton = SKSpriteNode(imageNamed: "STAND")
-            staybutton.position = CGPoint(x:frame.midX + 90, y: frame.minY + 100)
+            staybutton.position = CGPoint(x:frame.midX + 85, y: frame.maxY / 10)
             staybutton.name = "ButtonStay"
             staybutton.zPosition = 1
-            staybutton.xScale = 0.38
-            staybutton.yScale = 0.38
+            staybutton.xScale = 0.36
+            staybutton.yScale = 0.36
             addChild(staybutton)
         }
         func bjbaneer(){
             let baneer = SKSpriteNode(imageNamed: "blackjack2to3")
             baneer.position = CGPoint(x: frame.midX, y: frame.midY+30)
-            baneer.xScale = 0.5
-            baneer.yScale = 0.5
+            baneer.xScale = 0.25
+            baneer.yScale = 0.25
             addChild(baneer)
         }
         MidRect()
@@ -413,10 +424,13 @@ class GameScene: SKScene {
     func spawnRandomCard(user:String, xPos:CGFloat ,yPos:CGFloat) -> SKSpriteNode{
         addedValue = 1
         zCardPositions = zCardPositions + addedValue
+        let family = ["TREFLE", "CARREAU", "COEUR", "PIC"]
+        print(family[1])
+        var randFamily = Int.random(in: 0...3)
         var randInt = Int.random(in: 2...14)///////////////////////////////////////////// RANDOMIZER
-        let returnedCard = SKSpriteNode(imageNamed: "back")
+        let returnedCard = SKSpriteNode(imageNamed: "backk")
         let randomCardAction = SKAction.run({self.addChild(returnedCard)})
-        let RandomCardTexture = SKTexture(imageNamed: "card\(randInt)")
+        let RandomCardTexture = SKTexture(imageNamed: "\(randInt) \(family[randFamily])")
 
         let wait = SKAction.wait(forDuration: 0.3)
                 
@@ -460,8 +474,8 @@ class GameScene: SKScene {
                 noas = true
             }
         }
-        returnedCard.xScale = 0.5
-        returnedCard.yScale = 0.5
+        returnedCard.xScale = 0.37
+        returnedCard.yScale = 0.35
         returnedCard.zPosition = zCardPositions
         returnedCard.position = CGPoint(x: frame.maxX, y: frame.maxY)
         //let moveToPointX = SKAction.moveTo(x: xPos, duration: 0.5)
@@ -473,12 +487,12 @@ class GameScene: SKScene {
         let vector = CGVector(dx: CardPoint.x - topleft.x, dy: CardPoint.y - topleft.y)
         let vectorAction = SKAction.move(by: vector, duration: 0.4)
         let swapCardSide = SKAction.run {
-            returnedCard.run(SKAction.scaleX(to: 0.4, duration: 0.1));///// REDUIT UN PEU LA CARTE
+            returnedCard.run(SKAction.scaleX(to: 0.32, duration: 0.1));///// REDUIT UN PEU LA CARTE
             returnedCard.texture = RandomCardTexture;
-            returnedCard.run(SKAction.scaleX(to: -0.4, duration: 0))////////////// SPAWN CARTE EN MIROIR
+            returnedCard.run(SKAction.scaleX(to: -0.32, duration: 0))////////////// SPAWN CARTE EN MIROIR
             returnedCard.run(SKAction.scaleX(to: -0.05, duration: 0.08))//////// RETOURNEMENT 1/2
             returnedCard.run(SKAction.scaleX(to: 0.05, duration: 0))//////////// MIROIR LA CARTE (taille reduite)
-            returnedCard.run(SKAction.scaleX(to: 0.5, duration: 0.15))
+            returnedCard.run(SKAction.scaleX(to: 0.37, duration: 0.15))////////////// REMET A TAILLE NORMALE
             // ||
         }
         if (user != "StayDealer") && (user != "Returned") {
@@ -492,17 +506,17 @@ class GameScene: SKScene {
     
     
     
-    func funcReturnDealer(card : SKSpriteNode, number : Int) -> SKSpriteNode{
-        let RandomCardTexture = SKTexture(imageNamed: "card\(number)")
-
+    func funcReturnDealer(card : SKSpriteNode, CardNumber : Int, FamilyNumber : Int) -> SKSpriteNode{
+        let family = ["TREFLE", "CARREAU", "COEUR", "PIC"]
+        let RandomCardTexture = SKTexture(imageNamed: "\(CardNumber) \(family[FamilyNumber])")
 
         let swapCardSide = SKAction.run {
-            card.run(SKAction.scaleX(to: 0.4, duration: 0.1));///// REDUIT UN PEU LA CARTE
+            card.run(SKAction.scaleX(to: 0.32, duration: 0.1));///// REDUIT UN PEU LA CARTE
             card.texture = RandomCardTexture;
-            card.run(SKAction.scaleX(to: -0.4, duration: 0))////////////// SPAWN CARTE EN MIROIR
+            card.run(SKAction.scaleX(to: -0.32, duration: 0))////////////// SPAWN CARTE EN MIROIR
             card.run(SKAction.scaleX(to: -0.05, duration: 0.08))//////// RETOURNEMENT 1/2
             card.run(SKAction.scaleX(to: 0.05, duration: 0))//////////// MIROIR LA CARTE (taille reduite)
-            card.run(SKAction.scaleX(to: 0.5, duration: 0.15))
+            card.run(SKAction.scaleX(to: 0.37, duration: 0.15))
 
         }
 
@@ -536,11 +550,10 @@ class GameScene: SKScene {
     
     
     func gameSetup(){
-        PlayerNewCardX = 70
-        PlayerNewCardY = 80
+ 
         
         DealerNewCardX = 70
-        DealerNewCardY = 90
+        DealerNewCardY = 80
         zCardPositions = 0
         addedValue = 1
         
@@ -554,10 +567,10 @@ class GameScene: SKScene {
                     addChild(playerScoreLabel)
                     addChild(playerScoreRect)
                     
-                    dealerScoreLabel.position = CGPoint (x: frame.midX, y: frame.midY + 200)
+            dealerScoreLabel.position = CGPoint (x: frame.midX, y: 2 * (frame.maxY/2.8))
                     dealerScoreLabel.text = "0"
                     dealerScoreLabel.fontSize = 23
-                    dealerScoreRect = SKShapeNode(rect: CGRect(x: frame.midX-30, y: frame.midY + 190, width: 60, height: 35),cornerRadius: 10)
+            dealerScoreRect = SKShapeNode(rect: CGRect(x: frame.midX-30, y: 2 * (frame.maxY/2.8) - 10, width: 60, height: 35),cornerRadius: 10)
                     dealerScoreRect.fillColor = UIColor(red: 47/255, green: 69/255, blue: 83/255, alpha: 1.0)
                     dealerScoreRect.strokeColor = UIColor(red: 25/255, green: 44/255, blue: 56/255, alpha: 1.0)
                     addChild(dealerScoreLabel)
@@ -588,22 +601,22 @@ class GameScene: SKScene {
                 //dealercard1 = spawnRandomCard(user: "Dealer", xPos: 40, yPos: self.frame.midY + 120)
                 //dealercard2 = spawnRandomCard(user: "Dealer", xPos: 55, yPos: self.frame.midY + 105)
                 let playerAction1 = SKAction.run {
-                    _ = self.spawnRandomCard(user: "Player", xPos: 40, yPos: self.frame.midY - 50);
+                    _ = self.spawnRandomCard(user: "Player", xPos: -10, yPos: self.frame.maxY / 3.6 )
                     
                     if self.playerScore == 10 {
                         self.playerHas10onStart += 1
                     }
-                    if self.playerHasAs == 1 {
+                        if self.playerHasAs == 1 {
                         self.playerHasAsonStart = true
                     }
                 }
                 
                 let dealerCard1Action = SKAction.run {
-                    _ = self.spawnRandomCard(user: "Dealer", xPos: 40, yPos: self.frame.midY + 120);
+                    _ = self.spawnRandomCard(user: "Dealer", xPos: -10, yPos: 2 * (self.frame.maxY / 3.6) );
 
                 }
                 let playerAction2 = SKAction.run {
-                    _ = self.spawnRandomCard(user: "Player", xPos: 55, yPos: self.frame.midY - 65);
+                    _ = self.spawnRandomCard(user: "Player", xPos: 30 , yPos: self.frame.maxY / 3.6 - 10);
                     
                     if self.playerScore == 10 {
                         self.playerHas10onStart += 1
@@ -614,7 +627,7 @@ class GameScene: SKScene {
                 }
 
                 let dealerCard2Action = SKAction.run {
-                    self.DealerReturnedCard = self.spawnRandomCard(user: "Returned", xPos: 55, yPos: self.frame.midY + 105);
+                    self.DealerReturnedCard = self.spawnRandomCard(user: "Returned", xPos: 30, yPos: 2 * (self.frame.maxY / 3.6) - 10);
                 }
                 run(SKAction.sequence([playerAction1,waitCard,updatePlayerAction,
                                        dealerCard1Action,waitCard,updateDealerAction,
@@ -630,6 +643,8 @@ class GameScene: SKScene {
                 if playerHasAs == 1 {
                     playerHasAsonStart = true
                 }
+                PlayerNewCardX = 70
+                PlayerNewCardY = 20
             }
     
             func hit(){
@@ -637,9 +652,8 @@ class GameScene: SKScene {
                 let waitCard = SKAction.wait(forDuration: 0.7)
                 let PlayerUpdate = SKAction.run{
                     self.updatePlayerScore()
-                    
                 }
-                playercard3 = spawnRandomCard(user : "Player", xPos: PlayerNewCardX, yPos: frame.midY - PlayerNewCardY)
+                playercard3 = spawnRandomCard(user : "Player", xPos: PlayerNewCardX, yPos: self.frame.maxY / 3.6 - PlayerNewCardY)
                 run(SKAction.sequence([waitCard,PlayerUpdate]))
 
                 let waitCardSpawn = SKAction.wait(forDuration: 0.5)
@@ -654,11 +668,6 @@ class GameScene: SKScene {
                 
                 ])
                 run(SKAction.sequence([disablePlayerInteraction]))
-                
-                
-                
-                
-                
                 if playerScore+playerHasAs == 21 {////////////////////////////////////
                     let wait = SKAction.wait(forDuration: 0.7)/////////// JOUEUR TIRE 21
                     isUserInteractionEnabled = false/////////////////////////////////////
@@ -667,8 +676,8 @@ class GameScene: SKScene {
                     }
                     run(SKAction.sequence([wait,stayy]))
                 }
-                PlayerNewCardX += 15
-                PlayerNewCardY += 15
+                PlayerNewCardX += 40
+                PlayerNewCardY += 10
                 
             }
             
@@ -677,16 +686,16 @@ class GameScene: SKScene {
                 var stayX : CGFloat!
                 var stayY : CGFloat!
                 
-                stayX = 65
-                stayY = 538.0
+                stayX = 70
+                stayY = 20
                 updatePlayerScoreStayPressed()
                 disableUserInter(time: 5)
                 var randInt = Int.random(in: 2...14)/////////////////////////////////////////////////// RANDOMIZER
                 let waitNextCard = SKAction.wait(forDuration: 0.7)
-                
-                
+                var randFamily = Int.random(in: 0...3)
                 let spawnReturnedCard = SKAction.run {
-                    _ = self.funcReturnDealer(card: self.DealerReturnedCard, number: randInt)
+                   
+                  _ = self.funcReturnDealer(card: self.DealerReturnedCard, CardNumber: randInt, FamilyNumber: randFamily)
                 }
                 let waitCardAnim = SKAction.wait(forDuration: 0.2)
 
@@ -715,9 +724,9 @@ class GameScene: SKScene {
                 let giveNewCard = SKAction.run {
 
                     if self.dealerScore < 17 {
-                        _ = self.spawnRandomCard(user: "Dealer", xPos: stayX, yPos: stayY)
-                        stayX += 15
-                        stayY -= 15
+                        _ = self.spawnRandomCard(user: "Dealer", xPos: stayX, yPos:  2 * (self.frame.maxY / 3.6) - stayY)
+                        stayX += 10
+                        stayY += 10
                     }else{
                         self.gameOver = true
                         self.run(checkwinn)

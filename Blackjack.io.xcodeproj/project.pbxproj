@@ -67,8 +67,8 @@
 				5E827A552712E6F50005C9D0 /* AppDelegate.swift */,
 				5E827A5F2712E6F50005C9D0 /* Main.storyboard */,
 				5E827A642712E6F60005C9D0 /* LaunchScreen.storyboard */,
-				5E61B5AA272A157C0073778C /* GameScene.swift */,
 				5E827A6E2712E7970005C9D0 /* MenuScene.swift */,
+				5E61B5AA272A157C0073778C /* GameScene.swift */,
 				5E61B5A62729DD7A0073778C /* GameViewController.swift */,
 				5E61B5AC272AC4430073778C /* ProgressBarView.swift */,
 			);
@@ -319,6 +319,7 @@
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -350,6 +351,7 @@
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

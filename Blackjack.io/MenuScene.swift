@@ -11,7 +11,8 @@ import SwiftUI
 
 class MenuScene: SKScene {
     override func didMove(to view: SKView) {
-        backgroundColor = UIColor(red: 15/255, green: 33/255, blue: 46/255, alpha: 1.0)
+        //backgroundColor = UIColor(red: 15/255, green: 33/255, blue: 46/255, alpha: 1.0)
+
         layoutScene()
         playbuttonFunc()
         blackjackpng()
@@ -41,10 +42,12 @@ class MenuScene: SKScene {
             if defaults.bool(forKey: "FirsLaunch") == true {
             intUserDefaults(value: 0, key: "UserExp")
             intUserDefaults(value: 1, key: "UserLvl")
-                defaults.set(false, forKey: "FirstLaunch")
+            defaults.set(true, forKey: "soundon")
+            
+            defaults.set(false, forKey: "FirstLaunch")
         }
     }
-
+    var soundImage : SKSpriteNode!
     var playRec : SKShapeNode!
     var playbutton : SKLabelNode!
     var CoinsValue = 500
@@ -57,7 +60,7 @@ class MenuScene: SKScene {
         let previousExp = defaults.integer(forKey: "UserExp")
         if defaults.integer(forKey: "UserExp") > (defaults.integer(forKey: "UserLvl") * 100){
             print("Level up")
-            defaults.set(1 + previousLevel, forKey: "UserLvl")
+         
             defaults.set(previousExp - previousLevel * 100 , forKey: "UserExp")
         }
         //defaults.integer(forKey: "UserExp")
@@ -78,7 +81,16 @@ class MenuScene: SKScene {
         let expNeeded = uselvl * 100
         let pourcentage = (usexp / expNeeded) * 100
         let expTaille = (pourcentage / 100 ) * 300
-        
+        soundImage = SKSpriteNode(imageNamed: "sound on")
+        if defaults.bool(forKey: "soundon") == true {
+            soundImage.texture = SKTexture(imageNamed: "sound on")
+        }else if defaults.bool(forKey: "soundon") == false {
+            soundImage.texture = SKTexture(imageNamed: "sound off")
+        }
+        soundImage.position = CGPoint(x: frame.minX + 60, y: frame.midY + 30)
+        soundImage.xScale = 0.25
+        soundImage.yScale = 0.25
+        soundImage.name = "sound_image"
         let lvltext = SKLabelNode(fontNamed: "TextaW00-Heavy")
         lvltext.position = CGPoint(x: frame.maxX - 43, y: frame.maxY - 90)
         lvltext.fontSize = 15
@@ -96,7 +108,7 @@ class MenuScene: SKScene {
         hit.yScale = 0.7
         hit.position = CGPoint(x: frame.midX , y: frame.midY)
         
-        let expBar = SKShapeNode(rectOf: CGSize(width: expTaille, height: 20), cornerRadius: 7)
+        let expBar = SKShapeNode(rectOf: CGSize(width: expTaille, height: 13), cornerRadius: 2)
         expBar.strokeColor = .clear
         expBar.fillColor = UIColor(red: 232/255, green: 233/255, blue: 243/255, alpha: 1)
         expBar.position = CGPoint(x: frame.midX + 25, y: frame.maxY - 60)
@@ -109,36 +121,42 @@ class MenuScene: SKScene {
         bar.strokeColor = UIColor(red: 135/255, green: 134/255, blue: 140/255, alpha: 1.0)
         bar.position = CGPoint(x: frame.midX + 25, y: frame.maxY - 60)
         bar.zPosition = 10
-        
+        let backgroundImage = SKSpriteNode(imageNamed: "pen")
+        backgroundImage.zPosition = -100
+        backgroundImage.position = CGPoint(x: frame.midX, y: frame.midY)
+        backgroundImage.xScale = 0.5
+        backgroundImage.yScale = 0.48
         let rect = SKShapeNode(rectOf: CGSize(width: frame.maxX, height: frame.midY))
         rect.position = CGPoint(x: frame.midX, y: frame.minY)
         rect.fillColor = UIColor(red: 33/255, green: 55/255, blue: 67/255, alpha: 1.0)
         rect.strokeColor = UIColor(red: 33/255, green: 55/255, blue: 67/255, alpha: 1.0)
-        addChild(rect)
         addChild(bar)
         addChild(expBar)
         addChild(hit)
         addChild(stand)
         addChild(expText)
         addChild(lvltext)
+        addChild(backgroundImage)
+        addChild(soundImage)
     }
     
     func playbuttonFunc(){
         
         
         playbutton = SKLabelNode(fontNamed:"TextaW00-Heavy")
-        playRec = SKShapeNode(rectOf: CGSize(width: 140, height: 70),cornerRadius: 5)
+        playRec = SKShapeNode(rectOf: CGSize(width: 137, height: 62),cornerRadius: 8)
         playRec.name = "rectbutton" 
-        playRec.fillColor = UIColor(red: 4/255, green: 123/255, blue: 251/255, alpha: 1.0)
-        playRec.strokeColor = UIColor(red: 4/255, green: 123/255, blue: 251/255, alpha: 1.0)
-        playRec.position = CGPoint(x: frame.midX, y: frame.midY-112)
+        playRec.fillColor = UIColor(red: 49/255, green: 168/255, blue: 218/255, alpha: 1.0)
+        playRec.strokeColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1.0)
+        playRec.lineWidth = CGFloat(3)
+        playRec.position = CGPoint(x: frame.midX, y: (frame.maxY/4))
         
         playRec.name = "playrectangle"
         playbutton.text = "PLAY"
         playbutton.name = "playbutton"
-        playbutton.position = CGPoint(x: frame.midX, y: frame.midY - 125)
+        playbutton.position = CGPoint(x: frame.midX, y: ((frame.maxY/4) - 12))
         playbutton.zPosition = 1
-        playbutton.fontSize = 45
+        playbutton.fontSize = 40
         //let scaleUpAction = SKAction.scale(to: 1.5, duration: 0.6)
         //let scaleDownAction = SKAction.scale(to: 1, duration: 0.6)
         //let waitAction = SKAction.wait(forDuration: 0.2)
@@ -159,10 +177,10 @@ class MenuScene: SKScene {
     
     func blackjackpng(){
         let blackjackText = SKLabelNode(fontNamed:"TextaW00-Heavy")
-        blackjackText.xScale = 0.65
-        blackjackText.yScale = 0.65
+        blackjackText.xScale = 0.75
+        blackjackText.yScale = 0.75
         blackjackText.text = "BLACKJACK.IO"
-        blackjackText.position = CGPoint(x:frame.midX, y: frame.midY + 155)
+        blackjackText.position = CGPoint(x:frame.midX, y: (3 * (frame.maxY/4)))
         blackjackText.zPosition = 1
         let fade = SKAction.fadeAlpha(to: 0.1, duration: 0)
         let fadein = SKAction.fadeIn(withDuration: 1.2)
@@ -188,15 +206,29 @@ class MenuScene: SKScene {
         let waitAnimation = SKAction.wait(forDuration: 0.2)
         let SwitchScene = SKAction.run{(self.startgame())}
         let PressedbuttoN = SKAction.sequence([fadeOut,waitAnimation,SwitchScene])
+        
+        
         for touch in touches {
             let location = touch.location(in: self)
             let touchedNode = self.nodes(at: location)
             for node in touchedNode {
                 if node.name == "playrectangle"{
                     node.run(PressedbuttoN)
+                }else if node.name == "sound_image"{
+                    print(defaults.bool(forKey: "soundon"))
+                    if defaults.bool(forKey: "soundon") == true {
+                        defaults.set(false, forKey: "soundon")
+                        soundImage.texture = SKTexture(imageNamed: "sound off")
+
+                        
+                    }else if defaults.bool(forKey: "soundon") == false {
+                        defaults.set(true, forKey: "soundon")
+                        soundImage.texture = SKTexture(imageNamed: "sound on")
+                        }
+                    print("sound :"+String(defaults.bool(forKey: "soundon")))
+
                 }
             }
         }
     }
 }
-
