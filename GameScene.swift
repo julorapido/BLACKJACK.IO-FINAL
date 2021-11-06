@@ -339,29 +339,29 @@ class GameScene: SKScene {
             rect.position = CGPoint(x: frame.midX, y: frame.maxY)
             rect.fillColor = UIColor(red: 1/255, green: 79/255, blue: 134/255, alpha: 1.0)
             rect.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1.0)
-            rect.lineWidth = CGFloat(10)
+            rect.lineWidth = CGFloat(8)
             rect.zPosition = 10
             addChild(rect)
             
         }
         func MidRect(){
 
-            let rect = SKShapeNode(rectOf: CGSize(width: frame.maxX - 10, height: frame.midY + 60), cornerRadius: 10)
+            let rect = SKShapeNode(rectOf: CGSize(width: frame.maxX - 13, height: frame.midY + 60), cornerRadius: 10)
             rect.position = CGPoint(x: frame.midX, y: frame.midY)
             rect.fillColor = UIColor(red: 15/255, green: 33/255, blue: 46/255, alpha: 1.0)
             rect.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0.4)
-            rect.lineWidth = CGFloat(4.5)
+            rect.lineWidth = CGFloat(3.5)
             rect.zPosition = -10
             addChild(rect)
 
         }
 
         func BottomRect(){
-            let rect = SKShapeNode(rectOf: CGSize(width: frame.maxX - 25, height: frame.midY/1.5),cornerRadius: 35)
+            let rect = SKShapeNode(rectOf: CGSize(width: frame.maxX - 25, height: 3.5 * (frame.maxY/10)),cornerRadius: 35)
             rect.position = CGPoint(x: frame.midX, y: frame.minY)
             rect.fillColor = UIColor(red: 1/255, green: 79/255, blue: 134/255, alpha: 1.0)
             rect.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1.0)
-            rect.lineWidth = CGFloat(9)
+            rect.lineWidth = CGFloat(7.5)
             addChild(rect)
         }
         
@@ -426,7 +426,7 @@ class GameScene: SKScene {
         zCardPositions = zCardPositions + addedValue
         let family = ["TREFLE", "CARREAU", "COEUR", "PIC"]
         print(family[1])
-        var randFamily = Int.random(in: 0...3)
+        let randFamily = Int.random(in: 0...3)
         var randInt = Int.random(in: 2...14)///////////////////////////////////////////// RANDOMIZER
         let returnedCard = SKSpriteNode(imageNamed: "backk")
         let randomCardAction = SKAction.run({self.addChild(returnedCard)})
@@ -474,8 +474,8 @@ class GameScene: SKScene {
                 noas = true
             }
         }
-        returnedCard.xScale = 0.37
-        returnedCard.yScale = 0.35
+        returnedCard.xScale = 0.33
+        returnedCard.yScale = 0.31
         returnedCard.zPosition = zCardPositions
         returnedCard.position = CGPoint(x: frame.maxX, y: frame.maxY)
         //let moveToPointX = SKAction.moveTo(x: xPos, duration: 0.5)
@@ -487,12 +487,12 @@ class GameScene: SKScene {
         let vector = CGVector(dx: CardPoint.x - topleft.x, dy: CardPoint.y - topleft.y)
         let vectorAction = SKAction.move(by: vector, duration: 0.4)
         let swapCardSide = SKAction.run {
-            returnedCard.run(SKAction.scaleX(to: 0.32, duration: 0.1));///// REDUIT UN PEU LA CARTE
+            returnedCard.run(SKAction.scaleX(to: 0.28, duration: 0.1));///// REDUIT UN PEU LA CARTE
             returnedCard.texture = RandomCardTexture;
             returnedCard.run(SKAction.scaleX(to: -0.32, duration: 0))////////////// SPAWN CARTE EN MIROIR
             returnedCard.run(SKAction.scaleX(to: -0.05, duration: 0.08))//////// RETOURNEMENT 1/2
             returnedCard.run(SKAction.scaleX(to: 0.05, duration: 0))//////////// MIROIR LA CARTE (taille reduite)
-            returnedCard.run(SKAction.scaleX(to: 0.37, duration: 0.15))////////////// REMET A TAILLE NORMALE
+            returnedCard.run(SKAction.scaleX(to: 0.33, duration: 0.15))////////////// REMET A TAILLE NORMALE
             // ||
         }
         if (user != "StayDealer") && (user != "Returned") {
@@ -511,12 +511,12 @@ class GameScene: SKScene {
         let RandomCardTexture = SKTexture(imageNamed: "\(CardNumber) \(family[FamilyNumber])")
 
         let swapCardSide = SKAction.run {
-            card.run(SKAction.scaleX(to: 0.32, duration: 0.1));///// REDUIT UN PEU LA CARTE
+            card.run(SKAction.scaleX(to: 0.28, duration: 0.1));///// REDUIT UN PEU LA CARTE
             card.texture = RandomCardTexture;
             card.run(SKAction.scaleX(to: -0.32, duration: 0))////////////// SPAWN CARTE EN MIROIR
             card.run(SKAction.scaleX(to: -0.05, duration: 0.08))//////// RETOURNEMENT 1/2
             card.run(SKAction.scaleX(to: 0.05, duration: 0))//////////// MIROIR LA CARTE (taille reduite)
-            card.run(SKAction.scaleX(to: 0.37, duration: 0.15))
+            card.run(SKAction.scaleX(to: 0.33, duration: 0.15))
 
         }
 
@@ -562,7 +562,7 @@ class GameScene: SKScene {
                     playerScoreLabel.text = "0"
                     playerScoreLabel.fontSize = 23
                     playerScoreRect = SKShapeNode(rect: CGRect(x: frame.midX-30, y: frame.midY-30, width: 60, height: 35),cornerRadius: 10)
-                    playerScoreRect.fillColor = UIColor(red: 47/255, green: 69/255, blue: 83/255, alpha: 1.0)
+                    playerScoreRect.fillColor = UIColor(red: 150/255, green: 150/255, blue: 200/255, alpha: 0.4)
                     playerScoreRect.strokeColor = UIColor(red: 25/255, green: 44/255, blue: 56/255, alpha: 1.0)
                     addChild(playerScoreLabel)
                     addChild(playerScoreRect)
@@ -571,7 +571,7 @@ class GameScene: SKScene {
                     dealerScoreLabel.text = "0"
                     dealerScoreLabel.fontSize = 23
             dealerScoreRect = SKShapeNode(rect: CGRect(x: frame.midX-30, y: 2 * (frame.maxY/2.8) - 10, width: 60, height: 35),cornerRadius: 10)
-                    dealerScoreRect.fillColor = UIColor(red: 47/255, green: 69/255, blue: 83/255, alpha: 1.0)
+                    dealerScoreRect.fillColor = UIColor(red: 150/255, green: 150/255, blue: 200/255, alpha: 0.4)
                     dealerScoreRect.strokeColor = UIColor(red: 25/255, green: 44/255, blue: 56/255, alpha: 1.0)
                     addChild(dealerScoreLabel)
                     addChild(dealerScoreRect)

@@ -80,7 +80,9 @@ class MenuScene: SKScene {
         let uselvl = defaults.double(forKey: "UserLvl")
         let expNeeded = uselvl * 100
         let pourcentage = (usexp / expNeeded) * 100
-        let expTaille = (pourcentage / 100 ) * 300
+        let expTaille = (pourcentage / 100 ) * (frame.maxX - 45)
+        
+        
         soundImage = SKSpriteNode(imageNamed: "sound on")
         if defaults.bool(forKey: "soundon") == true {
             soundImage.texture = SKTexture(imageNamed: "sound on")
@@ -91,14 +93,20 @@ class MenuScene: SKScene {
         soundImage.xScale = 0.25
         soundImage.yScale = 0.25
         soundImage.name = "sound_image"
+        
+        
         let lvltext = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        lvltext.position = CGPoint(x: frame.maxX - 43, y: frame.maxY - 90)
+        lvltext.position = CGPoint(x: frame.maxX - 43, y: frame.maxY - 86)
         lvltext.fontSize = 15
         lvltext.text = "LVL \(defaults.integer(forKey: "UserLvl"))"
         let expText = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        expText.position = CGPoint(x: frame.minX + 40, y: frame.maxY - 65)
-        expText.text = "\(Int(usexp)) / \((Int(uselvl)) * 100)"
+        expText.position = CGPoint(x: frame.minX + 43, y: frame.maxY - 86)
+        expText.text = "\(Int(usexp))/\((Int(uselvl)) * 100)"
         expText.fontSize = 15
+        
+        
+        
+        
         let stand = SKSpriteNode(imageNamed: "stand")
         stand.xScale = 0.7
         stand.yScale = 0.7
@@ -111,16 +119,18 @@ class MenuScene: SKScene {
         let expBar = SKShapeNode(rectOf: CGSize(width: expTaille, height: 13), cornerRadius: 2)
         expBar.strokeColor = .clear
         expBar.fillColor = UIColor(red: 232/255, green: 233/255, blue: 243/255, alpha: 1)
-        expBar.position = CGPoint(x: frame.midX + 25, y: frame.maxY - 60)
+        expBar.position = CGPoint(x: frame.midX , y: frame.maxY - 50)
         expBar.lineWidth = CGFloat(2.5)
         expBar.zPosition = -10
-        
-        let bar = SKShapeNode(rectOf: CGSize(width: 300, height: 20), cornerRadius: 8)
+        let bar = SKShapeNode(rectOf: CGSize(width: frame.maxX - 45, height: 20), cornerRadius: 9.5)
         bar.fillColor = .clear
-        bar.lineWidth = CGFloat(4)
-        bar.strokeColor = UIColor(red: 135/255, green: 134/255, blue: 140/255, alpha: 1.0)
-        bar.position = CGPoint(x: frame.midX + 25, y: frame.maxY - 60)
+        bar.lineWidth = CGFloat(3)
+        bar.strokeColor = UIColor(red: 232/255, green: 233/255, blue: 243/255, alpha: 1)
+        bar.position = CGPoint(x: frame.midX , y: frame.maxY - 50)
         bar.zPosition = 10
+        
+        
+        
         let backgroundImage = SKSpriteNode(imageNamed: "pen")
         backgroundImage.zPosition = -100
         backgroundImage.position = CGPoint(x: frame.midX, y: frame.midY)
