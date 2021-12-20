@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B54EA32C7D48AB43CD5A16E /* Pods_Blackjack_io.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F717E42EF7B4E3440A1A12F8 /* Pods_Blackjack_io.framework */; };
+		5E01B9D72736EBE900AE40D4 /* cardmoov.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5E01B9D62736EBE900AE40D4 /* cardmoov.mp3 */; };
+		5E01B9DB2736F22800AE40D4 /* cardflip.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5E01B9DA2736F22800AE40D4 /* cardflip.mp3 */; };
 		5E61B5A72729DD7A0073778C /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E61B5A62729DD7A0073778C /* GameViewController.swift */; };
 		5E61B5A92729DD910073778C /* TextaW00-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E61B5A82729DD910073778C /* TextaW00-Heavy.ttf */; };
 		5E61B5AB272A157C0073778C /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E61B5AA272A157C0073778C /* GameScene.swift */; };
@@ -19,6 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5E01B9D62736EBE900AE40D4 /* cardmoov.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = cardmoov.mp3; sourceTree = SOURCE_ROOT; };
+		5E01B9DA2736F22800AE40D4 /* cardflip.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = cardflip.mp3; sourceTree = SOURCE_ROOT; };
 		5E61B5A62729DD7A0073778C /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = SOURCE_ROOT; };
 		5E61B5A82729DD910073778C /* TextaW00-Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TextaW00-Heavy.ttf"; sourceTree = SOURCE_ROOT; };
 		5E61B5AA272A157C0073778C /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = SOURCE_ROOT; };
@@ -30,6 +35,9 @@
 		5E827A652712E6F60005C9D0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5E827A6E2712E7970005C9D0 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		5E8C0F95271368AD006278C7 /* Blackjack-io-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Blackjack-io-Info.plist"; sourceTree = SOURCE_ROOT; };
+		A2F8332C63F7A8663AB069C2 /* Pods-Blackjack.io.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blackjack.io.release.xcconfig"; path = "Target Support Files/Pods-Blackjack.io/Pods-Blackjack.io.release.xcconfig"; sourceTree = "<group>"; };
+		B9E0A50B1A5F0469395DA32C /* Pods-Blackjack.io.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blackjack.io.debug.xcconfig"; path = "Target Support Files/Pods-Blackjack.io/Pods-Blackjack.io.debug.xcconfig"; sourceTree = "<group>"; };
+		F717E42EF7B4E3440A1A12F8 /* Pods_Blackjack_io.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Blackjack_io.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,17 +45,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B54EA32C7D48AB43CD5A16E /* Pods_Blackjack_io.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		01A99C8D75C223CE3227E940 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B9E0A50B1A5F0469395DA32C /* Pods-Blackjack.io.debug.xcconfig */,
+				A2F8332C63F7A8663AB069C2 /* Pods-Blackjack.io.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		5E827A492712E6F50005C9D0 = {
 			isa = PBXGroup;
 			children = (
 				5E827A542712E6F50005C9D0 /* Blackjack.io */,
 				5E827A532712E6F50005C9D0 /* Products */,
+				01A99C8D75C223CE3227E940 /* Pods */,
+				C3550DB53856C01A8D91C2BE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -70,6 +90,8 @@
 				5E827A6E2712E7970005C9D0 /* MenuScene.swift */,
 				5E61B5AA272A157C0073778C /* GameScene.swift */,
 				5E61B5A62729DD7A0073778C /* GameViewController.swift */,
+				5E01B9DA2736F22800AE40D4 /* cardflip.mp3 */,
+				5E01B9D62736EBE900AE40D4 /* cardmoov.mp3 */,
 				5E61B5AC272AC4430073778C /* ProgressBarView.swift */,
 			);
 			path = Blackjack.io;
@@ -84,6 +106,14 @@
 			path = Assets;
 			sourceTree = "<group>";
 		};
+		C3550DB53856C01A8D91C2BE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F717E42EF7B4E3440A1A12F8 /* Pods_Blackjack_io.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -91,9 +121,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5E827A692712E6F60005C9D0 /* Build configuration list for PBXNativeTarget "Blackjack.io" */;
 			buildPhases = (
+				3BF977006E034E615783D690 /* [CP] Check Pods Manifest.lock */,
 				5E827A4E2712E6F50005C9D0 /* Sources */,
 				5E827A4F2712E6F50005C9D0 /* Frameworks */,
 				5E827A502712E6F50005C9D0 /* Resources */,
+				7C8B6B1AA4F592A3F330F0F2 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -143,13 +175,57 @@
 			buildActionMask = 2147483647;
 			files = (
 				5E827A612712E6F50005C9D0 /* Main.storyboard in Resources */,
+				5E01B9DB2736F22800AE40D4 /* cardflip.mp3 in Resources */,
 				5E61B5A92729DD910073778C /* TextaW00-Heavy.ttf in Resources */,
 				5E827A632712E6F60005C9D0 /* Assets.xcassets in Resources */,
+				5E01B9D72736EBE900AE40D4 /* cardmoov.mp3 in Resources */,
 				5E827A662712E6F60005C9D0 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3BF977006E034E615783D690 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Blackjack.io-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7C8B6B1AA4F592A3F330F0F2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Blackjack.io/Pods-Blackjack.io-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Blackjack.io/Pods-Blackjack.io-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Blackjack.io/Pods-Blackjack.io-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5E827A4E2712E6F50005C9D0 /* Sources */ = {
@@ -237,7 +313,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.6;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -292,7 +368,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.6;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -304,6 +380,7 @@
 		};
 		5E827A6A2712E6F60005C9D0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B9E0A50B1A5F0469395DA32C /* Pods-Blackjack.io.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -313,6 +390,7 @@
 				DEVELOPMENT_TEAM = JL5ZB6G3HN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Blackjack-io-Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -336,6 +414,7 @@
 		};
 		5E827A6B2712E6F60005C9D0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A2F8332C63F7A8663AB069C2 /* Pods-Blackjack.io.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -345,6 +424,7 @@
 				DEVELOPMENT_TEAM = JL5ZB6G3HN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Blackjack-io-Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

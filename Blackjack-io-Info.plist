@@ -2,9 +2,27 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-4889346564502252~7541718210
+</string>
+	<key>NSAppClip</key>
+	<dict>
+		<key>NSAppClipRequestEphemeralUserNotification</key>
+		<false/>
+		<key>NSAppClipRequestLocationConfirmation</key>
+		<false/>
+	</dict>
+	<key>SKAdNetworkIdentifier</key>
+	<string>cstr6suwn9.skadnetwork</string>
+	<key>SKAdNetworkItems</key>
+	<array>
+		<string></string>
+	</array>
 	<key>UIAppFonts</key>
 	<array>
 		<string>TextaW00-Heavy.ttf</string>
 	</array>
+	<key>j</key>
+	<true/>
 </dict>
 </plist>
