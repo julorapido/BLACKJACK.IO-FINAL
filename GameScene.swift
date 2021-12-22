@@ -44,8 +44,8 @@ class GameScene: SKScene {
         
         if dealerHasAs >= 1 {///////// LE DEALER A UN AS OU PLUS
             if dealerHasAs + dealerScore + 10 < 21 {//////////// 11 FAIT PAS BUST
+                dealerScoreLabel.text = "\(dealerScore + 11)"
                 dealerScore += 11
-                dealerScoreLabel.text = "\(dealerScore)"
             }else if (dealerHasAs == 1) && (dealerScore == 10) {
                 dealerScore = 21
                 dealerScoreLabel.text = "\(dealerScore)"
@@ -193,6 +193,8 @@ class GameScene: SKScene {
     var DealerReturnedCard : SKSpriteNode!
     var playerHasOut10 = false
 
+    
+    var AlreadyWonLost = false
     var playerHas10onStart = 0
     var dealerHas10 = 0
     
@@ -284,6 +286,7 @@ class GameScene: SKScene {
     
     
     func lost(way:String){
+        AlreadyWonLost = true
         isUserInteractionEnabled = false
         let previousExp = defo.integer(forKey: "UserExp")
         
@@ -303,12 +306,14 @@ class GameScene: SKScene {
     }
 
     func push(){
+        AlreadyWonLost = true
         EndGameText(way: "Push")
     }
     
     
      
     func won(alt : String){
+        AlreadyWonLost = true
         isUserInteractionEnabled = false
         let previousExp = defo.integer(forKey: "UserExp")
         hitbutton.isUserInteractionEnabled = false
@@ -585,19 +590,19 @@ class GameScene: SKScene {
                     playerScoreLabel.fontSize = 23
                     playerScoreRect = SKShapeNode(rect: CGRect(x: frame.midX-30, y: frame.midY-30, width: 60, height: 35),cornerRadius: 10)
                     playerScoreRect.fillColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0.4)
-            playerScoreRect.lineWidth = CGFloat(3)
+                    playerScoreRect.lineWidth = CGFloat(3)
                     playerScoreRect.strokeColor = UIColor(red: 25/255, green: 44/255, blue: 56/255, alpha: 1.0)
                     addChild(playerScoreLabel)
                     addChild(playerScoreRect)
                     
-            dealerScoreLabel.position = CGPoint (x: frame.midX, y: 2 * (frame.maxY/2.8))
+                    dealerScoreLabel.position = CGPoint (x: frame.midX, y: 2 * (frame.maxY/2.8))
                     dealerScoreLabel.text = "0"
                     dealerScoreLabel.fontSize = 23
             
-            dealerScoreRect = SKShapeNode(rect: CGRect(x: frame.midX-30, y: 2 * (frame.maxY/2.8) - 10, width: 60, height: 35),cornerRadius: 10)
+                    dealerScoreRect = SKShapeNode(rect: CGRect(x: frame.midX-30, y: 2 * (frame.maxY/2.8) - 10, width: 60, height: 35),cornerRadius: 10)
                     dealerScoreRect.fillColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0.4)
                     dealerScoreRect.strokeColor = UIColor(red: 25/255, green: 44/255, blue: 56/255, alpha: 1.0)
-            dealerScoreRect.lineWidth = CGFloat(3)
+                    dealerScoreRect.lineWidth = CGFloat(3)
                     addChild(dealerScoreLabel)
                     addChild(dealerScoreRect)
                 }
@@ -670,6 +675,10 @@ class GameScene: SKScene {
                 }
                 PlayerNewCardX = 70
                 PlayerNewCardY = 20
+                
+                if playerHasAsonStart == true && playerHas10onStart == 1 {
+                    
+                }
             }
     
             func hit(){
@@ -754,7 +763,9 @@ class GameScene: SKScene {
                         stayY += 10
                     }else{
                         self.gameOver = true
-                        self.run(checkwinn)
+                        if self.AlreadyWonLost == false {
+                            self.run(checkwinn)
+                        }
                         self.removeAllActions()
                     }
                 

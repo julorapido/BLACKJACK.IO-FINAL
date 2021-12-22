@@ -148,7 +148,6 @@ class MenuScene: SKScene {
             bottomCard.size = CGSize(width: frame.maxX/5, height: frame.maxY/6.25)
             
             
-            
             func swapCardSide(node: SKSpriteNode, texture : SKTexture){
                 let swapCardSide = SKAction.run {
                     node.run(SKAction.scaleX(to: 0.28, duration: 0.1));///// REDUIT UN PEU LA CARTE
@@ -167,19 +166,25 @@ class MenuScene: SKScene {
             
             if CardsSpawned == false {
 
-                bottomCard.position = CGPoint(x: frame.minX - 10, y: frame.midY - 50)
-                upperCard.position = CGPoint(x: frame.maxX + 10, y: frame.midY + 50)
+                bottomCard.position = CGPoint(x: frame.minX - 30, y: frame.midY - 50)
+                upperCard.position = CGPoint(x: frame.maxX + 30, y: frame.midY + 50)
                 addChild(upperCard)
                 addChild(bottomCard)
-                let upperMove = SKAction.move(to: CGPoint(x: frame.midX - 50, y: frame.midY + 53), duration: 0.33)
-                let upperMoveBack = SKAction.move(to: CGPoint(x: frame.midX + 45, y: frame.midY + 53), duration: 0.33)
+                let upperMove = SKAction.move(to: CGPoint(x: frame.midX - 50, y: frame.midY + 53), duration: 0.15)
+                let upperMoveBack = SKAction.move(to: CGPoint(x: frame.midX + 45, y: frame.midY + 53), duration: 0.15)
                 
                 
                 
-                let bottomMove = SKAction.move(to: CGPoint(x: frame.midX + 50, y: frame.midY - 53), duration: 0.33)
-                let bottomMoveBack = SKAction.move(to: CGPoint(x: frame.midX - 45, y: frame.midY - 53), duration: 0.33)
+                let bottomMove = SKAction.move(to: CGPoint(x: frame.midX + 50, y: frame.midY - 53), duration: 0.15)
+                let bottomMoveBack = SKAction.move(to: CGPoint(x: frame.midX - 45, y: frame.midY - 53), duration: 0.15)
                 
-                let waitMove = SKAction.wait(forDuration: 0.5)
+                let waitMove = SKAction.wait(forDuration: 0.15)
+                
+                let reduceAlpha = SKAction.fadeAlpha(to: 0.1, duration: 0.01)
+                let reduce = SKAction.sequence([SKAction.scaleX(to: 0.8, duration: 0.001),SKAction.scaleY(to: 0.8, duration: 0.001)])
+                
+                let Scaleup = SKAction.sequence([SKAction.scaleX(to: 1.1, duration: 0.33),SKAction.scaleY(to: 1.1, duration: 0.33)])
+                let AlphaBack = SKAction.fadeAlpha(to: 1 , duration: 1)
                 
                 let aa = SKAction.run {
                     self.run(SKAction.run {
@@ -191,11 +196,8 @@ class MenuScene: SKScene {
                         upperCard.run(upperMoveBack)
                     })
                 }
+                let wait1 = SKAction.wait(forDuration: 0.2)
                 
-                let BottomSequence = SKAction.sequence([aa,waitMove,SKAction.run {
-                    swapCardSide(node: bottomCard, texture: SKTexture(imageNamed: "\(randInt) \(family[randFamily])"))
-                },waitMove,bb])
-
                 let cc = SKAction.run{
                     self.run(SKAction.run {
                         bottomCard.run(bottomMove)
@@ -206,17 +208,29 @@ class MenuScene: SKScene {
                         bottomCard.run(bottomMoveBack)
                     })
                 }
-
-                let UpperSequence = SKAction.sequence([cc,waitMove,SKAction.run {
-                    swapCardSide(node: upperCard, texture: SKTexture(imageNamed: "\(randInt) \(family[randFamily])"))
+                
+                let BottomSequence = SKAction.sequence([SKAction.run{bottomCard.run(reduceAlpha)},SKAction.run {
+                    bottomCard.run(AlphaBack)
+                },cc,SKAction.run {
+                    bottomCard.run(Scaleup)
+                } ,waitMove,SKAction.run {
+                    swapCardSide(node: bottomCard, texture: SKTexture(imageNamed: "backk"))
                 },waitMove,dd])
+                
+                let UpperSequence = SKAction.sequence([SKAction.run{upperCard.run(reduceAlpha)},aa,SKAction.run {
+                    upperCard.run(Scaleup)
+                },waitMove,SKAction.run {
+                    upperCard.run(AlphaBack)
+                } ,SKAction.run {
+                    swapCardSide(node: upperCard, texture: SKTexture(imageNamed: "\(Int.random(in: 2...14)) \(family[Int.random(in: 0...3)])"))
+                },waitMove,bb])
                 
                 var randInt = Int.random(in: 2...14)
                 let family = ["TREFLE", "CARREAU", "COEUR", "PIC"]
                 let randFamily = Int.random(in: 0...3)
              
                 
-                run(SKAction.sequence([BottomSequence,UpperSequence]))
+                run(SKAction.sequence([BottomSequence,wait1,UpperSequence]))
             }
             
         }
