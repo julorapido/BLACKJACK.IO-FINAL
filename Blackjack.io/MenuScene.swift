@@ -51,20 +51,83 @@ class MenuScene: SKScene {
             defaults.set(false, forKey: "FirstLaunch")
         }
     }
+    
+    
+    
+    
+    func pressedButton (button: SKSpriteNode, time : CGFloat, scale : CGFloat, scaleBack : CGFloat) -> SKAction {
+        
+        let RectPressedAction1 = SKAction.scaleX(to: scale, duration: time/2)
+        let RectPressedAction2 = SKAction.scaleY(to: scale, duration: time/2)
+        
+     
+        let RectPressedAction3 = SKAction.scaleX(to: scaleBack, duration: time/2)
+        let RectPressedAction4 = SKAction.scaleY(to: scaleBack, duration: time/2)
+        
+        let PressedRect = SKAction.run {
+            button.run(RectPressedAction1)
+            button.run(RectPressedAction2)
+        }
+        
+        let UnpressedRect = SKAction.run {
+            button.run(RectPressedAction3)
+            button.run(RectPressedAction4)
+        }
+        let o = SKAction.wait(forDuration: 0.15)
+        let RectPressedAction = SKAction.sequence([PressedRect,o,UnpressedRect])
+
+        
+        button.run(RectPressedAction)
+        return(RectPressedAction)
+    }
+    
+    
+    
+    
+    func pressedNode (button: SKShapeNode, time : CGFloat) -> SKAction {
+        
+        let RectPressedAction1 = SKAction.scaleX(to: 0.8, duration: time/2)
+        let RectPressedAction2 = SKAction.scaleY(to: 0.7, duration: time/2)
+     
+        let RectPressedAction3 = SKAction.scaleX(to: 1, duration: time/2)
+        let RectPressedAction4 = SKAction.scaleY(to: 1, duration: time/2)
+        
+        let PressedRect = SKAction.run {
+            button.run(RectPressedAction1)
+            button.run(RectPressedAction2)
+        }
+        
+        let UnpressedRect = SKAction.run {
+            button.run(RectPressedAction3)
+            button.run(RectPressedAction4)
+        }
+        let o = SKAction.wait(forDuration: 0.15)
+        let RectPressedAction = SKAction.sequence([PressedRect,o,UnpressedRect])
+
+        
+        let waitAnimation = SKAction.wait(forDuration: 0.35)
+        let SwitchScene = SKAction.run{(self.startgame())}
+        
+        let PressedbuttoN = SKAction.sequence([RectPressedAction,waitAnimation,SwitchScene])
+        button.run(PressedbuttoN)
+        return(RectPressedAction)
+    }
     var CardsSpawned = false
     var soundImage : SKSpriteNode!
     var playRec : SKShapeNode!
+    var borderRect : SKShapeNode!
     var playbutton : SKLabelNode!
     var CoinsValue = 500
-    let fadeAction = SKAction.fadeAlpha(to: 0.1, duration: 0.2)
+    let fadeAction = SKAction.fadeAlpha(to: 0.95, duration: 0.2)
     let pressedAction = SKAction.scale(to: 0.7, duration: 0.3)
-    let RectPressedAction = SKAction.scale(to: CGSize(width: 95, height: 45), duration: 0.3)
+    
+
+
     func layoutScene(){
         StartPlayerData()
         let previousLevel = defaults.integer(forKey: "UserLvl")
         let previousExp = defaults.integer(forKey: "UserExp")
         if defaults.integer(forKey: "UserExp") > (defaults.integer(forKey: "UserLvl") * 100){
-            print("Level up")
          
             defaults.set(previousExp - previousLevel * 100 , forKey: "UserExp")
         }
@@ -95,8 +158,8 @@ class MenuScene: SKScene {
             soundImage.texture = SKTexture(imageNamed: "sound off")
         }
         soundImage.position = CGPoint(x: frame.minX + 60, y: frame.midY + 30)
-        soundImage.xScale = 0.18
-        soundImage.yScale = 0.18
+        soundImage.xScale = 0.22
+        soundImage.yScale = 0.22
         soundImage.name = "sound_image"
         
         
@@ -114,27 +177,23 @@ class MenuScene: SKScene {
         let expBar = SKShapeNode(rectOf: CGSize(width: expTaille, height: 13), cornerRadius: 2)
         expBar.strokeColor = .clear
         expBar.fillColor = UIColor(red: 232/255, green: 233/255, blue: 243/255, alpha: 1)
-        expBar.position = CGPoint(x: frame.midX - 30 , y: frame.maxY - 50)
+        expBar.position = CGPoint(x: frame.midX , y: 8*(frame.maxY/9))
         expBar.lineWidth = CGFloat(2.5)
         expBar.zPosition = -10
         let bar = SKShapeNode(rectOf: CGSize(width: (4*frame.maxX/5.5), height: 20), cornerRadius: 9.5)
         bar.fillColor = .clear
         bar.lineWidth = CGFloat(3)
         bar.strokeColor = UIColor(red: 232/255, green: 233/255, blue: 243/255, alpha: 1)
-        bar.position = CGPoint(x: frame.midX - 30 , y: frame.maxY - 50)
+        bar.position = CGPoint(x: frame.midX , y: 8*(frame.maxY/9))
         bar.zPosition = 10
         
-        
-        
-        let backgroundImage = SKSpriteNode(imageNamed: "pen")
-        backgroundImage.zPosition = -100
-        backgroundImage.position = CGPoint(x: frame.midX, y: frame.midY)
-        backgroundImage.xScale = 0.5
-        backgroundImage.yScale = 0.48
-        let rect = SKShapeNode(rectOf: CGSize(width: frame.maxX, height: frame.midY))
-        rect.position = CGPoint(x: frame.midX, y: frame.minY)
-        rect.fillColor = UIColor(red: 33/255, green: 55/255, blue: 67/255, alpha: 1.0)
-        rect.strokeColor = UIColor(red: 33/255, green: 55/255, blue: 67/255, alpha: 1.0)
+
+                
+            let backgroundTexture = SKTexture(imageNamed: "pen")
+            let background = SKSpriteNode(texture: backgroundTexture)
+        background.zPosition = -100
+            background.position = CGPoint(x: frame.width/2, y: frame.height/2)
+            addChild(background)
         
 
         func MenuCards(){
@@ -144,10 +203,14 @@ class MenuScene: SKScene {
             let RandomCardTexture = SKTexture(imageNamed: "\(randInt) \(family[randFamily])")
             let upperCard = SKSpriteNode(imageNamed: "backk")
             let bottomCard = SKSpriteNode(texture: RandomCardTexture)
-            upperCard.size = CGSize(width: frame.maxX/5, height: frame.maxY/6.25)
-            bottomCard.size = CGSize(width: frame.maxX/5, height: frame.maxY/6.25)
-            
-            
+            //upperCard.size = CGSize(width: frame.maxX/4.15, height: frame.maxY/6.5)//°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+            //bottomCard.size = CGSize(width: frame.maxX/4.25, height: frame.maxY/6.25)
+            upperCard.xScale = 0.15
+            upperCard.yScale = 0.13
+            bottomCard.xScale = 0.15
+            bottomCard.yScale = 0.13
+            upperCard.alpha = CGFloat(0.8)
+            bottomCard.alpha = CGFloat(0.8)
             func swapCardSide(node: SKSpriteNode, texture : SKTexture){
                 let swapCardSide = SKAction.run {
                     node.run(SKAction.scaleX(to: 0.28, duration: 0.1));///// REDUIT UN PEU LA CARTE
@@ -171,20 +234,19 @@ class MenuScene: SKScene {
                 addChild(upperCard)
                 addChild(bottomCard)
                 let upperMove = SKAction.move(to: CGPoint(x: frame.midX - 50, y: frame.midY + 53), duration: 0.15)
-                let upperMoveBack = SKAction.move(to: CGPoint(x: frame.midX + 45, y: frame.midY + 53), duration: 0.15)
+                let upperMoveBack = SKAction.move(to: CGPoint(x: frame.midX + 35, y: frame.midY + 53), duration: 0.15)
                 
                 
                 
                 let bottomMove = SKAction.move(to: CGPoint(x: frame.midX + 50, y: frame.midY - 53), duration: 0.15)
-                let bottomMoveBack = SKAction.move(to: CGPoint(x: frame.midX - 45, y: frame.midY - 53), duration: 0.15)
+                let bottomMoveBack = SKAction.move(to: CGPoint(x: frame.midX - 35, y: frame.midY - 53), duration: 0.15)
                 
                 let waitMove = SKAction.wait(forDuration: 0.15)
                 
                 let reduceAlpha = SKAction.fadeAlpha(to: 0.1, duration: 0.01)
-                let reduce = SKAction.sequence([SKAction.scaleX(to: 0.8, duration: 0.001),SKAction.scaleY(to: 0.8, duration: 0.001)])
                 
-                let Scaleup = SKAction.sequence([SKAction.scaleX(to: 1.1, duration: 0.33),SKAction.scaleY(to: 1.1, duration: 0.33)])
-                let AlphaBack = SKAction.fadeAlpha(to: 1 , duration: 1)
+                let Scaleup = SKAction.sequence([SKAction.scaleX(to: 0.3, duration: 0.1),SKAction.scaleY(to: 0.3, duration: 0.2)])
+                let AlphaBack = SKAction.fadeAlpha(to: 1 , duration: 0.8)
                 
                 let aa = SKAction.run {
                     self.run(SKAction.run {
@@ -209,7 +271,7 @@ class MenuScene: SKScene {
                     })
                 }
                 
-                let BottomSequence = SKAction.sequence([SKAction.run{bottomCard.run(reduceAlpha)},SKAction.run {
+                let BottomSequence = SKAction.sequence([SKAction.run {
                     bottomCard.run(AlphaBack)
                 },cc,SKAction.run {
                     bottomCard.run(Scaleup)
@@ -217,7 +279,7 @@ class MenuScene: SKScene {
                     swapCardSide(node: bottomCard, texture: SKTexture(imageNamed: "backk"))
                 },waitMove,dd])
                 
-                let UpperSequence = SKAction.sequence([SKAction.run{upperCard.run(reduceAlpha)},aa,SKAction.run {
+                let UpperSequence = SKAction.sequence([aa,SKAction.run {
                     upperCard.run(Scaleup)
                 },waitMove,SKAction.run {
                     upperCard.run(AlphaBack)
@@ -225,9 +287,6 @@ class MenuScene: SKScene {
                     swapCardSide(node: upperCard, texture: SKTexture(imageNamed: "\(Int.random(in: 2...14)) \(family[Int.random(in: 0...3)])"))
                 },waitMove,bb])
                 
-                var randInt = Int.random(in: 2...14)
-                let family = ["TREFLE", "CARREAU", "COEUR", "PIC"]
-                let randFamily = Int.random(in: 0...3)
              
                 
                 run(SKAction.sequence([BottomSequence,wait1,UpperSequence]))
@@ -239,7 +298,7 @@ class MenuScene: SKScene {
         addChild(expBar)
         addChild(expText)
         addChild(lvltext)
-        addChild(backgroundImage)
+        //addChild(backgroundImage)
         addChild(soundImage)
     }
     
@@ -247,19 +306,27 @@ class MenuScene: SKScene {
         
         
         playbutton = SKLabelNode(fontNamed:"TextaW00-Heavy")
-        playRec = SKShapeNode(rectOf: CGSize(width: 137, height: 62),cornerRadius: 8)
-        playRec.name = "rectbutton" 
-        playRec.fillColor = UIColor(red: 49/255, green: 58/255, blue: 230/255, alpha: 1.0)
-        playRec.strokeColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1.0)
-        playRec.lineWidth = CGFloat(3)
-        playRec.position = CGPoint(x: frame.midX, y: (frame.maxY/5))
-        
-        playRec.name = "playrectangle"
         playbutton.text = "PLAY"
         playbutton.name = "playbutton"
         playbutton.position = CGPoint(x: frame.midX, y: ((frame.maxY/5) - 12))
         playbutton.zPosition = 1
-        playbutton.fontSize = 40
+        playbutton.fontSize = 35
+        
+        playRec = SKShapeNode(rectOf: CGSize(width: 137, height: 44.3),cornerRadius: 20)
+        playRec.name = "rectbutton"
+        playRec.fillColor = UIColor(red: 49/255, green: 58/255, blue: 230/255, alpha: 1.0)
+        playRec.strokeColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0)
+        playRec.lineWidth = CGFloat(3)
+        playRec.position = CGPoint(x: frame.midX, y: (frame.maxY/5))
+        playRec.name = "playrectangle"
+        
+        borderRect = SKShapeNode(rectOf: CGSize(width: 150, height: 55),cornerRadius: 25)
+        borderRect.name = "rectbutton"
+        borderRect.fillColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0)
+        borderRect.strokeColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1.0)
+        borderRect.lineWidth = CGFloat(3.3)
+        borderRect.position = CGPoint(x: frame.midX, y: (frame.maxY/5))
+     
         //let scaleUpAction = SKAction.scale(to: 1.5, duration: 0.6)
         //let scaleDownAction = SKAction.scale(to: 1, duration: 0.6)
         //let waitAction = SKAction.wait(forDuration: 0.2)
@@ -268,6 +335,7 @@ class MenuScene: SKScene {
         //playbutton.run(repeatAction)
         addChild(playbutton)
         addChild(playRec)
+        addChild(borderRect)
     }
 
     
@@ -299,22 +367,22 @@ class MenuScene: SKScene {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
     {
-        
-        let fadeOut = SKAction.sequence([  SKAction.run{(self.playRec.run(self.fadeAction))},SKAction.run {
-            (self.playRec.run(self.RectPressedAction))
-        },  SKAction.run{(self.playbutton.run(self.fadeAction))}, SKAction.run{(self.playbutton.run(self.pressedAction))} ])
-        let waitAnimation = SKAction.wait(forDuration: 0.2)
-        let SwitchScene = SKAction.run{(self.startgame())}
-        let PressedbuttoN = SKAction.sequence([fadeOut,waitAnimation,SwitchScene])
-        
+
+
+
+
+
         
         for touch in touches {
             let location = touch.location(in: self)
             let touchedNode = self.nodes(at: location)
             for node in touchedNode {
                 if node.name == "playrectangle"{
-                    node.run(PressedbuttoN)
+                    pressedNode(button: playRec, time: 0.7)
                 }else if node.name == "sound_image"{
+                    
+                    pressedButton(button: soundImage, time: 0.3, scale: 0.10 , scaleBack: 0.22)
+                    
                     if defaults.bool(forKey: "soundon") == true {
                         defaults.set(false, forKey: "soundon")
                         soundImage.texture = SKTexture(imageNamed: "sound off")

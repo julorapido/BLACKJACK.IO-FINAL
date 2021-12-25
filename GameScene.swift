@@ -200,7 +200,7 @@ class GameScene: SKScene {
     
     var zCardPositions : CGFloat!
     var addedValue : CGFloat!
-    
+    var BLACKJACK = false
     var  playerHasAsonStart = false
     var playercard10 = false
 
@@ -219,6 +219,7 @@ class GameScene: SKScene {
     var playercard2 : SKSpriteNode!
     var playercard3 : SKSpriteNode!
 
+
     func transition(){
         let comebackScene = MenuScene(size: view!.bounds.size)
         let reveal = SKTransition.reveal(with: .right, duration: 0.33)
@@ -226,6 +227,10 @@ class GameScene: SKScene {
         view!.presentScene(comebackScene,transition: reveal)
     }
     func EndGameText(way:String){
+        playercard1.name = "kards"
+        playercard2.name = "kards"
+        dealercard1.name = "kards"
+        
         let effectsNode = SKEffectNode()
         let filter = CIFilter(name:"CIGaussianBlur",parameters: ["inputRadius": 10.0])
         effectsNode.filter = filter
@@ -282,6 +287,8 @@ class GameScene: SKScene {
             
         }
         run(SKAction.sequence([SpawnText,wait,trans]))
+        
+        let kards = childNode(withName: "")
     }
     
     
@@ -677,7 +684,7 @@ class GameScene: SKScene {
                 PlayerNewCardY = 20
                 
                 if playerHasAsonStart == true && playerHas10onStart == 1 {
-                    
+                    BLACKJACK = true
                 }
             }
     
@@ -706,7 +713,9 @@ class GameScene: SKScene {
                     let wait = SKAction.wait(forDuration: 0.7)/////////// JOUEUR TIRE 21
                     isUserInteractionEnabled = false/////////////////////////////////////
                     let stayy = SKAction.run {
-                        (self.stay())
+                        if self.BLACKJACK == false {
+                            (self.stay())
+                        }
                     }
                     run(SKAction.sequence([wait,stayy]))
                 }
