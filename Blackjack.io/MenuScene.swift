@@ -43,11 +43,13 @@ class MenuScene: SKScene {
         defaults.set(key, forKey: "\(key)")
     }
     let firstLaunch: Void = UserDefaults.standard.set(true, forKey: "FirstLaunch")
+    
     func StartPlayerData(){
             if defaults.bool(forKey: "FirsLaunch") == true {
             intUserDefaults(value: 0, key: "UserExp")
             intUserDefaults(value: 1, key: "UserLvl")
             defaults.set(true, forKey: "soundon")
+                print("1ER >LT")
             defaults.set(false, forKey: "FirstLaunch")
         }
     }
@@ -121,9 +123,43 @@ class MenuScene: SKScene {
     let fadeAction = SKAction.fadeAlpha(to: 0.95, duration: 0.2)
     let pressedAction = SKAction.scale(to: 0.7, duration: 0.3)
     
+    func layerToSKSpritenode(layer : CALayer) -> SKSpriteNode {
+        var view = UIView()
+        layer.frame = self.frame
+        view.layer.addSublayer(layer)
+        UIGraphicsBeginImageContext(self.frame.size)
+        view.layer.render(in: UIGraphicsGetCurrentContext()!)
+        var bgImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        layer.removeFromSuperlayer()
+        return SKSpriteNode(texture: SKTexture(image: bgImage))
+    }
 
 
     func layoutScene(){
+    
+            let gradient = CAGradientLayer()
+            gradient.type = .axial
+            gradient.colors = [
+                UIColor.red.cgColor,
+                UIColor.purple.cgColor,
+                UIColor.blue.cgColor
+            ]
+        let neww = [
+            
+            UIColor.purple.cgColor,
+            UIColor.green.cgColor
+        ]
+            gradient.frame = self.view!.bounds
+        gradient.setColors(neww, animated: true, withDuration: 2, timingFunctionName: .linear)
+        let background = layerToSKSpritenode(layer: gradient)
+        addChild(background)
+        
+        
+        
+        
+        
+        
         StartPlayerData()
         let previousLevel = defaults.integer(forKey: "UserLvl")
         let previousExp = defaults.integer(forKey: "UserExp")
@@ -163,12 +199,13 @@ class MenuScene: SKScene {
         soundImage.name = "sound_image"
         
         
+        
         let lvltext = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        lvltext.position = CGPoint(x: frame.maxX - 43, y: frame.maxY - 56)
+        lvltext.position = CGPoint(x: frame.maxX - 43, y: 7.7*(frame.maxY/9))
         lvltext.fontSize = 20
         lvltext.text = "LVL \(defaults.integer(forKey: "UserLvl"))"
         let expText = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        expText.position = CGPoint(x: frame.minX + 43, y: frame.maxY - 86)
+        expText.position = CGPoint(x: frame.minX + 43, y: 7.7*(frame.maxY/9))
         expText.text = "\(Int(usexp))/\((Int(uselvl)) * 100)"
         expText.fontSize = 15
         
@@ -190,7 +227,7 @@ class MenuScene: SKScene {
 
                 
             let backgroundTexture = SKTexture(imageNamed: "pen")
-            let background = SKSpriteNode(texture: backgroundTexture)
+            /////////////////////let background = SKSpriteNode(texture: backgroundTexture)
         background.zPosition = -100
             background.position = CGPoint(x: frame.width/2, y: frame.height/2)
             addChild(background)
@@ -209,16 +246,16 @@ class MenuScene: SKScene {
             upperCard.yScale = 0.13
             bottomCard.xScale = 0.15
             bottomCard.yScale = 0.13
-            upperCard.alpha = CGFloat(0.8)
-            bottomCard.alpha = CGFloat(0.8)
+            upperCard.alpha = CGFloat(0.6)
+            bottomCard.alpha = CGFloat(0.6)
             func swapCardSide(node: SKSpriteNode, texture : SKTexture){
                 let swapCardSide = SKAction.run {
-                    node.run(SKAction.scaleX(to: 0.28, duration: 0.1));///// REDUIT UN PEU LA CARTE
+                    node.run(SKAction.scaleX(to: 0.2, duration: 0.1));///// REDUIT UN PEU LA CARTE
                     node.texture = texture;
-                    node.run(SKAction.scaleX(to: -0.32, duration: 0))////////////// SPAWN CARTE EN MIROIR
-                    node.run(SKAction.scaleX(to: -0.05, duration: 0.08))//////// RETOURNEMENT 1/2
-                    node.run(SKAction.scaleX(to: 0.05, duration: 0))//////////// MIROIR LA CARTE (taille reduite)
-                    node.run(SKAction.scaleX(to: 1, duration: 0.15))////////////// REMET A TAILLE NORMALE
+                    node.run(SKAction.scaleX(to: -0.36, duration: 0))////////////// SPAWN CARTE EN MIROIR
+                    node.run(SKAction.scaleX(to: -0.06, duration: 0.08))//////// RETOURNEMENT 1/2
+                    node.run(SKAction.scaleX(to: 0.06, duration: 0))//////////// MIROIR LA CARTE (taille reduite)
+                    node.run(SKAction.scaleX(to: 0.36, duration: 0.15))////////////// REMET A TAILLE NORMALE
                     
                 }
                 run(swapCardSide)
@@ -242,11 +279,9 @@ class MenuScene: SKScene {
                 let bottomMoveBack = SKAction.move(to: CGPoint(x: frame.midX - 35, y: frame.midY - 53), duration: 0.15)
                 
                 let waitMove = SKAction.wait(forDuration: 0.15)
-                
-                let reduceAlpha = SKAction.fadeAlpha(to: 0.1, duration: 0.01)
-                
-                let Scaleup = SKAction.sequence([SKAction.scaleX(to: 0.3, duration: 0.1),SKAction.scaleY(to: 0.3, duration: 0.2)])
-                let AlphaBack = SKAction.fadeAlpha(to: 1 , duration: 0.8)
+                                
+                let Scaleup = SKAction.sequence([SKAction.scaleX(to: 0.36, duration: 0.1),SKAction.scaleY(to: 0.36, duration: 0.2)])
+                let AlphaBack = SKAction.fadeAlpha(to: 1 , duration: 1)
                 
                 let aa = SKAction.run {
                     self.run(SKAction.run {
@@ -342,8 +377,11 @@ class MenuScene: SKScene {
 
     
     func blackjackpng(){
-        CardsSpawned = true
-
+  
+        //gradient.zPosition = -100
+        //view?.layer.addSublayer(gradient)
+        //view?.layer.insertSublayer(gradient,below: base )
+        
         let blackjackText = SKLabelNode(fontNamed:"TextaW00-Heavy")
         blackjackText.xScale = 0.9
         blackjackText.yScale = 0.9
@@ -395,5 +433,28 @@ class MenuScene: SKScene {
                 }
             }
         }
+    }
+}
+extension CAGradientLayer {
+
+    func setColors(_ newColors: [CGColor],
+                   animated: Bool = true,
+                   withDuration duration: TimeInterval = 0,
+                   timingFunctionName name: CAMediaTimingFunctionName? = nil) {
+
+        if !animated {
+            self.colors = newColors
+            return
+        }
+
+        let colorAnimation = CABasicAnimation(keyPath: "colors")
+        colorAnimation.fromValue = colors
+        colorAnimation.toValue = newColors
+        colorAnimation.duration = duration
+        colorAnimation.isRemovedOnCompletion = false
+        colorAnimation.fillMode = CAMediaTimingFillMode.forwards
+        colorAnimation.timingFunction = CAMediaTimingFunction(name: name ?? .linear)
+
+        add(colorAnimation, forKey: "colorsChangeAnimation")
     }
 }

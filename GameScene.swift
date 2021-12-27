@@ -13,6 +13,7 @@ import UIKit
 class GameScene: SKScene {
     var noas : Bool!
     override func didMove(to view: SKView) {
+
         //let waitInteraction = SKAction.wait(forDuration: 1)
         //isUserInteractionEnabled = false
         //let enableUserInteraction = SKAction.run {
@@ -227,9 +228,7 @@ class GameScene: SKScene {
         view!.presentScene(comebackScene,transition: reveal)
     }
     func EndGameText(way:String){
-        playercard1.name = "kards"
-        playercard2.name = "kards"
-        dealercard1.name = "kards"
+    
         
         let effectsNode = SKEffectNode()
         let filter = CIFilter(name:"CIGaussianBlur",parameters: ["inputRadius": 10.0])
@@ -288,7 +287,7 @@ class GameScene: SKScene {
         }
         run(SKAction.sequence([SpawnText,wait,trans]))
         
-        let kards = childNode(withName: "")
+        //let kards = childNode(withName: "")
     }
     
     
@@ -356,6 +355,7 @@ class GameScene: SKScene {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     func layoutScene(){
+   
         func TopRect(){
             let rect = SKShapeNode(rectOf: CGSize(width: frame.maxX , height: frame.midY / 3),cornerRadius: 40)
             rect.position = CGPoint(x: frame.midX, y: frame.maxY)
@@ -637,6 +637,7 @@ class GameScene: SKScene {
                 //playercard2 = spawnRandomCard(user: "Player", xPos: 55, yPos: self.frame.midY - 65)
                 //dealercard1 = spawnRandomCard(user: "Dealer", xPos: 40, yPos: self.frame.midY + 120)
                 //dealercard2 = spawnRandomCard(user: "Dealer", xPos: 55, yPos: self.frame.midY + 105)
+             
                 let playerAction1 = SKAction.run {
                     _ = self.spawnRandomCard(user: "Player", xPos: -10, yPos: self.frame.maxY / 3.6 )
                     
@@ -767,7 +768,7 @@ class GameScene: SKScene {
                 let giveNewCard = SKAction.run {
 
                     if self.dealerScore < 17 {
-                        _ = self.spawnRandomCard(user: "Dealer", xPos: stayX, yPos:  2 * (self.frame.maxY / 3.6) - stayY)
+                        self.dealercard3 = self.spawnRandomCard(user: "Dealer", xPos: stayX, yPos:  2 * (self.frame.maxY / 3.6) - stayY)
                         stayX += 40
                         stayY += 10
                     }else{
