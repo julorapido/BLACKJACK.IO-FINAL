@@ -131,8 +131,9 @@ class MenuScene: SKScene {
         view.layer.render(in: UIGraphicsGetCurrentContext()!)
         var bgImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
-        layer.removeFromSuperlayer()
-        return SKSpriteNode(texture: SKTexture(image: bgImage))
+        let newNode = SKSpriteNode(texture: SKTexture(image: bgImage))
+       // return SKSpriteNode(texture: SKTexture(image: bgImage))
+        return(newNode)
     }
 
 
@@ -145,16 +146,16 @@ class MenuScene: SKScene {
                 UIColor.purple.cgColor,
                 UIColor.blue.cgColor
             ]
+        gradient.removeFromSuperlayer()
         let neww = [
             
             UIColor.purple.cgColor,
             UIColor.green.cgColor
         ]
             gradient.frame = self.view!.bounds
-        gradient.setColors(neww, animated: true, withDuration: 2, timingFunctionName: .linear)
+        gradient.setColors(neww, animated: false    , withDuration: 2, timingFunctionName: .linear)
+    
         let background = layerToSKSpritenode(layer: gradient)
-        addChild(background)
-        
         
         
         
