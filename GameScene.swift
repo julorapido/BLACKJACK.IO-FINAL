@@ -131,7 +131,9 @@ class GameScene: SKScene {
                 let stayy = SKAction.run {
                     (self.stay())
                 }
-                run(SKAction.sequence([wait,stayy]))
+                if playerHasAsonStart == false && playerHas10onStart == 0 {
+                    run(SKAction.sequence([wait,stayy]))
+                }
             }
         }
         if playerHas10onStart >= 1{////////////////////// BLACKJACK ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !
@@ -147,7 +149,29 @@ class GameScene: SKScene {
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    func DisplayEXPnumbers(EXP : Int){
+        let randDivisor = Int.random(in: 7...9)
+        let vector = CGVector(dx: 0, dy: 20)
+        let FadeGoUp = SKAction.run {
+            SKAction.fadeAlpha(to: 1, duration: 0.8)
+            SKAction.move(by: vector, duration: 0.8)
+        }
+        let numberToShow = EXP/randDivisor
+        for i in 0...randDivisor {
+            let ExpText = SKLabelNode(fontNamed: "TextaW00-Heavy")
+            let randX = Int.random(in: -25...25)
+            let randY = Int.random(in: -25...25)
+            ExpText.text = String(numberToShow)
+            let randomSpawnCG = CGPoint(x: frame.midX + CGFloat(randX) , y: frame.midY +  CGFloat(randY))
+            ExpText.position = randomSpawnCG
+            ExpText.alpha = 0.6
+            ExpText.run(SKAction.fadeAlpha(to: 1, duration: 0.8))
+            ExpText.run(SKAction.move(by: vector, duration: 0.8))
+            addChild(ExpText)
+            
+            
+        }
+    }
     //var layout = SKAction.run()
 
     //let skView = view as SKView!
@@ -210,6 +234,7 @@ class GameScene: SKScene {
     //let NewCardY : CGFloat!
     
     var dealercard1 : SKSpriteNode!
+    
     var dealercard2 : SKSpriteNode!
     var dealercard3 : SKSpriteNode!
     
@@ -220,7 +245,7 @@ class GameScene: SKScene {
     var playercard2 : SKSpriteNode!
     var playercard3 : SKSpriteNode!
 
-
+    var AutomaticHIT = false
     func transition(){
         let comebackScene = MenuScene(size: view!.bounds.size)
         let reveal = SKTransition.reveal(with: .right, duration: 0.33)
@@ -229,7 +254,6 @@ class GameScene: SKScene {
     }
     func EndGameText(way:String){
     
-        
         let effectsNode = SKEffectNode()
         let filter = CIFilter(name:"CIGaussianBlur",parameters: ["inputRadius": 10.0])
         effectsNode.filter = filter
@@ -247,6 +271,7 @@ class GameScene: SKScene {
         if way == "PlayerBust"{
             text.text = "YOU BUST"
             text.fontColor = UIColor.red
+            DisplayEXPnumbers(EXP: 50)
         }else if way == "Victory" {
             text.text = "WIN"
             text.fontColor = UIColor.green
@@ -260,7 +285,8 @@ class GameScene: SKScene {
             text.text = "BLACKJACK"
             text.fontColor = UIColor.cyan
         }else if way == "DealerBust"{
-            text.text = "DealerBust"
+            text.text = "DEALERBUST"
+            text.fontColor = UIColor.green
         }
 
         
@@ -727,6 +753,7 @@ class GameScene: SKScene {
             
     
             func stay(){
+                AutomaticHIT = true
                 var stayX : CGFloat!
                 var stayY : CGFloat!
                 isUserInteractionEnabled = false
@@ -829,7 +856,7 @@ class GameScene: SKScene {
                             if PlayerBusted == false {
                             //AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
                             node.run(Pressedbutton)
-                            if StayTouched < 1{
+                            if StayTouched < 1 {
                                 StayTouched += 1
                                 stay()
                             }
