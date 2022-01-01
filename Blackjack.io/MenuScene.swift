@@ -89,8 +89,8 @@ class MenuScene: SKScene {
     
     func pressedNode (button: SKShapeNode, time : CGFloat) -> SKAction {
         
-        let RectPressedAction1 = SKAction.scaleX(to: 0.6, duration: time/2)
-        let RectPressedAction2 = SKAction.scaleY(to: 0.5, duration: time/2)
+        let RectPressedAction1 = SKAction.scaleX(to: 0.85, duration: time/2)
+        let RectPressedAction2 = SKAction.scaleY(to: 0.85, duration: time/2)
      
         let RectPressedAction3 = SKAction.scaleX(to: 1, duration: time/2)
         let RectPressedAction4 = SKAction.scaleY(to: 1, duration: time/2)
@@ -104,7 +104,7 @@ class MenuScene: SKScene {
             button.run(RectPressedAction3)
             button.run(RectPressedAction4)
         }
-        let o = SKAction.wait(forDuration: 0.15)
+        let o = SKAction.wait(forDuration: 0.11)
         let RectPressedAction = SKAction.sequence([PressedRect,o,UnpressedRect])
 
         
@@ -148,9 +148,9 @@ class MenuScene: SKScene {
 
 
     func layoutScene(){
-        let a = MakeCGcolor(RED: 10, GREEN: 10, BLUE: 27)
-        let b = MakeCGcolor(RED: 15, GREEN: 25, BLUE: 56)
-        let c = MakeCGcolor(RED: 24, GREEN: 40, BLUE: 76)
+        let a = MakeCGcolor(RED: 9, GREEN: 18, BLUE: 32)
+        let b = MakeCGcolor(RED: 15, GREEN: 33, BLUE: 46)
+        let c = MakeCGcolor(RED: 12, GREEN: 25, BLUE: 39)
 
         let gradient = CAGradientLayer()
             gradient.type = .axial
@@ -283,13 +283,13 @@ class MenuScene: SKScene {
                 addChild(upperCard)
                 addChild(bottomCard)
                 let upperMove = SKAction.move(to: CGPoint(x: frame.midX - 50, y: frame.midY + 53), duration: 0.15)
-                let upperMoveBack = SKAction.move(to: CGPoint(x: frame.midX + 16 + (frame.maxX/10), y: frame.midY + 53), duration: 0.15)
+                let upperMoveBack = SKAction.move(to: CGPoint(x: frame.midX + 16 + (frame.maxX/10), y: frame.midY + 58), duration: 0.15)
                 let xValue = frame.maxX / 1000
 
                 
                 
                 let bottomMove = SKAction.move(to: CGPoint(x: frame.midX + 50, y: frame.midY - 53), duration: 0.15)
-                let bottomMoveBack = SKAction.move(to: CGPoint(x: frame.midX - 16 - (frame.maxX/10), y: frame.midY - 53), duration: 0.15)
+                let bottomMoveBack = SKAction.move(to: CGPoint(x: frame.midX - 16 - (frame.maxX/10), y: frame.midY - 58), duration: 0.15)
                 
                 let waitMove = SKAction.wait(forDuration: 0.22)
                                 
@@ -414,7 +414,7 @@ class MenuScene: SKScene {
         let reveal = SKTransition.reveal(with: .left, duration: 0.1)
         let reveal2 = SKTransition.doorway(withDuration: 1)
         gameScene.scaleMode = .aspectFill
-        view!.presentScene(gameScene,transition: reveal2)
+        view!.presentScene(gameScene,transition: reveal)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)

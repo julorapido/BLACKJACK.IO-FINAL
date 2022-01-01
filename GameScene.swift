@@ -21,6 +21,7 @@ class GameScene: SKScene {
         //}
         //run(SKAction.sequence([waitInteraction,enableUserInteraction]))
         backgroundColor = UIColor(red: 15/255, green: 33/255, blue: 46/255, alpha: 1.0)
+        disableUserInter(time: 1.5)
         let layout = SKAction.run({self.layoutScene()})
         let game = SKAction.run({self.gameSetup();self.displaycards()})
         let wait = SKAction.wait(forDuration: 0.2)
@@ -159,12 +160,13 @@ class GameScene: SKScene {
         let numberToShow = EXP/randDivisor
         for i in 0...randDivisor {
             let ExpText = SKLabelNode(fontNamed: "TextaW00-Heavy")
-            let randX = Int.random(in: -25...25)
-            let randY = Int.random(in: -25...25)
-            ExpText.text = String(numberToShow)
+            let randX = Int.random(in: -10...10)
+            let randY = Int.random(in: -10...10)
+            ExpText.text = "+ \(String(numberToShow))"
             let randomSpawnCG = CGPoint(x: frame.midX + CGFloat(randX) , y: frame.midY +  CGFloat(randY))
             ExpText.position = randomSpawnCG
             ExpText.alpha = 0.6
+            ExpText.fontSize = 10
             ExpText.run(SKAction.fadeAlpha(to: 1, duration: 0.8))
             ExpText.run(SKAction.move(by: vector, duration: 0.8))
             addChild(ExpText)
@@ -271,22 +273,26 @@ class GameScene: SKScene {
         if way == "PlayerBust"{
             text.text = "YOU BUST"
             text.fontColor = UIColor.red
-            DisplayEXPnumbers(EXP: 50)
+            DisplayEXPnumbers(EXP: -20)
         }else if way == "Victory" {
             text.text = "WIN"
             text.fontColor = UIColor.green
+            DisplayEXPnumbers(EXP: 45)
         }else if way == "DealerWins" {
             text.text = "LOST"
             text.fontColor = UIColor.red
+            DisplayEXPnumbers(EXP: -25)
         }else if way == "Push"{
             text.text = "PUSH"
             text.fontColor = UIColor.orange
         }else if way == "blackjack"{
             text.text = "BLACKJACK"
             text.fontColor = UIColor.cyan
+            DisplayEXPnumbers(EXP: 60)
         }else if way == "DealerBust"{
             text.text = "DEALERBUST"
             text.fontColor = UIColor.green
+            DisplayEXPnumbers(EXP: 40)
         }
 
         
@@ -455,10 +461,6 @@ class GameScene: SKScene {
         TopRect()
         
     }
-    
-    
-
-    
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -828,12 +830,8 @@ class GameScene: SKScene {
                 
                 let ScaleDown = SKAction.scale(by: 0.85, duration: 0.11)
                 let FadeDown = SKAction.fadeAlpha(to: 0.92, duration: 0.11)
-                
-                
                 let ScaleBack = SKAction.scale(to: 0.35, duration: 0.11)
-          
                 let FadeBack = SKAction.fadeAlpha(to: 1, duration: 0.11)
-                
                 let Pressedbutton = SKAction.sequence([ScaleDown,FadeDown,ScaleBack,FadeBack])
                 
                 for touch in touches {
@@ -856,7 +854,7 @@ class GameScene: SKScene {
                             if PlayerBusted == false {
                             //AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
                             node.run(Pressedbutton)
-                            if StayTouched < 1 {
+                            if StayTouched < 1 || AutomaticHIT == false {
                                 StayTouched += 1
                                 stay()
                             }
