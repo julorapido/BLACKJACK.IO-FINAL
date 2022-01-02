@@ -11,9 +11,10 @@ import UIKit
 
 
 class GameScene: SKScene {
+    
     var noas : Bool!
     override func didMove(to view: SKView) {
-
+        defo.set(true, forKey: "SwitchScene")
         //let waitInteraction = SKAction.wait(forDuration: 1)
         //isUserInteractionEnabled = false
         //let enableUserInteraction = SKAction.run {
@@ -225,6 +226,8 @@ class GameScene: SKScene {
     var playerHas10onStart = 0
     var dealerHas10 = 0
     
+    var deck : SKSpriteNode!
+    
     var zCardPositions : CGFloat!
     var addedValue : CGFloat!
     var BLACKJACK = false
@@ -268,8 +271,9 @@ class GameScene: SKScene {
         let wait = SKAction.wait(forDuration: 2.5)
         let trans = SKAction.run({self.transition()})
         let text = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        text.fontSize = 37
-        text.position = CGPoint(x: frame.midX - 20, y: 5*(frame.maxY / 6))
+        text.fontSize = 33
+        text.position = CGPoint(x: frame.maxX + 50, y: 3.35*(frame.maxY/4))
+        text.zPosition = 10
         if way == "PlayerBust"{
             text.text = "YOU BUST"
             text.fontColor = UIColor.red
@@ -295,29 +299,59 @@ class GameScene: SKScene {
             DisplayEXPnumbers(EXP: 40)
         }
 
-        
+
         let addText = SKAction.run {
             self.addChild(text)
             text.alpha = CGFloat(0.3)
             text.yScale = CGFloat(0.8)
             text.xScale = CGFloat(0.7)
         }
-        let fadein = SKAction.run {
+        let MoveIn = SKAction.run {
             text.run(SKAction.fadeAlpha(to: 1, duration: 0.33))
             text.run(SKAction.scaleX(to: 1, duration: 0.33))
             text.run(SKAction.scaleY(to: 1, duration: 0.33))
+            text.run(SKAction.moveTo(x: self.frame.midX, duration: 0.8))
         }
-        let SpawnText = SKAction.run {
+        
+        let waitvitefait = SKAction.wait(forDuration: 0.6)
+        
+        let InnerRectangle = SKShapeNode(rectOf: CGSize(width: 150, height: 50),cornerRadius: 5)
+        InnerRectangle.position = CGPoint(x: frame.maxX + 200, y: 3.42*(frame.maxY/4))
+        InnerRectangle.fillColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 1)
+        InnerRectangle.strokeColor = UIColor(red: 80/255, green: 130/255, blue: 130/255, alpha: 0)
+        InnerRectangle.alpha = 0.8
+        InnerRectangle.zPosition = 10
+        
+        let OuterRectangle = SKShapeNode(rectOf: CGSize(width: 150, height: 55),cornerRadius: 5)
+        OuterRectangle.position = CGPoint(x: frame.maxX + 200, y: 3.42*(frame.maxY/4))
+        OuterRectangle.strokeColor = UIColor(red: 40/255, green: 80/255, blue: 80/255, alpha: 0)
+        OuterRectangle.fillColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+        OuterRectangle.zPosition = 9
+        
+        let ScaleScene = SKAction.scaleX(to: 15, duration: 0.8)
+        let meh = SKAction.fadeAlpha(to: 1, duration: 0.33)
+        let InnerAction = SKAction.run{InnerRectangle.run(ScaleScene)
+                                InnerRectangle.run(meh)}
+        let OuterAction = SKAction.run{OuterRectangle.run(ScaleScene)}
+        let bro = SKAction.wait(forDuration: 0.5)
+        let rectSeq = SKAction.sequence([InnerAction,bro,OuterAction])
+        
+        addChild(InnerRectangle)
+        addChild(OuterRectangle)
+        
+        let VectorAll = SKAction.run {
             self.run(SKAction.sequence([
                 addText,
-                fadein,
-                SKAction.run {
-                    self.addChild(effectsNode)
-                }
+                MoveIn,
+                rectSeq
             ]))
-            
+            self.deck.run(SKAction.moveTo(y: self.frame.maxY + 100, duration: 0.6))
         }
-        run(SKAction.sequence([SpawnText,wait,trans]))
+
+
+
+        
+        run(SKAction.sequence([waitvitefait,VectorAll,wait,trans]))
         
         //let kards = childNode(withName: "")
     }
@@ -400,13 +434,21 @@ class GameScene: SKScene {
         }
         func MidRect(){
 
-            let rect = SKShapeNode(rectOf: CGSize(width: frame.maxX - 13, height: frame.midY + 60), cornerRadius: 10)
-            rect.position = CGPoint(x: frame.midX, y: frame.midY)
-            rect.fillColor = UIColor(red: 15/255, green: 33/255, blue: 46/255, alpha: 1.0)
-            rect.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0.4)
-            rect.lineWidth = CGFloat(3.5)
-            rect.zPosition = -10
-            addChild(rect)
+            let rect1 = SKShapeNode(rectOf: CGSize(width: frame.maxX - 13, height: frame.midY + 60), cornerRadius: 10)
+            rect1.position = CGPoint(x: frame.midX, y: frame.midY)
+            //rect1.fillColor = UIColor(red: 15/255, green: 33/255, blue: 200/255, alpha: 1.0)
+            rect1.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
+            rect1.lineWidth = CGFloat(3.5)
+            rect1.zPosition = -10
+
+            let rect2 = SKShapeNode(rectOf: CGSize(width: frame.maxX - 13, height: frame.midY + 60), cornerRadius: 10)
+            rect2.position = CGPoint(x: frame.midX, y: frame.midY)
+            //rect2.fillColor = UIColor(red: 15/255, green: 33/255, blue: 46/255, alpha: 1.0)
+            rect2.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0.4)
+            rect2.lineWidth = CGFloat(3.5)
+            rect2.zPosition = -10
+            addChild(rect1)
+            addChild(rect2)
 
         }
 
@@ -419,8 +461,8 @@ class GameScene: SKScene {
             addChild(rect)
         }
         
-        func deck(){
-            let deck = SKSpriteNode(imageNamed: "blue deck")
+        func deckq(){
+            deck = SKSpriteNode(imageNamed: "blue deck")
             deck.position = CGPoint(x: frame.maxX - 75, y: ((frame.maxY)-(frame.maxY / 8.3)))
             deck.xScale = 0.23
             deck.yScale = 0.2
@@ -454,7 +496,7 @@ class GameScene: SKScene {
             addChild(baneer)
         }
         MidRect()
-        deck()
+        deckq()
         hitfunc()
         stayfunc()
         BottomRect()
@@ -612,8 +654,7 @@ class GameScene: SKScene {
     
     
     func gameSetup(){
- 
-        
+
         DealerNewCardX = 70
         DealerNewCardY = 80
         zCardPositions = 0
@@ -626,7 +667,7 @@ class GameScene: SKScene {
                     playerScoreRect = SKShapeNode(rect: CGRect(x: frame.midX-30, y: frame.midY-30, width: 60, height: 35),cornerRadius: 10)
                     playerScoreRect.fillColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0.4)
                     playerScoreRect.lineWidth = CGFloat(3)
-                    playerScoreRect.strokeColor = UIColor(red: 25/255, green: 44/255, blue: 56/255, alpha: 1.0)
+                    playerScoreRect.strokeColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
                     addChild(playerScoreLabel)
                     addChild(playerScoreRect)
                     
@@ -636,7 +677,7 @@ class GameScene: SKScene {
             
                     dealerScoreRect = SKShapeNode(rect: CGRect(x: frame.midX-30, y: 2 * (frame.maxY/2.8) - 10, width: 60, height: 35),cornerRadius: 10)
                     dealerScoreRect.fillColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0.4)
-                    dealerScoreRect.strokeColor = UIColor(red: 25/255, green: 44/255, blue: 56/255, alpha: 1.0)
+                    dealerScoreRect.strokeColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
                     dealerScoreRect.lineWidth = CGFloat(3)
                     addChild(dealerScoreLabel)
                     addChild(dealerScoreRect)
@@ -661,10 +702,7 @@ class GameScene: SKScene {
                 let updateDealerAction = SKAction.run {
                     (self.updateDealerScore())
                 }
-                //playercard1 = spawnRandomCard(user: "Player", xPos: 40, yPos: self.frame.midY - 50)
-                //playercard2 = spawnRandomCard(user: "Player", xPos: 55, yPos: self.frame.midY - 65)
-                //dealercard1 = spawnRandomCard(user: "Dealer", xPos: 40, yPos: self.frame.midY + 120)
-                //dealercard2 = spawnRandomCard(user: "Dealer", xPos: 55, yPos: self.frame.midY + 105)
+
              
                 let playerAction1 = SKAction.run {
                     _ = self.spawnRandomCard(user: "Player", xPos: -10, yPos: self.frame.maxY / 3.6 )
@@ -715,6 +753,7 @@ class GameScene: SKScene {
                 if playerHasAsonStart == true && playerHas10onStart == 1 {
                     BLACKJACK = true
                 }
+        
             }
     
             func hit(){

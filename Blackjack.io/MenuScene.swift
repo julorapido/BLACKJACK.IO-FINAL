@@ -14,7 +14,7 @@ import GoogleMobileAds
 
 class MenuScene: SKScene {
     override func didMove(to view: SKView) {
-        
+        print("SwitchScene"+String(defaults.bool(forKey: "SwitchScene")))
 
         //backgroundColor = UIColor(red: 15/255, green: 33/255, blue: 46/255, alpha: 1.0)
         print(frame.maxX)
@@ -23,6 +23,10 @@ class MenuScene: SKScene {
         playbuttonFunc()
         blackjackpng()
         defaults.set(true, forKey: "FirstLaunch")
+        if defaults.bool(forKey: "SwitchScene") == false {
+            
+            background.run(SKAction.fadeAlpha(to: 1, duration: 0.8))
+        }
         defaults.synchronize()
 
         //for family: String in UIFont.familyNames{
@@ -44,6 +48,8 @@ class MenuScene: SKScene {
         defaults.set(key, forKey: "\(key)")
     }
     let firstLaunch: Void = UserDefaults.standard.set(true, forKey: "FirstLaunch")
+    let SwitchedToGameScene: Void = UserDefaults.standard.set(false, forKey: "SwitchScene")
+    var background : SKSpriteNode!
     
     func StartPlayerData(){
             if defaults.bool(forKey: "FirsLaunch") == true {
@@ -164,7 +170,9 @@ class MenuScene: SKScene {
         gradient.frame = self.view!.bounds
 
 
-        let background = layerToSKSpritenode(layer: gradient)
+         background = layerToSKSpritenode(layer: gradient)
+        background.alpha = 0.1
+    
         
         
         
@@ -216,8 +224,8 @@ class MenuScene: SKScene {
         lvltext.fontSize = 20
         lvltext.text = "LEVEL \(defaults.integer(forKey: "UserLvl"))"
         let expText = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        expText.position = CGPoint(x: frame.minX + 43, y: 7.7*(frame.maxY/9))
-        expText.text = "\(Int(usexp))/\((Int(uselvl)) * 100)"
+        expText.position = CGPoint(x: 3.25*(frame.maxX/4), y: 0.85*(frame.maxY/9))
+        expText.text = "EXP => \(Int(usexp))/\((Int(uselvl)) * 100)"
         expText.fontSize = 15
         
         
@@ -257,7 +265,7 @@ class MenuScene: SKScene {
             upperCard.yScale = 0.13
             bottomCard.xScale = 0.15
             bottomCard.yScale = 0.13
-            let yValue = 2*((frame.maxY / 1000)/3)
+            let yValue = 3*((frame.maxY / 1000)/4)
             upperCard.alpha = CGFloat(0.6)
             bottomCard.alpha = CGFloat(0.6)
             func swapCardSide(node: SKSpriteNode, texture : SKTexture){
@@ -293,7 +301,7 @@ class MenuScene: SKScene {
                 
                 let waitMove = SKAction.wait(forDuration: 0.22)
                                 
-                let Scaleup = SKAction.sequence([SKAction.scaleY(to: xValue	, duration: 0.2)])
+                let Scaleup = SKAction.sequence([SKAction.scaleY(to: 1.2*(xValue)	, duration: 0.2)])
                 let AlphaBack = SKAction.fadeAlpha(to: 1 , duration: 1)
 
                 let aa = SKAction.run {
@@ -362,7 +370,7 @@ class MenuScene: SKScene {
         
         playRec = SKShapeNode(rectOf: CGSize(width: 150, height: 55),cornerRadius: 23)
         playRec.name = "rectbutton"
-        playRec.fillColor = UIColor(red: 49/255, green: 58/255, blue: 230/255, alpha: 1.0)
+        playRec.fillColor = UIColor(red: 1/255, green: 122/255, blue: 255/255, alpha: 1.0)
         playRec.strokeColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0)
         playRec.lineWidth = CGFloat(3)
         playRec.position = CGPoint(x: frame.midX, y: (frame.maxY/5))
