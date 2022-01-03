@@ -16,7 +16,6 @@ class MenuScene: SKScene {
     override func didMove(to view: SKView) {
         print("SwitchScene"+String(defaults.bool(forKey: "SwitchScene")))
 
-        //backgroundColor = UIColor(red: 15/255, green: 33/255, blue: 46/255, alpha: 1.0)
         print(frame.maxX)
         print(frame.maxY)
         layoutScene()
@@ -29,16 +28,6 @@ class MenuScene: SKScene {
         }
         defaults.synchronize()
 
-        //for family: String in UIFont.familyNames{
-        //    print(family)
-        //}
-        //for family: String in UIFont.familyNames
-        //{
-        //    print(family)
-        //    for names: String in UIFont.fontNames(forFamilyName: family)
-        //    {
-        //        print("== \(names)")
-        //  }
     }
         
 
@@ -50,6 +39,10 @@ class MenuScene: SKScene {
     let firstLaunch: Void = UserDefaults.standard.set(true, forKey: "FirstLaunch")
     let SwitchedToGameScene: Void = UserDefaults.standard.set(false, forKey: "SwitchScene")
     var background : SKSpriteNode!
+    
+ 
+    
+    
     
     func StartPlayerData(){
             if defaults.bool(forKey: "FirsLaunch") == true {
@@ -171,13 +164,8 @@ class MenuScene: SKScene {
 
 
          background = layerToSKSpritenode(layer: gradient)
-        background.alpha = 0.1
+        
     
-        
-        
-        
-        
-        
         
         StartPlayerData()
         let previousLevel = defaults.integer(forKey: "UserLvl")
@@ -186,19 +174,6 @@ class MenuScene: SKScene {
          
             defaults.set(previousExp - previousLevel * 100 , forKey: "UserExp")
         }
-        //defaults.integer(forKey: "UserExp")
-        //var p = CGFloat()
-        //var percent : CGFloat = defaults.CGfloat(forKey: "UserExp")
-        //var backgroundsTextures : [SKTexture] = []
-        //for i in 1...6 {
-        //    backgroundsTextures.append(SKTexture(imageNamed:"background\(i)"))
-        //}
-        //let backgroundAnimation = SKAction.animate(with: backgroundsTextures,timePerFrame: 0.08)
-        //let background = SKSpriteNode(imageNamed: "background1")
-        //background.size = CGSize(width: frame.maxX, height: frame.maxY)
-        //let backgroundInfinite = SKAction.repeatForever(backgroundAnimation)
-        //background.position = CGPoint(x : frame.midX,y: frame.midY)
-        //background.run(backgroundInfinite)
         let usexp = defaults.double(forKey: "UserExp")
         let uselvl = defaults.double(forKey: "UserLvl")
         let expNeeded = uselvl * 100
@@ -225,9 +200,13 @@ class MenuScene: SKScene {
         lvltext.text = "LEVEL \(defaults.integer(forKey: "UserLvl"))"
         let expText = SKLabelNode(fontNamed: "TextaW00-Heavy")
         expText.position = CGPoint(x: 3.25*(frame.maxX/4), y: 0.85*(frame.maxY/9))
-        expText.text = "EXP => \(Int(usexp))/\((Int(uselvl)) * 100)"
+        expText.text = "EXP = \(Int(usexp))/\((Int(uselvl)) * 100)"
         expText.fontSize = 15
-        
+        let expRect = SKShapeNode(rectOf: CGSize(width: 100, height: 30), cornerRadius: 10)
+        expRect.position = CGPoint(x: 3.25*(frame.maxX/4), y: 0.91*(frame.maxY/9))
+        expRect.fillColor = UIColor(red: 13/255, green: 20/255, blue: 41/255, alpha: 1)
+        expRect.strokeColor = UIColor(red: 13/255, green: 20/255, blue: 41/255, alpha: 1)
+
         
         
         let expBar = SKShapeNode(rectOf: CGSize(width: expTaille, height: 13), cornerRadius: 2)
@@ -245,13 +224,40 @@ class MenuScene: SKScene {
         
 
                 
-            let backgroundTexture = SKTexture(imageNamed: "pen")
+            //let backgroundTexture = SKTexture(imageNamed: "pen")
             /////////////////////let background = SKSpriteNode(texture: backgroundTexture)
         background.zPosition = -100
             background.position = CGPoint(x: frame.width/2, y: frame.height/2)
             addChild(background)
         
+        
+            var CoinsTexture:[SKTexture] = []
+            for i in 1...10 {
+                CoinsTexture.append(SKTexture(imageNamed: "COINS\(i)"))
+            }
+            
+        
+        let CoinsAnimation = SKAction.animate(withNormalTextures: CoinsTexture, timePerFrame: 0.1)
+        
+        let CoinsText = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        CoinsText.position = CGPoint(x: 0.625*(frame.maxX/4), y: 0.85*(frame.maxY/9))
+        CoinsText.text = "50"
+        CoinsText.fontSize = 15
+        let CoinsRect = SKShapeNode(rectOf: CGSize(width: 75, height: 30), cornerRadius: 10)
+        CoinsRect.position = CGPoint(x: 0.75*(frame.maxX/4), y: 0.91*(frame.maxY/9))
+        CoinsRect.fillColor = UIColor(red: 13/255, green: 20/255, blue: 41/255, alpha: 1)
+        CoinsRect.strokeColor = UIColor(red: 13/255, green: 20/255, blue: 41/255, alpha: 1)
+        let Coins = SKSpriteNode(texture: SKTexture(imageNamed: "COINS1"))
+        Coins.zPosition = 20
+        Coins.position = CGPoint(x: 0.85*(frame.maxX/4), y: 0.91*(frame.maxY/9))
+        Coins.xScale = 0.13
+        Coins.yScale = 0.13
+        Coins.run(SKAction.repeatForever(CoinsAnimation))
 
+        addChild(Coins)
+        addChild(CoinsText)
+        addChild(CoinsRect)
+        
         func MenuCards(){
             var randInt = Int.random(in: 2...14)
             let family = ["TREFLE", "CARREAU", "COEUR", "PIC"]
@@ -350,6 +356,8 @@ class MenuScene: SKScene {
             
         }
         MenuCards()
+        //oins()
+        addChild(expRect)
         //addChild(bar)
         //addChild(expBar)
         addChild(expText)
