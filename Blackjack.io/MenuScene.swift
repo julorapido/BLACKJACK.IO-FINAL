@@ -10,10 +10,12 @@
 import SpriteKit
 import UIKit
 import SwiftUI
-import GoogleMobileAds
+//import GoogleMobileAds
 //MAX X IPHONE 8 : 375
 // MAX X IPHONE 8 PLUS : 414
 class MenuScene: SKScene {
+    
+    
     override func didMove(to view: SKView) {
         print("SwitchScene"+String(defaults.bool(forKey: "SwitchScene")))
         var CoinsTexture:[SKTexture] = []
@@ -45,11 +47,12 @@ class MenuScene: SKScene {
     let SwitchedToGameScene: Void = UserDefaults.standard.set(false, forKey: "SwitchScene")
     var background : SKSpriteNode!
     
- 
+
     
     
     
     func StartPlayerData(){
+
             if defaults.bool(forKey: "FirsLaunch") == true {
             intUserDefaults(value: 0, key: "UserExp")
             intUserDefaults(value: 1, key: "UserLvl")
@@ -91,37 +94,8 @@ class MenuScene: SKScene {
         return(RectPressedAction)
     }
     
-    
-    
-    
-    func pressedNode (button: SKShapeNode, time : CGFloat) -> SKAction {
-        
-        let RectPressedAction1 = SKAction.scaleX(to: 0.85, duration: time/2)
-        let RectPressedAction2 = SKAction.scaleY(to: 0.85, duration: time/2)
-     
-        let RectPressedAction3 = SKAction.scaleX(to: 1, duration: time/2)
-        let RectPressedAction4 = SKAction.scaleY(to: 1, duration: time/2)
-        
-        let PressedRect = SKAction.run {
-            button.run(RectPressedAction1)
-            button.run(RectPressedAction2)
-        }
-        
-        let UnpressedRect = SKAction.run {
-            button.run(RectPressedAction3)
-            button.run(RectPressedAction4)
-        }
-        let o = SKAction.wait(forDuration: 0.11)
-        let RectPressedAction = SKAction.sequence([PressedRect,o,UnpressedRect])
-
-        
-        let waitAnimation = SKAction.wait(forDuration: 0.35)
-        let SwitchScene = SKAction.run{(self.startgame())}
-        
-        let PressedbuttoN = SKAction.sequence([RectPressedAction,waitAnimation,SwitchScene])
-        button.run(PressedbuttoN)
-        return(RectPressedAction)
-    }
+    var GiftText : SKLabelNode!
+    var GiftImage : SKSpriteNode!
     var CardsSpawned = false
     var soundImage : SKSpriteNode!
     var playRec : SKShapeNode!
@@ -207,7 +181,7 @@ class MenuScene: SKScene {
         }else if defaults.bool(forKey: "soundon") == false {
             soundImage.texture = SKTexture(imageNamed: "sound off")
         }
-        soundImage.position = CGPoint(x: frame.minX + 60, y: 14.5*(frame.maxY/20))
+        soundImage.position = CGPoint(x: frame.minX + 55, y: 14.75*(frame.maxY/20))
         soundImage.xScale = 0.065
         soundImage.yScale = 0.065
         soundImage.name = "sound_image"
@@ -218,16 +192,28 @@ class MenuScene: SKScene {
         }else if defaults.bool(forKey: "soundon") == false {
             soundImage.texture = SKTexture(imageNamed: "sound off")
         }
-        musicImage.position = CGPoint(x: frame.minX + 60, y: 13.5*(frame.maxY/20))
+        musicImage.position = CGPoint(x: frame.minX + 55, y: 13.75*(frame.maxY/20))
         musicImage.xScale = 0.07
         musicImage.yScale = 0.07
         musicImage.name = "music_image"
         
-        SkinShop = SKSpriteNode(imageNamed: "cart")
-        SkinShop.position = CGPoint(x: frame.minX + 60, y: 11.45*(frame.maxY/20))
+        SkinShop = SKSpriteNode(imageNamed: "skineshop")
+        SkinShop.position = CGPoint(x: frame.minX + 55, y: 11.45*(frame.maxY/20))
         SkinShop.xScale = 0.1
         SkinShop.yScale = 0.1
         SkinShop.name = "skinshop_image"
+        
+        GiftImage = SKSpriteNode(imageNamed: "gift")
+        GiftImage.position = CGPoint(x: 5*(frame.maxX/6), y: 1.2*(frame.maxY/3))
+        GiftImage.xScale = 0.12
+        GiftImage.yScale = 0.12
+        GiftImage.name = "gift_image"
+        
+        GiftText = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        GiftText.text = "FREE COINS +10"
+        GiftText.position = CGPoint(x: 5*(frame.maxX/6), y: 1*(frame.maxY/3))
+        GiftText.fontSize = 14
+        
         
         
         func SideButtons(Scaling : CGFloat){
@@ -235,17 +221,17 @@ class MenuScene: SKScene {
             musicImage.yScale = Scaling
             soundImage.xScale = Scaling - CGFloat(0.005)
             soundImage.yScale = Scaling - CGFloat(0.005)
-            SkinShop.xScale = Scaling + CGFloat(0.03)
-            SkinShop.yScale = Scaling + CGFloat(0.03)
+            SkinShop.xScale = Scaling + CGFloat(0.45)
+            SkinShop.yScale = Scaling + CGFloat(0.45)
         }
         
         let lvltext = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        lvltext.position = CGPoint(x:frame.midX, y: (3.75 * (frame.maxY/5)))
+        lvltext.position = CGPoint(x:frame.midX, y: (3.9 * (frame.maxY/5)))
         lvltext.fontSize = 20
         lvltext.text = "LEVEL \(defaults.integer(forKey: "UserLvl"))"
         let expText = SKLabelNode(fontNamed: "TextaW00-Heavy")
         expText.position = CGPoint(x: 3.25*(frame.maxX/4), y: 0.85*(frame.maxY/9))
-        expText.text = "EXP = \(Int(usexp))/\((Int(uselvl)) * 100)"
+        expText.text = "EXP  \(Int(usexp))|\((Int(uselvl)) * 100)"
         expText.fontSize = 15
         let expRect = SKShapeNode(rectOf: CGSize(width: 100, height: 30), cornerRadius: 10)
         expRect.position = CGPoint(x: 3.25*(frame.maxX/4), y: 0.91*(frame.maxY/9))
@@ -279,7 +265,7 @@ class MenuScene: SKScene {
             
         
         let CoinsText = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        CoinsText.position = CGPoint(x: 0.59*(frame.maxX/4), y: 0.83*(frame.maxY/9))
+        CoinsText.position = CGPoint(x: 0.575*(frame.maxX/4), y: 0.81*(frame.maxY/9))
         CoinsText.text = "50"
         CoinsText.fontSize = 20
         let CoinsRect = SKShapeNode(rectOf: CGSize(width: 80, height: 35), cornerRadius: 10)
@@ -423,6 +409,8 @@ class MenuScene: SKScene {
         addChild(soundImage)
         addChild(musicImage)
         addChild(SkinShop)
+        addChild(GiftImage)
+        addChild(GiftText)
     }
     
     func playbuttonFunc(){
@@ -432,7 +420,7 @@ class MenuScene: SKScene {
         playbutton.text = "PLAY"
         playbutton.name = "playbutton"
         playbutton.position = CGPoint(x: frame.midX, y: ((frame.maxY/5) - 12))
-        playbutton.zPosition = 1
+        playbutton.zPosition = 3
         playbutton.fontSize = 35
         
         playRec = SKShapeNode(rectOf: CGSize(width: 140, height: 50),cornerRadius: 10)
@@ -440,6 +428,7 @@ class MenuScene: SKScene {
         playRec.fillColor = UIColor(red: 1/255, green: 122/255, blue: 255/255, alpha: 1.0)
         playRec.strokeColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0)
         playRec.lineWidth = CGFloat(3)
+        playRec.zPosition = 2
         playRec.position = CGPoint(x: frame.midX, y: (frame.maxY/5))
         playRec.name = "playrectangle"
         
@@ -447,15 +436,16 @@ class MenuScene: SKScene {
         borderRect.name = "rectbutton"
         borderRect.fillColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0)
         borderRect.strokeColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1.0)
-        borderRect.lineWidth = CGFloat(3.3)
+        borderRect.lineWidth = CGFloat(5)
+        borderRect.zPosition = 1
         borderRect.position = CGPoint(x: frame.midX, y: (frame.maxY/5))
      
-        //let scaleUpAction = SKAction.scale(to: 1.5, duration: 0.6)
-        //let scaleDownAction = SKAction.scale(to: 1, duration: 0.6)
-        //let waitAction = SKAction.wait(forDuration: 0.2)
-        //let scaleActionSequence = SKAction.sequence([scaleUpAction, scaleDownAction, waitAction])
-        //let repeatAction = SKAction.repeatForever(scaleActionSequence)
-        //playbutton.run(repeatAction)
+
+        let fadeDown = SKAction.fadeAlpha(to: 0.5, duration: 0.72)
+        let fadeUp = SKAction.fadeAlpha(to: 1, duration: 0.72)
+        let fadeeActionSequence = SKAction.sequence([fadeDown,fadeUp])
+        let repeatAction = SKAction.repeatForever(fadeeActionSequence)
+        borderRect.run(repeatAction)
         addChild(playbutton)
         addChild(playRec)
         addChild(borderRect)
@@ -474,7 +464,7 @@ class MenuScene: SKScene {
         blackjackText.xScale = 0.9
         blackjackText.yScale = 0.9
         blackjackText.text = "BLACKJACK.IO"
-        blackjackText.position = CGPoint(x:frame.midX, y: (4 * (frame.maxY/5)))
+        blackjackText.position = CGPoint(x:frame.midX, y: (4.25 * (frame.maxY/5)))
         blackjackText.zPosition = 1
         let fade = SKAction.fadeAlpha(to: 0.1, duration: 0)
         let fadein = SKAction.fadeIn(withDuration: 1)
@@ -525,20 +515,27 @@ class MenuScene: SKScene {
         view!.presentScene(gameScene,transition: reveal)
     }
     
+    
+    
+    
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
     {
-
-
-
-
-
         
         for touch in touches {
             let location = touch.location(in: self)
             let touchedNode = self.nodes(at: location)
             for node in touchedNode {
                 if node.name == "playrectangle"{
-                    pressedNode(button: playRec, time: 0.7)
+                    let waitAnimation = SKAction.wait(forDuration: 0.35)
+                    let SwitchScene = SKAction.run{(self.startgame())}
+                    let PressedbuttoN = SKAction.sequence([waitAnimation,SwitchScene])
+                    run(PressedbuttoN)
+                    borderRect.run(SKAction.scaleX(to: 0.8, duration: 0.5))
+                    borderRect.run(SKAction.scaleY(to: 0.8, duration: 0.5))
+                    playbutton.run(SKAction.scaleX(to: 0.93, duration: 0.43))
+                    playbutton.run(SKAction.scaleY(to: 0.93, duration: 0.43))
+                    //playbutton.run(SKAction.scaleY(to: 0.66, duration: 0.5))
                 }else if node.name == "sound_image"{
                     pressedButton(button: soundImage, time: 0.2, scale: 0.04)
                     disableUserInter(time: 0.1)
@@ -563,26 +560,4 @@ class MenuScene: SKScene {
         }
     }
 }
-extension CAGradientLayer {
 
-    func setColors(_ newColors: [CGColor],
-                   animated: Bool = true,
-                   withDuration duration: TimeInterval = 0,
-                   timingFunctionName name: CAMediaTimingFunctionName? = nil) {
-
-        if !animated {
-            self.colors = newColors
-            return
-        }
-
-        let colorAnimation = CABasicAnimation(keyPath: "colors")
-        colorAnimation.fromValue = colors
-        colorAnimation.toValue = newColors
-        colorAnimation.duration = duration
-        colorAnimation.isRemovedOnCompletion = false
-        colorAnimation.fillMode = CAMediaTimingFillMode.forwards
-        colorAnimation.timingFunction = CAMediaTimingFunction(name: name ?? .linear)
-
-        add(colorAnimation, forKey: "colorsChangeAnimation")
-    }
-}

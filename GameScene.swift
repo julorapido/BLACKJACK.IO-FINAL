@@ -30,6 +30,7 @@ class GameScene: SKScene {
         print(frame.maxY / 4)
     }
     func updateDealerScore() -> Int{
+        
         if dealerHasAs == 1 {////////////////// LE DEALER A 21
             if dealerScore == 10 {/////// ! ! ! ! ! ! ! ! ! ! ! ! !
                 dealerScore = 21
@@ -73,7 +74,7 @@ class GameScene: SKScene {
                 
             }
             }
-        if dealerScore == playerScore+playerHasAs {
+        if dealerScore == playerScore {
             push()
         }
         if DealerBusted == false {
@@ -81,6 +82,8 @@ class GameScene: SKScene {
                 lost(way: "DealerBetterScore")
             }
         }
+        
+        print("Dealerscore : \(dealerScore)")
     }
 
     func updatePlayerScoreStayPressed(){
@@ -91,11 +94,6 @@ class GameScene: SKScene {
                 }
             }
         
-        
-        if playerHasAs == PlayercardSpawned  {
-            playerScore = playerHasAs+10
-            playerScoreLabel.text = "\(playerScore)"
-        }
     }
 
     func updatePlayerScore(){
@@ -104,9 +102,7 @@ class GameScene: SKScene {
             lost(way: "Bust")
             PlayerBusted = true
         }
-
-    
-
+        
         if playerHasAs >= 1 {
                 if playerScore >= 10 {//////////////////////// A UN AS OU + MAIS A DEPASSÉ 10
                     playerHasOut10 = true
@@ -147,6 +143,7 @@ class GameScene: SKScene {
 
                 }
             }
+        print("PlayerScore : \(playerScore)")
 
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -277,26 +274,29 @@ class GameScene: SKScene {
         if way == "PlayerBust"{
             text.text = "YOU BUST"
             text.fontColor = UIColor.red
-            DisplayEXPnumbers(EXP: -20)
+            EndGameScoreColorRect(User: "Player", Color: UIColor.red)
         }else if way == "Victory" {
             text.text = "WIN"
             text.fontColor = UIColor.green
-            DisplayEXPnumbers(EXP: 45)
+            EndGameScoreColorRect(User: "Player", Color: UIColor.green)
+
         }else if way == "DealerWins" {
             text.text = "LOST"
             text.fontColor = UIColor.red
-            DisplayEXPnumbers(EXP: -25)
+            EndGameScoreColorRect(User: "Dealer", Color: UIColor.red)
         }else if way == "Push"{
             text.text = "PUSH"
             text.fontColor = UIColor.orange
+            EndGameScoreColorRect(User: "Player", Color: UIColor.orange)
+            EndGameScoreColorRect(User: "Dealer", Color: UIColor.orange)
         }else if way == "blackjack"{
             text.text = "BLACKJACK"
             text.fontColor = UIColor.cyan
-            DisplayEXPnumbers(EXP: 60)
+            EndGameScoreColorRect(User: "Player", Color: UIColor.cyan)
         }else if way == "DealerBust"{
             text.text = "DEALERBUST"
             text.fontColor = UIColor.green
-            DisplayEXPnumbers(EXP: 40)
+            EndGameScoreColorRect(User: "Player", Color: UIColor.green)
         }
 
 
@@ -319,7 +319,7 @@ class GameScene: SKScene {
         InnerRectangle.position = CGPoint(x: frame.maxX + 200, y: 3.42*(frame.maxY/4))
         InnerRectangle.fillColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 1)
         InnerRectangle.strokeColor = UIColor(red: 80/255, green: 130/255, blue: 130/255, alpha: 0)
-        InnerRectangle.alpha = 0.8
+        InnerRectangle.alpha = 0.2
         InnerRectangle.zPosition = 10
         
         let OuterRectangle = SKShapeNode(rectOf: CGSize(width: 150, height: 55),cornerRadius: 5)
@@ -329,10 +329,11 @@ class GameScene: SKScene {
         OuterRectangle.zPosition = 9
         
         let ScaleScene = SKAction.scaleX(to: 15, duration: 0.8)
-        let meh = SKAction.fadeAlpha(to: 1, duration: 0.33)
+        let meh = SKAction.fadeAlpha(to: 1, duration: 1.25)
         let InnerAction = SKAction.run{InnerRectangle.run(ScaleScene)
                                 InnerRectangle.run(meh)}
         let OuterAction = SKAction.run{OuterRectangle.run(ScaleScene)}
+        
         let bro = SKAction.wait(forDuration: 0.5)
         let rectSeq = SKAction.sequence([InnerAction,bro,OuterAction])
         
@@ -356,6 +357,13 @@ class GameScene: SKScene {
         //let kards = childNode(withName: "")
     }
     
+    func EndGameScoreColorRect(User : String,Color : UIColor){
+        if User == "Dealer"{
+            dealerScoreRect.strokeColor = Color
+        }else if User == "Player"{
+            playerScoreRect.strokeColor = Color
+        }
+    }
     
     func lost(way:String){
         AlreadyWonLost = true
@@ -805,6 +813,15 @@ class GameScene: SKScene {
                 var randInt = Int.random(in: 2...14)/////////////////////////////////////////////////// RANDOMIZER
                 let waitNextCard = SKAction.wait(forDuration: 0.7)
                 var randFamily = Int.random(in: 0...3)
+                
+                if playerHasAs >= 1 {
+                    if playerScore + playerHasAs + 10 > 21 {
+                        playerScore = playerScore + playerHasAs
+                    }else if playerScore + playerHasAs + 10 < 21 {
+                        playerScore = playerScore + playerHasAs + 10
+                    }
+                }
+                
                 let spawnReturnedCard = SKAction.run {
                    
                   _ = self.funcReturnDealer(card: self.DealerReturnedCard, CardNumber: randInt, FamilyNumber: randFamily)
@@ -856,6 +873,8 @@ class GameScene: SKScene {
                 }
                 //let repeatAction = SKAction.repeat(SKAction.sequence([giveNewCard,waitNextCard,dealerUpdate]),count: 20)
                 run(SKAction.sequence([spawnReturnedCard,waitCardAnim,returnUpdate,waitNextCard,boucle]))
+                
+                print("Playerscore stayed : \(playerScore)")
             }
             
     

@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "77F2362855684B2BF651087256A31C63"
-               BuildableName = "Pods_Blackjack_io.framework"
+               BuildableName = "libPods-Blackjack.io.a"
                BlueprintName = "Pods-Blackjack.io"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>

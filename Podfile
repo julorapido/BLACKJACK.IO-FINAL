@@ -3,8 +3,8 @@
 
 target 'Blackjack.io' do
   # Comment the next line if you don't want to use dynamic frameworks
-  use_frameworks!
-
+  # use_frameworks!
+  pod 'Google-Mobile-Ads-SDK'
   # Pods for Blackjack.io
-    pod 'Google-Mobile-Ads-SDK'
+ 
 end

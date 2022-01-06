@@ -7,18 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0B54EA32C7D48AB43CD5A16E /* Pods_Blackjack_io.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F717E42EF7B4E3440A1A12F8 /* Pods_Blackjack_io.framework */; };
 		5E01B9D72736EBE900AE40D4 /* cardmoov.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5E01B9D62736EBE900AE40D4 /* cardmoov.mp3 */; };
 		5E01B9DB2736F22800AE40D4 /* cardflip.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5E01B9DA2736F22800AE40D4 /* cardflip.mp3 */; };
 		5E61B5A72729DD7A0073778C /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E61B5A62729DD7A0073778C /* GameViewController.swift */; };
 		5E61B5A92729DD910073778C /* TextaW00-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E61B5A82729DD910073778C /* TextaW00-Heavy.ttf */; };
 		5E61B5AB272A157C0073778C /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E61B5AA272A157C0073778C /* GameScene.swift */; };
-		5E61B5AD272AC4430073778C /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E61B5AC272AC4430073778C /* ProgressBarView.swift */; };
 		5E827A562712E6F50005C9D0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E827A552712E6F50005C9D0 /* AppDelegate.swift */; };
 		5E827A612712E6F50005C9D0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E827A5F2712E6F50005C9D0 /* Main.storyboard */; };
 		5E827A632712E6F60005C9D0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E827A622712E6F60005C9D0 /* Assets.xcassets */; };
 		5E827A662712E6F60005C9D0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E827A642712E6F60005C9D0 /* LaunchScreen.storyboard */; };
 		5E827A6F2712E7970005C9D0 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E827A6E2712E7970005C9D0 /* MenuScene.swift */; };
+		9D337652285C4C29860C5072 /* libPods-Blackjack.io.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F62956EDB0765285B3A467A0 /* libPods-Blackjack.io.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +26,6 @@
 		5E61B5A62729DD7A0073778C /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = SOURCE_ROOT; };
 		5E61B5A82729DD910073778C /* TextaW00-Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TextaW00-Heavy.ttf"; sourceTree = SOURCE_ROOT; };
 		5E61B5AA272A157C0073778C /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = SOURCE_ROOT; };
-		5E61B5AC272AC4430073778C /* ProgressBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
 		5E827A522712E6F50005C9D0 /* Blackjack.io.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blackjack.io.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E827A552712E6F50005C9D0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5E827A602712E6F50005C9D0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -37,7 +35,7 @@
 		5E8C0F95271368AD006278C7 /* Blackjack-io-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Blackjack-io-Info.plist"; sourceTree = SOURCE_ROOT; };
 		A2F8332C63F7A8663AB069C2 /* Pods-Blackjack.io.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blackjack.io.release.xcconfig"; path = "Target Support Files/Pods-Blackjack.io/Pods-Blackjack.io.release.xcconfig"; sourceTree = "<group>"; };
 		B9E0A50B1A5F0469395DA32C /* Pods-Blackjack.io.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blackjack.io.debug.xcconfig"; path = "Target Support Files/Pods-Blackjack.io/Pods-Blackjack.io.debug.xcconfig"; sourceTree = "<group>"; };
-		F717E42EF7B4E3440A1A12F8 /* Pods_Blackjack_io.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Blackjack_io.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F62956EDB0765285B3A467A0 /* libPods-Blackjack.io.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Blackjack.io.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,7 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B54EA32C7D48AB43CD5A16E /* Pods_Blackjack_io.framework in Frameworks */,
+				9D337652285C4C29860C5072 /* libPods-Blackjack.io.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,7 +90,6 @@
 				5E61B5A62729DD7A0073778C /* GameViewController.swift */,
 				5E01B9DA2736F22800AE40D4 /* cardflip.mp3 */,
 				5E01B9D62736EBE900AE40D4 /* cardmoov.mp3 */,
-				5E61B5AC272AC4430073778C /* ProgressBarView.swift */,
 			);
 			path = Blackjack.io;
 			sourceTree = "<group>";
@@ -109,7 +106,7 @@
 		C3550DB53856C01A8D91C2BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F717E42EF7B4E3440A1A12F8 /* Pods_Blackjack_io.framework */,
+				F62956EDB0765285B3A467A0 /* libPods-Blackjack.io.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -125,7 +122,6 @@
 				5E827A4E2712E6F50005C9D0 /* Sources */,
 				5E827A4F2712E6F50005C9D0 /* Frameworks */,
 				5E827A502712E6F50005C9D0 /* Resources */,
-				7C8B6B1AA4F592A3F330F0F2 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -208,23 +204,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7C8B6B1AA4F592A3F330F0F2 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Blackjack.io/Pods-Blackjack.io-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Blackjack.io/Pods-Blackjack.io-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Blackjack.io/Pods-Blackjack.io-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -236,7 +215,6 @@
 				5E827A6F2712E7970005C9D0 /* MenuScene.swift in Sources */,
 				5E61B5AB272A157C0073778C /* GameScene.swift in Sources */,
 				5E827A562712E6F50005C9D0 /* AppDelegate.swift in Sources */,
-				5E61B5AD272AC4430073778C /* ProgressBarView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,7 +373,6 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -429,7 +406,6 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
