@@ -15,19 +15,14 @@ class GameScene: SKScene {
     var noas : Bool!
     override func didMove(to view: SKView) {
         defo.set(true, forKey: "SwitchScene")
-        //let waitInteraction = SKAction.wait(forDuration: 1)
-        //isUserInteractionEnabled = false
-        //let enableUserInteraction = SKAction.run {
-        //    (self.isUserInteractionEnabled = true)
-        //}
-        //run(SKAction.sequence([waitInteraction,enableUserInteraction]))
-        backgroundColor = UIColor(red: 15/255, green: 33/255, blue: 46/255, alpha: 1.0)
+
         disableUserInter(time: 1.5)
         let layout = SKAction.run({self.layoutScene()})
         let game = SKAction.run({self.gameSetup();self.displaycards()})
         let wait = SKAction.wait(forDuration: 0.2)
         run(SKAction.sequence([layout,wait,game]))
-        print(frame.maxY / 4)
+        AdaptiveNodes()
+        
     }
     func updateDealerScore() -> Int{
         
@@ -46,19 +41,25 @@ class GameScene: SKScene {
 
         }
         
+        
+        
         if dealerHasAs >= 1 {///////// LE DEALER A UN AS OU PLUS
-            if dealerHasAs + dealerScore + 10 < 21 {//////////// 11 FAIT PAS BUST
-                dealerScoreLabel.text = "\(dealerScore + 11)"
-                dealerScore += 11
-            }else if (dealerHasAs == 1) && (dealerScore == 10) {
-                dealerScore = 21
+            if dealerEncounteredAs == dealerHasAs {
                 dealerScoreLabel.text = "\(dealerScore)"
-                lost(way: "DealerBetterScore")
-            }else if (dealerHasAs + dealerScore + 10) > 21{///////////// LE 11 AS L'AURAIT FAIT BUST
-                dealerScore += 1
-                dealerScoreLabel.text = "\(dealerScore)"
+            }else{
+                if dealerHasAs + dealerScore + 10 < 21 {//////////// 11 FAIT PAS BUST
+                    dealerScoreLabel.text = "\(dealerScore + 11)"
+                    dealerScore += 11
+                }else if (dealerHasAs == 1) && (dealerScore == 10) {
+                    dealerScore = 21
+                    dealerScoreLabel.text = "\(dealerScore)"
+                    lost(way: "DealerBetterScore")
+                }else if (dealerHasAs + dealerScore + 10) > 21{///////////// LE 11 AS L'AURAIT FAIT BUST
+                    dealerScore += 1
+                    dealerScoreLabel.text = "\(dealerScore)"
+                }
             }
-            
+            dealerEncounteredAs += 1
         }
         return(0)
 
@@ -189,12 +190,17 @@ class GameScene: SKScene {
     var hitRect : SKShapeNode!
     var stayRect : SKShapeNode!
 
+    var newNode : SKSpriteNode!
+    
     var StayTouched = 0
     var hitPressed = 0
     
     var gameOver = false
     var vare = false
     
+    var InnerRectangle : SKShapeNode!
+    var OuterRectangle : SKShapeNode!
+    var dealerEncounteredAs = 0
     var PlayercardSpawned = 0
     var DealercardSpawned = 0
     
@@ -223,7 +229,9 @@ class GameScene: SKScene {
     var playerHas10onStart = 0
     var dealerHas10 = 0
     
+
     var deck : SKSpriteNode!
+    var deckpos : CGPoint!
     
     var zCardPositions : CGFloat!
     var addedValue : CGFloat!
@@ -234,6 +242,8 @@ class GameScene: SKScene {
     let soundSpawnCard = SKAction.playSoundFileNamed("", waitForCompletion: false)
     //let NewCardX : CGFloat!
     //let NewCardY : CGFloat!
+    
+    var background : SKSpriteNode!
     
     var dealercard1 : SKSpriteNode!
     
@@ -248,6 +258,7 @@ class GameScene: SKScene {
     var playercard3 : SKSpriteNode!
 
     var AutomaticHIT = false
+    
     func transition(){
         let comebackScene = MenuScene(size: view!.bounds.size)
         let reveal = SKTransition.reveal(with: .right, duration: 0.33)
@@ -423,12 +434,47 @@ class GameScene: SKScene {
         
     }
     
-    
+    func layerToSKSpritenode(layer : CALayer) -> SKSpriteNode {
+        let view = UIView()
+        layer.frame = self.frame
+        view.layer.addSublayer(layer)
+        UIGraphicsBeginImageContext(self.frame.size)
+        view.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let bgImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        newNode = SKSpriteNode(texture: SKTexture(image: bgImage))
+        return(newNode)
+    }
+        
+    func MakeCGcolor(RED : CGFloat, GREEN : CGFloat,BLUE : CGFloat) -> CGColor {
+        return(CGColor(red: RED/255, green: GREEN/255, blue: BLUE/255, alpha: 1.0))
+    }
+
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     func layoutScene(){
+        let a = MakeCGcolor(RED: 9, GREEN: 18, BLUE: 27)
+        let b = MakeCGcolor(RED: 10, GREEN: 19, BLUE: 29)
+        let c = MakeCGcolor(RED: 11, GREEN: 22 , BLUE: 31)
+        let d = MakeCGcolor(RED: 13, GREEN: 24 , BLUE: 33)
+
+        let gradient = CAGradientLayer()
+            gradient.type = .axial
+            
+            gradient.colors = [
+                a,
+                b,
+                c,
+                d,
+                c,
+                b,
+                a,
+            ]
+        gradient.removeFromSuperlayer()
+        gradient.frame = self.view!.bounds
+        background = layerToSKSpritenode(layer: gradient)
    
         func TopRect(){
             let rect = SKShapeNode(rectOf: CGSize(width: frame.maxX , height: frame.midY / 3),cornerRadius: 40)
@@ -442,7 +488,7 @@ class GameScene: SKScene {
         }
         func MidRect(){
 
-            let rect1 = SKShapeNode(rectOf: CGSize(width: frame.maxX - 13, height: frame.midY + 60), cornerRadius: 10)
+            let rect1 = SKShapeNode(rectOf: CGSize(width: frame.maxX - 12, height: frame.midY + 61), cornerRadius: 10)
             rect1.position = CGPoint(x: frame.midX, y: frame.midY)
             //rect1.fillColor = UIColor(red: 15/255, green: 33/255, blue: 200/255, alpha: 1.0)
             rect1.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
@@ -452,12 +498,13 @@ class GameScene: SKScene {
             let rect2 = SKShapeNode(rectOf: CGSize(width: frame.maxX - 13, height: frame.midY + 60), cornerRadius: 10)
             rect2.position = CGPoint(x: frame.midX, y: frame.midY)
             //rect2.fillColor = UIColor(red: 15/255, green: 33/255, blue: 46/255, alpha: 1.0)
-            rect2.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0.4)
+            rect2.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0.1)
             rect2.lineWidth = CGFloat(3.5)
-            rect2.zPosition = -10
+            rect2.zPosition = -9
             addChild(rect1)
-            addChild(rect2)
-
+            rect1.run(SKAction.fadeAlpha(to: 1, duration: 1))
+            //addChild(rect2)
+            //xrect2.run(SKAction.fadeAlpha(to: 1, duration: 1))
         }
 
         func BottomRect(){
@@ -471,11 +518,12 @@ class GameScene: SKScene {
         
         func deckq(){
             deck = SKSpriteNode(imageNamed: "blue deck")
-            deck.position = CGPoint(x: frame.maxX - 75, y: ((frame.maxY)-(frame.maxY / 8.3)))
+            deck.position = CGPoint(x: frame.maxX - 40, y: frame.maxY + 40)
             deck.xScale = 0.23
             deck.yScale = 0.2
             deck.zPosition = -10
             addChild(deck)
+            deck.run(SKAction.move(to: deckpos  , duration: 1))
         }
         func hitfunc(){
             hitbutton = SKSpriteNode(imageNamed: "HIT")
@@ -509,6 +557,9 @@ class GameScene: SKScene {
         stayfunc()
         BottomRect()
         TopRect()
+        background.zPosition = -100
+        background.position = CGPoint(x: frame.width/2, y: frame.height/2)
+        addChild(background)
         
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -636,7 +687,20 @@ class GameScene: SKScene {
         return(card)
     }
     
+    
+    func AdaptiveNodes(){
+        if (frame.maxY) <= CGFloat(580){///////////////// IPOD
 
+            
+        }else if (frame.maxY) > CGFloat(600) && (frame.maxY) < CGFloat(730){///////////////// IPHONE 7 8
+            deckpos = CGPoint(x: frame.maxX - 75, y: ((frame.maxY)-(frame.maxY / 8.3)))
+        }else if (frame.maxY) > CGFloat(736) && (frame.maxY) < CGFloat(900){////////////////// IPHONE XR 11 12 13
+            deckpos = CGPoint(x: frame.maxX - 75, y: ((frame.maxY)-(frame.maxY / 9.5)))
+        }else if (frame.maxY) > CGFloat(900){///////////// IPHONE MAX 13 MAX 12 MAX
+            deckpos = CGPoint(x: frame.maxX - 75, y: ((frame.maxY)-(frame.maxY / 9.5)))
+        }
+
+    }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -9,7 +9,6 @@
 
 import SpriteKit
 import UIKit
-import SwiftUI
 //import GoogleMobileAds
 //MAX X IPHONE 8 : 375
 // MAX X IPHONE 8 PLUS : 414
@@ -142,8 +141,10 @@ class MenuScene: SKScene {
 
     func layoutScene(){
         let a = MakeCGcolor(RED: 9, GREEN: 18, BLUE: 27)
-        let b = MakeCGcolor(RED: 15, GREEN: 33, BLUE: 46)
-        let c = MakeCGcolor(RED: 12, GREEN: 22, BLUE: 35)
+        let b = MakeCGcolor(RED: 10, GREEN: 19, BLUE: 29)
+        let c = MakeCGcolor(RED: 11, GREEN: 22 , BLUE: 31)
+        let d = MakeCGcolor(RED: 13, GREEN: 24 , BLUE: 33)
+
 
         let gradient = CAGradientLayer()
             gradient.type = .axial
@@ -151,7 +152,14 @@ class MenuScene: SKScene {
             gradient.colors = [
                 a,
                 b,
-                c
+                c,
+                d,
+
+                c,
+                b,
+                a,
+        
+                
             ]
         gradient.removeFromSuperlayer()
         gradient.frame = self.view!.bounds
@@ -305,6 +313,7 @@ class MenuScene: SKScene {
             if (frame.maxY) <= CGFloat(580){///////////////// IPOD
                 AdaptiveValue = CGFloat(0.45)
                 SideButtons(Scaling: 0.05)
+                
             }else if (frame.maxY) > CGFloat(600) && (frame.maxY) < CGFloat(730){///////////////// IPHONE 7 8
                 AdaptiveValue = CGFloat(0.52)
                 SideButtons(Scaling: 0.06)

@@ -17,6 +17,7 @@
 		5E827A632712E6F60005C9D0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E827A622712E6F60005C9D0 /* Assets.xcassets */; };
 		5E827A662712E6F60005C9D0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E827A642712E6F60005C9D0 /* LaunchScreen.storyboard */; };
 		5E827A6F2712E7970005C9D0 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E827A6E2712E7970005C9D0 /* MenuScene.swift */; };
+		5E960527278A12C100019D6C /* LaunchScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E960526278A12C100019D6C /* LaunchScene.swift */; };
 		9D337652285C4C29860C5072 /* libPods-Blackjack.io.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F62956EDB0765285B3A467A0 /* libPods-Blackjack.io.a */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +34,7 @@
 		5E827A652712E6F60005C9D0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5E827A6E2712E7970005C9D0 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		5E8C0F95271368AD006278C7 /* Blackjack-io-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Blackjack-io-Info.plist"; sourceTree = SOURCE_ROOT; };
+		5E960526278A12C100019D6C /* LaunchScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScene.swift; sourceTree = "<group>"; };
 		A2F8332C63F7A8663AB069C2 /* Pods-Blackjack.io.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blackjack.io.release.xcconfig"; path = "Target Support Files/Pods-Blackjack.io/Pods-Blackjack.io.release.xcconfig"; sourceTree = "<group>"; };
 		B9E0A50B1A5F0469395DA32C /* Pods-Blackjack.io.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blackjack.io.debug.xcconfig"; path = "Target Support Files/Pods-Blackjack.io/Pods-Blackjack.io.debug.xcconfig"; sourceTree = "<group>"; };
 		F62956EDB0765285B3A467A0 /* libPods-Blackjack.io.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Blackjack.io.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,6 +85,7 @@
 				5E8FCFCF2714E86F007E3501 /* Assets */,
 				5E8C0F95271368AD006278C7 /* Blackjack-io-Info.plist */,
 				5E827A552712E6F50005C9D0 /* AppDelegate.swift */,
+				5E960526278A12C100019D6C /* LaunchScene.swift */,
 				5E827A5F2712E6F50005C9D0 /* Main.storyboard */,
 				5E827A642712E6F60005C9D0 /* LaunchScreen.storyboard */,
 				5E827A6E2712E7970005C9D0 /* MenuScene.swift */,
@@ -215,6 +218,7 @@
 				5E827A6F2712E7970005C9D0 /* MenuScene.swift in Sources */,
 				5E61B5AB272A157C0073778C /* GameScene.swift in Sources */,
 				5E827A562712E6F50005C9D0 /* AppDelegate.swift in Sources */,
+				5E960527278A12C100019D6C /* LaunchScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,13 +295,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -346,12 +351,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -385,7 +392,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -418,7 +425,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

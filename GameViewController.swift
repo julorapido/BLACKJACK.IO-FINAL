@@ -43,6 +43,7 @@ class GameViewController: UIViewController {
     
         if let view = self.view as! SKView? {
             let scene = MenuScene(size: view.bounds.size)
+            let launch = LaunchScreen(size: view.bounds.size)
             bannerView = GADBannerView(adSize: GADAdSizeBanner)
             //addBannerViewToView(bannerView)
             //bannerView.rootViewController = self
@@ -50,7 +51,7 @@ class GameViewController: UIViewController {
             //bannerView.load(GADRequest())
             
                 scene.scaleMode = .aspectFill
-                view.presentScene(scene)
+                view.presentScene(launch)
                 view.showsFPS = true
                 view.ignoresSiblingOrder = true
                 view.showsNodeCount = true
