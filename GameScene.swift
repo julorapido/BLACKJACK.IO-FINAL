@@ -150,28 +150,22 @@ class GameScene: SKScene {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     func DisplayEXPnumbers(EXP : Int){
-        let randDivisor = Int.random(in: 7...9)
-        let vector = CGVector(dx: 0, dy: 20)
-        let FadeGoUp = SKAction.run {
-            SKAction.fadeAlpha(to: 1, duration: 0.8)
-            SKAction.move(by: vector, duration: 0.8)
+        let fadeSequence = SKAction.sequence([SKAction.fadeAlpha(to: 1, duration: 1),SKAction.fadeAlpha(to: 0, duration: 0.75)])
+        var vector : CGVector!
+        let ExpText = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        
+        if EXP > 0 {
+            vector = CGVector(dx: 0, dy: 15)
+        }else if EXP < 0 {
+            vector = CGVector(dx: 0, dy: -15)
+
         }
-        let numberToShow = EXP/randDivisor
-        for i in 0...randDivisor {
-            let ExpText = SKLabelNode(fontNamed: "TextaW00-Heavy")
-            let randX = Int.random(in: -10...10)
-            let randY = Int.random(in: -10...10)
-            ExpText.text = "+ \(String(numberToShow))"
-            let randomSpawnCG = CGPoint(x: frame.midX + CGFloat(randX) , y: frame.midY +  CGFloat(randY))
-            ExpText.position = randomSpawnCG
-            ExpText.alpha = 0.6
-            ExpText.fontSize = 10
-            ExpText.run(SKAction.fadeAlpha(to: 1, duration: 0.8))
-            ExpText.run(SKAction.move(by: vector, duration: 0.8))
-            addChild(ExpText)
-            
-            
-        }
+        let vectorSequence = SKAction.move(by: vector, duration: 1.5)
+        ExpText.text =  "\(EXP)"
+        ExpText.fontSize = 15
+        ExpText.run(fadeSequence)
+        ExpText.run(vectorSequence)
+        
     }
     //var layout = SKAction.run()
 
@@ -261,7 +255,7 @@ class GameScene: SKScene {
     
     func transition(){
         let comebackScene = MenuScene(size: view!.bounds.size)
-        let reveal = SKTransition.reveal(with: .right, duration: 0.33)
+        let reveal = SKTransition.crossFade(withDuration: 0.5)
         comebackScene.scaleMode = .aspectFill
         view!.presentScene(comebackScene,transition: reveal)
     }
@@ -290,7 +284,7 @@ class GameScene: SKScene {
             text.text = "WIN"
             text.fontColor = UIColor.green
             EndGameScoreColorRect(User: "Player", Color: UIColor.green)
-
+            DisplayEXPnumbers(EXP: 25)
         }else if way == "DealerWins" {
             text.text = "LOST"
             text.fontColor = UIColor.red
@@ -300,14 +294,19 @@ class GameScene: SKScene {
             text.fontColor = UIColor.orange
             EndGameScoreColorRect(User: "Player", Color: UIColor.orange)
             EndGameScoreColorRect(User: "Dealer", Color: UIColor.orange)
+            DisplayEXPnumbers(EXP: 0)
+
         }else if way == "blackjack"{
             text.text = "BLACKJACK"
             text.fontColor = UIColor.cyan
             EndGameScoreColorRect(User: "Player", Color: UIColor.cyan)
+            DisplayEXPnumbers(EXP: 50)
+
         }else if way == "DealerBust"{
             text.text = "DEALERBUST"
             text.fontColor = UIColor.green
             EndGameScoreColorRect(User: "Player", Color: UIColor.green)
+            
         }
 
 
@@ -455,10 +454,9 @@ class GameScene: SKScene {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     func layoutScene(){
-        let a = MakeCGcolor(RED: 9, GREEN: 18, BLUE: 27)
-        let b = MakeCGcolor(RED: 10, GREEN: 19, BLUE: 29)
-        let c = MakeCGcolor(RED: 11, GREEN: 22 , BLUE: 31)
-        let d = MakeCGcolor(RED: 13, GREEN: 24 , BLUE: 33)
+        let a = MakeCGcolor(RED: 0, GREEN: 14, BLUE: 29)
+        let b = MakeCGcolor(RED: 0, GREEN: 23, BLUE: 45)
+        let c = MakeCGcolor(RED: 0, GREEN: 12 , BLUE: 26)
 
         let gradient = CAGradientLayer()
             gradient.type = .axial
@@ -466,11 +464,8 @@ class GameScene: SKScene {
             gradient.colors = [
                 a,
                 b,
-                c,
-                d,
-                c,
-                b,
-                a,
+                c
+        
             ]
         gradient.removeFromSuperlayer()
         gradient.frame = self.view!.bounds

@@ -62,7 +62,44 @@ class MenuScene: SKScene {
         }
     }
     
+    func Particles(XValue : CGPoint){
+        var exodeX = CGFloat(16)
+        var exodeY = CGFloat(7)
+        let zizou = Int.random(in: 1...2)
+        let zizou2 = Int.random(in: 1...2)
+        var rotateValue : Double!
+        if zizou == 1 {
+            exodeX = -(exodeX)
+            rotateValue = M_PI/4
+        }else if zizou == 2{
+            exodeY = -(exodeY)
+            rotateValue = -M_PI/4
+
+        }
+            
     
+        let exodeAction = SKAction.move(by: CGVector(dx: exodeX, dy: exodeY), duration: 2.25)
+        let fadeSequence = SKAction.sequence([SKAction.fadeAlpha(to: 0.7, duration: 1.1),SKAction.fadeAlpha(to: 0, duration: 1.1)])
+        let square = SKShapeNode(rectOf: CGSize(width: 4, height: 4))
+        let rotating = SKAction.rotate(byAngle: rotateValue, duration: 2)
+        let scaleSequence = SKAction.sequence([SKAction.scale(by: 1.3, duration: 1),SKAction.scale(by: 0.6, duration: 1)])
+        square.fillColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
+        square.strokeColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0)
+        square.alpha = 0.2
+
+        square.zPosition = -99
+     
+        
+        let randomValue = Int.random(in: 1...30)
+        let fdp = CGFloat(randomValue)
+            square.position = CGPoint(x: XValue.x + fdp, y: XValue.y + fdp)
+            addChild(square)
+            square.run(exodeAction)
+        square.run(fadeSequence)
+        square.run(rotating)
+        square.run(scaleSequence)
+        
+    }
     
     
     func pressedButton (button: SKSpriteNode, time : CGFloat, scale : CGFloat) -> SKAction {
@@ -140,10 +177,10 @@ class MenuScene: SKScene {
 
 
     func layoutScene(){
-        let a = MakeCGcolor(RED: 9, GREEN: 18, BLUE: 27)
-        let b = MakeCGcolor(RED: 10, GREEN: 19, BLUE: 29)
-        let c = MakeCGcolor(RED: 11, GREEN: 22 , BLUE: 31)
-        let d = MakeCGcolor(RED: 13, GREEN: 24 , BLUE: 33)
+        let a = MakeCGcolor(RED: 0, GREEN: 14, BLUE: 29)
+        let b = MakeCGcolor(RED: 0, GREEN: 23, BLUE: 45)
+        let c = MakeCGcolor(RED: 0, GREEN: 38 , BLUE: 77)
+
 
 
         let gradient = CAGradientLayer()
@@ -152,13 +189,7 @@ class MenuScene: SKScene {
             gradient.colors = [
                 a,
                 b,
-                c,
-                d,
-
-                c,
-                b,
-                a,
-        
+                c
                 
             ]
         gradient.removeFromSuperlayer()
@@ -227,39 +258,34 @@ class MenuScene: SKScene {
         func SideButtons(Scaling : CGFloat){
             musicImage.xScale = Scaling
             musicImage.yScale = Scaling
-            soundImage.xScale = Scaling - CGFloat(0.005)
-            soundImage.yScale = Scaling - CGFloat(0.005)
-            SkinShop.xScale = Scaling + CGFloat(0.45)
-            SkinShop.yScale = Scaling + CGFloat(0.45)
+            soundImage.xScale = Scaling - CGFloat(0.01)
+            soundImage.yScale = Scaling - CGFloat(0.01)
+            SkinShop.xScale = Scaling + CGFloat(0.25)
+            SkinShop.yScale = Scaling + CGFloat(0.25)
         }
         
         let lvltext = SKLabelNode(fontNamed: "TextaW00-Heavy")
         lvltext.position = CGPoint(x:frame.midX, y: (3.9 * (frame.maxY/5)))
         lvltext.fontSize = 20
         lvltext.text = "LEVEL \(defaults.integer(forKey: "UserLvl"))"
+        
+        let lvlrect = SKShapeNode(rectOf: CGSize(width: 100, height: 30), cornerRadius: 10)
+        lvlrect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
+        lvlrect.strokeColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
+        lvlrect.position = CGPoint(x:frame.midX, y: (3.95 * (frame.maxY/5)))
+
+        
         let expText = SKLabelNode(fontNamed: "TextaW00-Heavy")
         expText.position = CGPoint(x: 3.25*(frame.maxX/4), y: 0.85*(frame.maxY/9))
         expText.text = "EXP  \(Int(usexp))|\((Int(uselvl)) * 100)"
         expText.fontSize = 15
         let expRect = SKShapeNode(rectOf: CGSize(width: 100, height: 30), cornerRadius: 10)
         expRect.position = CGPoint(x: 3.25*(frame.maxX/4), y: 0.91*(frame.maxY/9))
-        expRect.fillColor = UIColor(red: 13/255, green: 20/255, blue: 41/255, alpha: 1)
-        expRect.strokeColor = UIColor(red: 13/255, green: 20/255, blue: 41/255, alpha: 1)
+        expRect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
+        expRect.strokeColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
 
         
         
-        let expBar = SKShapeNode(rectOf: CGSize(width: expTaille, height: 13), cornerRadius: 2)
-        expBar.strokeColor = .clear
-        expBar.fillColor = UIColor(red: 232/255, green: 233/255, blue: 243/255, alpha: 1)
-        expBar.position = CGPoint(x: frame.midX , y: 8*(frame.maxY/9))
-        expBar.lineWidth = CGFloat(2.5)
-        expBar.zPosition = -10
-        let bar = SKShapeNode(rectOf: CGSize(width: (4*frame.maxX/5.5), height: 20), cornerRadius: 9.5)
-        bar.fillColor = .clear
-        bar.lineWidth = CGFloat(3)
-        bar.strokeColor = UIColor(red: 232/255, green: 233/255, blue: 243/255, alpha: 1)
-        bar.position = CGPoint(x: frame.midX , y: 8*(frame.maxY/9))
-        bar.zPosition = 10
         
 
                 
@@ -278,8 +304,8 @@ class MenuScene: SKScene {
         CoinsText.fontSize = 20
         let CoinsRect = SKShapeNode(rectOf: CGSize(width: 80, height: 35), cornerRadius: 10)
         CoinsRect.position = CGPoint(x: 0.725*(frame.maxX/4), y: 0.9*(frame.maxY/9))
-        CoinsRect.fillColor = UIColor(red: 13/255, green: 20/255, blue: 41/255, alpha: 1)
-        CoinsRect.strokeColor = UIColor(red: 13/255, green: 20/255, blue: 41/255, alpha: 1)
+        CoinsRect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
+        CoinsRect.strokeColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
         Coins = SKSpriteNode(texture: SKTexture(imageNamed: "COINS1"))
         Coins.zPosition = 20
         Coins.position = CGPoint(x: 0.85*(frame.maxX/4), y: 0.91*(frame.maxY/9))
@@ -292,7 +318,7 @@ class MenuScene: SKScene {
         addChild(Coins)
         addChild(CoinsText)
         addChild(CoinsRect)
-
+        addChild(lvlrect)
         
         func MenuCards(){
             var randInt = Int.random(in: 2...14)
@@ -312,28 +338,28 @@ class MenuScene: SKScene {
             print("yValue:\(yValue)")
             if (frame.maxY) <= CGFloat(580){///////////////// IPOD
                 AdaptiveValue = CGFloat(0.45)
-                SideButtons(Scaling: 0.05)
+                SideButtons(Scaling: 0.2)
                 
             }else if (frame.maxY) > CGFloat(600) && (frame.maxY) < CGFloat(730){///////////////// IPHONE 7 8
                 AdaptiveValue = CGFloat(0.52)
-                SideButtons(Scaling: 0.06)
+                SideButtons(Scaling: 0.18)
             }else if (frame.maxY) > CGFloat(736) && (frame.maxY) < CGFloat(900){////////////////// IPHONE XR 11 12 13
                 AdaptiveValue = CGFloat(0.55)
-                SideButtons(Scaling: 0.07)
+                SideButtons(Scaling: 0.2)
             }else if (frame.maxY) > CGFloat(900){///////////// IPHONE MAX 13 MAX 12 MAX
                 AdaptiveValue = CGFloat(0.585)
-                SideButtons(Scaling: 0.07)
+                SideButtons(Scaling: 0.21)
             }
             upperCard.alpha = CGFloat(0.6)
             bottomCard.alpha = CGFloat(0.6)
             func swapCardSide(node: SKSpriteNode, texture : SKTexture){
                 let swapCardSide = SKAction.run {
-                    node.run(SKAction.scaleX(to: 0.2, duration: 0.1));///// REDUIT UN PEU LA CARTE
+                    node.run(SKAction.scaleX(to: 0.2, duration: 0.26));///// REDUIT UN PEU LA CARTE
                     node.texture = texture;
                     node.run(SKAction.scaleX(to: -0.36, duration: 0))////////////// SPAWN CARTE EN MIROIR
-                    node.run(SKAction.scaleX(to: -0.06, duration: 0.08))//////// RETOURNEMENT 1/2
+                    node.run(SKAction.scaleX(to: -0.06, duration: 0.26))//////// RETOURNEMENT 1/2
                     node.run(SKAction.scaleX(to: 0.06, duration: 0))//////////// MIROIR LA CARTE (taille reduite)
-                    node.run(SKAction.scaleX(to: AdaptiveValue, duration: 0.15))////////////// REMET A TAILLE NORMALE
+                    node.run(SKAction.scaleX(to: AdaptiveValue, duration: 0.26))////////////// REMET A TAILLE NORMALE
                     
                 }
                 run(swapCardSide)
@@ -410,11 +436,39 @@ class MenuScene: SKScene {
         MenuCards()
         //oins()
         addChild(expRect)
-        //addChild(bar)
-        //addChild(expBar)
         addChild(expText)
         addChild(lvltext)
         
+        let wait4 = SKAction.wait(forDuration: 4.25)
+        let wait3 = SKAction.wait(forDuration: 3.2)
+        let e = SKAction.run{self.Particles(XValue: CGPoint(x: self.frame.midX, y: self.frame.midY))}
+        let f = SKAction.run{self.Particles(XValue: CGPoint(x: 2*(self.frame.maxX/5), y: 4*(self.frame.maxY/5)))}
+        let t = SKAction.run{self.Particles(XValue: CGPoint(x: 1*(self.frame.maxX/5), y: 4.6*(self.frame.maxY/5)))}
+        let y = SKAction.run{self.Particles(XValue: CGPoint(x: 3.4*(self.frame.maxX/5), y: 3.5*(self.frame.maxY/5)))}
+        let p = SKAction.run{self.Particles(XValue: CGPoint(x: 0.7*(self.frame.maxX/5), y: 4*(self.frame.maxY/5)))}
+        let pp = SKAction.run{self.Particles(XValue: CGPoint(x: 0.4*(self.frame.maxX/5), y: 1.6*(self.frame.maxY/5)))}
+
+        
+        let o = SKAction.run{self.Particles(XValue: CGPoint(x: 1*(self.frame.maxX/5), y: 4*(self.frame.maxY/10)))}
+        let oo = SKAction.run{self.Particles(XValue: CGPoint(x: 3.5*(self.frame.maxX/5), y: 4*(self.frame.maxY/10)))}
+
+        let i = SKAction.run{self.Particles(XValue: CGPoint(x: 1.5*(self.frame.maxX/5), y: 1*(self.frame.maxY/10)))}
+        let ii = SKAction.run{self.Particles(XValue: CGPoint(x: 3.25*(self.frame.maxX/5), y: 1*(self.frame.maxY/10)))}
+        run(SKAction.repeatForever(SKAction.sequence([wait4,e])))
+        run(SKAction.repeatForever(SKAction.sequence([wait3,f])))
+        run(SKAction.repeatForever(SKAction.sequence([t,wait4])))
+        run(SKAction.repeatForever(SKAction.sequence([wait3,y])))
+        run(SKAction.repeatForever(SKAction.sequence([i,wait4])))
+        run(SKAction.repeatForever(SKAction.sequence([wait3,ii])))
+        run(SKAction.repeatForever(SKAction.sequence([o,wait4])))
+        run(SKAction.repeatForever(SKAction.sequence([oo,wait3])))
+        run(SKAction.repeatForever(SKAction.sequence([p,wait4])))
+        run(SKAction.repeatForever(SKAction.sequence([pp,wait3])))
+
+
+
+
+
         addChild(soundImage)
         addChild(musicImage)
         addChild(SkinShop)
