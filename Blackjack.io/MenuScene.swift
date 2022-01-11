@@ -21,8 +21,6 @@ class MenuScene: SKScene {
         for i in 1...10 {
             CoinsTexture.append(SKTexture(imageNamed: "COINS\(i)"))
         }
-        print("maxX : \(frame.maxX)")
-        print("maxY :\(frame.maxY)")
         layoutScene()
         playbuttonFunc()
         blackjackpng()
@@ -144,6 +142,7 @@ class MenuScene: SKScene {
     let fadeAction = SKAction.fadeAlpha(to: 0.95, duration: 0.2)
     let pressedAction = SKAction.scale(to: 0.7, duration: 0.3)
     var musicImage :SKSpriteNode!
+    
     func disableUserInter(time :Double){
         let disable = SKAction.run {
             self.isUserInteractionEnabled = false
@@ -154,6 +153,8 @@ class MenuScene: SKScene {
         }
         run(SKAction.sequence([disable,waitTime,enable]))
     }
+    
+    
     func layerToSKSpritenode(layer : CALayer) -> SKSpriteNode {
         let view = UIView()
         layer.frame = self.frame

@@ -291,36 +291,36 @@ class GameScene: SKScene {
         if way == "PlayerBust"{
             text.text = "YOU BUST"
             text.fontColor = UIColor.red
-            EndGameScoreColorRect(User: "Player", Color: UIColor.red)
+            EndGameScoreColorRect(User: "Player", Color: UIColor.red, WinState: true)
             DisplayEXPnumbers(EXP: -20)
 
         }else if way == "Victory" {
             text.text = "WIN"
             text.fontColor = UIColor.green
-            EndGameScoreColorRect(User: "Player", Color: UIColor.green)
+            EndGameScoreColorRect(User: "Player", Color: UIColor.green, WinState: false)
             DisplayEXPnumbers(EXP: 25)
         }else if way == "DealerWins" {
             text.text = "LOST"
             text.fontColor = UIColor.red
-            EndGameScoreColorRect(User: "Dealer", Color: UIColor.red)
+            EndGameScoreColorRect(User: "Dealer", Color: UIColor.red, WinState: true)
             DisplayEXPnumbers(EXP: -20)
         }else if way == "Push"{
             text.text = "PUSH"
             text.fontColor = UIColor.orange
-            EndGameScoreColorRect(User: "Player", Color: UIColor.orange)
-            EndGameScoreColorRect(User: "Dealer", Color: UIColor.orange)
+            EndGameScoreColorRect(User: "Player", Color: UIColor.orange, WinState: false)
+            EndGameScoreColorRect(User: "Dealer", Color: UIColor.orange, WinState: false)
             DisplayEXPnumbers(EXP: 0)
 
         }else if way == "blackjack"{
             text.text = "BLACKJACK"
             text.fontColor = UIColor.cyan
-            EndGameScoreColorRect(User: "Player", Color: UIColor.cyan)
+            EndGameScoreColorRect(User: "Player", Color: UIColor.cyan, WinState: true)
             DisplayEXPnumbers(EXP: 50)
 
         }else if way == "DealerBust"{
             text.text = "DEALERBUST"
             text.fontColor = UIColor.green
-            EndGameScoreColorRect(User: "Player", Color: UIColor.green)
+            EndGameScoreColorRect(User: "Player", Color: UIColor.green, WinState: true)
             DisplayEXPnumbers(EXP: 35)
 
         }
@@ -383,13 +383,37 @@ class GameScene: SKScene {
         //let kards = childNode(withName: "")
     }
     
-    func EndGameScoreColorRect(User : String,Color : UIColor){
+    func EndGameScoreColorRect(User : String,Color : UIColor, WinState : Bool){
+        
+        let rect1 = SKShapeNode(rect: CGRect(x: frame.midX-30, y: frame.midY-30, width: 62, height: 37),cornerRadius: 10)
+        rect1.fillColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0)
+        rect1.lineWidth = CGFloat(2)
+        rect1.strokeColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
+
+        let rect2 = SKShapeNode(rect: CGRect(x: frame.midX-30, y: frame.midY-30, width: 62, height: 37),cornerRadius: 10)
+        rect2.fillColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0)
+        rect2.lineWidth = CGFloat(2)
+        rect2.strokeColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
+
+        
+        let rect3 = SKShapeNode(rect: CGRect(x: frame.midX-30, y: frame.midY-30, width: 62, height: 37),cornerRadius: 10)
+
+        rect3.fillColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0)
+        rect3.lineWidth = CGFloat(2)
+        rect3.strokeColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
+
+        
         if User == "Dealer"{
             dealerScoreRect.strokeColor = Color
         }else if User == "Player"{
             playerScoreRect.strokeColor = Color
         }
+        if WinState == true {
+            addChild(rect1)
+
+        }
     }
+    
     
     func lost(way:String){
         AlreadyWonLost = true
@@ -470,9 +494,9 @@ class GameScene: SKScene {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     func layoutScene(){
-        let a = MakeCGcolor(RED: 0, GREEN: 14, BLUE: 29)
+        let a = MakeCGcolor(RED: 0, GREEN: 12, BLUE: 24)
         let b = MakeCGcolor(RED: 0, GREEN: 23, BLUE: 45)
-        let c = MakeCGcolor(RED: 0, GREEN: 12 , BLUE: 26)
+        let c = MakeCGcolor(RED: 0, GREEN: 38 , BLUE: 77)
 
         let gradient = CAGradientLayer()
             gradient.type = .axial
