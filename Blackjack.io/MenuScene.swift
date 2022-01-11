@@ -63,8 +63,8 @@ class MenuScene: SKScene {
     }
     
     func Particles(XValue : CGPoint){
-        var exodeX = CGFloat(16)
-        var exodeY = CGFloat(7)
+        var exodeX = CGFloat(30)
+        var exodeY = CGFloat(10)
         let zizou = Int.random(in: 1...2)
         let zizou2 = Int.random(in: 1...2)
         var rotateValue : Double!
@@ -78,8 +78,8 @@ class MenuScene: SKScene {
         }
             
     
-        let exodeAction = SKAction.move(by: CGVector(dx: exodeX, dy: exodeY), duration: 2.25)
-        let fadeSequence = SKAction.sequence([SKAction.fadeAlpha(to: 0.7, duration: 1.1),SKAction.fadeAlpha(to: 0, duration: 1.1)])
+        let exodeAction = SKAction.move(by: CGVector(dx: exodeX, dy: exodeY), duration: 2.6)
+        let fadeSequence = SKAction.sequence([SKAction.fadeAlpha(to: 0.7, duration: 1.3),SKAction.fadeAlpha(to: 0, duration: 1.3)])
         let square = SKShapeNode(rectOf: CGSize(width: 4, height: 4))
         let rotating = SKAction.rotate(byAngle: rotateValue, duration: 2)
         let scaleSequence = SKAction.sequence([SKAction.scale(by: 1.3, duration: 1),SKAction.scale(by: 0.6, duration: 1)])
@@ -313,12 +313,12 @@ class MenuScene: SKScene {
         Coins.yScale = 0.35
         Coins.run(SKAction.rotate(toAngle: M_PI/2,duration: 0.01))
         
-        
 
         addChild(Coins)
         addChild(CoinsText)
         addChild(CoinsRect)
         addChild(lvlrect)
+        
         
         func MenuCards(){
             var randInt = Int.random(in: 2...14)
@@ -327,7 +327,7 @@ class MenuScene: SKScene {
             let RandomCardTexture = SKTexture(imageNamed: "\(randInt) \(family[randFamily])")
             let upperCard = SKSpriteNode(imageNamed: "backk")
             let bottomCard = SKSpriteNode(texture: RandomCardTexture)
-            //upperCard.size = CGSize(width: frame.maxX/4.15, height: frame.maxY/6.5)//°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+            //upperCard.size = CGSize(width: frame.maxX/4.15, height: frame.maxY/6.5)//
             //bottomCard.size = CGSize(width: frame.maxX/4.25, height: frame.maxY/6.25)
             upperCard.xScale = 0.15
             upperCard.yScale = 0.13
@@ -372,6 +372,8 @@ class MenuScene: SKScene {
 
                 bottomCard.position = CGPoint(x: frame.minX - 30, y: frame.midY - 50)
                 upperCard.position = CGPoint(x: frame.maxX + 30, y: frame.midY + 50)
+                bottomCard.zPosition = 3
+                upperCard.zPosition = 2
                 addChild(upperCard)
                 addChild(bottomCard)
                 let upperMove = SKAction.move(to: CGPoint(x: frame.midX - 50, y: frame.midY + 53), duration: 0.15)
@@ -440,6 +442,7 @@ class MenuScene: SKScene {
         addChild(lvltext)
         
         let wait4 = SKAction.wait(forDuration: 4.25)
+        let wait5 = SKAction.wait(forDuration: 3.9)
         let wait3 = SKAction.wait(forDuration: 3.2)
         let e = SKAction.run{self.Particles(XValue: CGPoint(x: self.frame.midX, y: self.frame.midY))}
         let f = SKAction.run{self.Particles(XValue: CGPoint(x: 2*(self.frame.maxX/5), y: 4*(self.frame.maxY/5)))}
@@ -454,16 +457,24 @@ class MenuScene: SKScene {
 
         let i = SKAction.run{self.Particles(XValue: CGPoint(x: 1.5*(self.frame.maxX/5), y: 1*(self.frame.maxY/10)))}
         let ii = SKAction.run{self.Particles(XValue: CGPoint(x: 3.25*(self.frame.maxX/5), y: 1*(self.frame.maxY/10)))}
+        
+        let pd = SKAction.run{self.Particles(XValue: CGPoint(x: 2.1*(self.frame.maxX/5), y: 3.7*(self.frame.maxY/10)))}
+        
+        let z = SKAction.run{self.Particles(XValue: CGPoint(x: 4.4*(self.frame.maxX/5), y: 9*(self.frame.maxY/10)))}
         run(SKAction.repeatForever(SKAction.sequence([wait4,e])))
         run(SKAction.repeatForever(SKAction.sequence([wait3,f])))
-        run(SKAction.repeatForever(SKAction.sequence([t,wait4])))
+        run(SKAction.repeatForever(SKAction.sequence([t,wait5])))
         run(SKAction.repeatForever(SKAction.sequence([wait3,y])))
-        run(SKAction.repeatForever(SKAction.sequence([i,wait4])))
+        run(SKAction.repeatForever(SKAction.sequence([i,wait5])))
         run(SKAction.repeatForever(SKAction.sequence([wait3,ii])))
         run(SKAction.repeatForever(SKAction.sequence([o,wait4])))
-        run(SKAction.repeatForever(SKAction.sequence([oo,wait3])))
+        run(SKAction.repeatForever(SKAction.sequence([oo,wait5])))
         run(SKAction.repeatForever(SKAction.sequence([p,wait4])))
-        run(SKAction.repeatForever(SKAction.sequence([pp,wait3])))
+        run(SKAction.repeatForever(SKAction.sequence([pp,wait5])))
+        run(SKAction.repeatForever(SKAction.sequence([z,wait3])))
+        run(SKAction.repeatForever(SKAction.sequence([pd,wait3])))
+
+
 
 
 

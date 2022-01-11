@@ -46,6 +46,7 @@ class GameScene: SKScene {
         if dealerHasAs >= 1 {///////// LE DEALER A UN AS OU PLUS
             if dealerEncounteredAs == dealerHasAs {
                 dealerScoreLabel.text = "\(dealerScore)"
+                return(0)
             }else{
                 if dealerHasAs + dealerScore + 10 < 21 {//////////// 11 FAIT PAS BUST
                     dealerScoreLabel.text = "\(dealerScore + 11)"
@@ -149,23 +150,34 @@ class GameScene: SKScene {
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    func DisplayEXPnumbers(EXP : Int){
+    func DisplayEXPnumbers(EXP : Int) -> SKLabelNode{
         let fadeSequence = SKAction.sequence([SKAction.fadeAlpha(to: 1, duration: 1),SKAction.fadeAlpha(to: 0, duration: 0.75)])
         var vector : CGVector!
+        var OperatorString : String!
         let ExpText = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        
+        ExpText.position = CGPoint(x: 2.7*(frame.maxX/5), y: 1.77*(frame.maxY/4))
+        ExpText.zPosition = 20
         if EXP > 0 {
             vector = CGVector(dx: 0, dy: 15)
+            OperatorString = "+"
         }else if EXP < 0 {
             vector = CGVector(dx: 0, dy: -15)
+            OperatorString = "-"
+        }else if EXP == 0 {
+            vector = CGVector(dx: 15, dy: 0)
+            OperatorString = "+"
 
         }
+        print("ddddd")
         let vectorSequence = SKAction.move(by: vector, duration: 1.5)
-        ExpText.text =  "\(EXP)"
-        ExpText.fontSize = 15
+        addChild(ExpText)
+        var exptext = String(EXP)
+        var zbeub = OperatorString + exptext + "exp"
+        ExpText.text =  "\(zbeub)"
+        ExpText.fontSize = 18
         ExpText.run(fadeSequence)
         ExpText.run(vectorSequence)
-        
+        return(ExpText)
     }
     //var layout = SKAction.run()
 
@@ -280,6 +292,8 @@ class GameScene: SKScene {
             text.text = "YOU BUST"
             text.fontColor = UIColor.red
             EndGameScoreColorRect(User: "Player", Color: UIColor.red)
+            DisplayEXPnumbers(EXP: -20)
+
         }else if way == "Victory" {
             text.text = "WIN"
             text.fontColor = UIColor.green
@@ -289,6 +303,7 @@ class GameScene: SKScene {
             text.text = "LOST"
             text.fontColor = UIColor.red
             EndGameScoreColorRect(User: "Dealer", Color: UIColor.red)
+            DisplayEXPnumbers(EXP: -20)
         }else if way == "Push"{
             text.text = "PUSH"
             text.fontColor = UIColor.orange
@@ -306,7 +321,8 @@ class GameScene: SKScene {
             text.text = "DEALERBUST"
             text.fontColor = UIColor.green
             EndGameScoreColorRect(User: "Player", Color: UIColor.green)
-            
+            DisplayEXPnumbers(EXP: 35)
+
         }
 
 
