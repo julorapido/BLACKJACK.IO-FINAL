@@ -84,13 +84,13 @@
 			children = (
 				5E8FCFCF2714E86F007E3501 /* Assets */,
 				5E8C0F95271368AD006278C7 /* Blackjack-io-Info.plist */,
+				5E61B5A62729DD7A0073778C /* GameViewController.swift */,
 				5E827A552712E6F50005C9D0 /* AppDelegate.swift */,
-				5E960526278A12C100019D6C /* LaunchScene.swift */,
 				5E827A5F2712E6F50005C9D0 /* Main.storyboard */,
 				5E827A642712E6F60005C9D0 /* LaunchScreen.storyboard */,
+				5E960526278A12C100019D6C /* LaunchScene.swift */,
 				5E827A6E2712E7970005C9D0 /* MenuScene.swift */,
 				5E61B5AA272A157C0073778C /* GameScene.swift */,
-				5E61B5A62729DD7A0073778C /* GameViewController.swift */,
 				5E01B9DA2736F22800AE40D4 /* cardflip.mp3 */,
 				5E01B9D62736EBE900AE40D4 /* cardmoov.mp3 */,
 			);

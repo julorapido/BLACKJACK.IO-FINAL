@@ -16,7 +16,7 @@ class MenuScene: SKScene {
     
     
     override func didMove(to view: SKView) {
-        print("SwitchScene"+String(defaults.bool(forKey: "SwitchScene")))
+        print("f launch = "+String(defaults.bool(forKey: "FirstLaunch")))
         var CoinsTexture:[SKTexture] = []
         for i in 1...10 {
             CoinsTexture.append(SKTexture(imageNamed: "COINS\(i)"))
@@ -25,12 +25,9 @@ class MenuScene: SKScene {
         playbuttonFunc()
         blackjackpng()
         AnimateCoins(TimeInterval: 0.1)
-        defaults.set(true, forKey: "FirstLaunch")
-        if defaults.bool(forKey: "SwitchScene") == false {
-            
-            background.run(SKAction.fadeAlpha(to: 1, duration: 0.8))
+        if defaults.bool(forKey: "FirstLaunch") == true {
+            AdustNodeApparitions()
         }
-        defaults.synchronize()
 
     }
         
@@ -40,8 +37,7 @@ class MenuScene: SKScene {
     public func intUserDefaults(value: Int, key: String){
         defaults.set(key, forKey: "\(key)")
     }
-    let firstLaunch: Void = UserDefaults.standard.set(true, forKey: "FirstLaunch")
-    let SwitchedToGameScene: Void = UserDefaults.standard.set(false, forKey: "SwitchScene")
+
     var background : SKSpriteNode!
     
 
@@ -127,7 +123,10 @@ class MenuScene: SKScene {
         button.run(RectPressedAction)
         return(RectPressedAction)
     }
-    
+    var expRect : SKShapeNode!
+    var expText : SKLabelNode!
+    var CoinsRect : SKShapeNode!
+    var CoinsText : SKLabelNode!
     var GiftText : SKLabelNode!
     var GiftImage : SKSpriteNode!
     var CardsSpawned = false
@@ -276,11 +275,12 @@ class MenuScene: SKScene {
         lvlrect.position = CGPoint(x:frame.midX, y: (3.95 * (frame.maxY/5)))
 
         
-        let expText = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        expText = SKLabelNode(fontNamed: "TextaW00-Heavy")
         expText.position = CGPoint(x: 3.25*(frame.maxX/4), y: 0.85*(frame.maxY/9))
         expText.text = "EXP  \(Int(usexp))|\((Int(uselvl)) * 100)"
         expText.fontSize = 15
-        let expRect = SKShapeNode(rectOf: CGSize(width: 100, height: 30), cornerRadius: 10)
+        
+        expRect = SKShapeNode(rectOf: CGSize(width: 100, height: 30), cornerRadius: 10)
         expRect.position = CGPoint(x: 3.25*(frame.maxX/4), y: 0.91*(frame.maxY/9))
         expRect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
         expRect.strokeColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
@@ -299,11 +299,11 @@ class MenuScene: SKScene {
         
             
         
-        let CoinsText = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        CoinsText = SKLabelNode(fontNamed: "TextaW00-Heavy")
         CoinsText.position = CGPoint(x: 0.575*(frame.maxX/4), y: 0.81*(frame.maxY/9))
         CoinsText.text = "50"
         CoinsText.fontSize = 20
-        let CoinsRect = SKShapeNode(rectOf: CGSize(width: 80, height: 35), cornerRadius: 10)
+        CoinsRect = SKShapeNode(rectOf: CGSize(width: 80, height: 35), cornerRadius: 10)
         CoinsRect.position = CGPoint(x: 0.725*(frame.maxX/4), y: 0.9*(frame.maxY/9))
         CoinsRect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
         CoinsRect.strokeColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
@@ -526,14 +526,53 @@ class MenuScene: SKScene {
         addChild(borderRect)
     }
 
-    
+    func  AdustNodeApparitions() {
+        
+        
+        
+        CoinsRect.position = CGPoint(x: frame.minX - 60, y: 0.9*(frame.maxY/9))
+        CoinsText.position = CGPoint(x: frame.minX - 60, y: 0.81*(frame.maxY/9))
+        Coins.position = CGPoint(x: frame.minX - 60, y: 0.91*(frame.maxY/9))
+        Coins.alpha = CGFloat(0.1)
+        CoinsText.alpha = CGFloat(0.1)
+        CoinsRect.alpha = CGFloat(0.1)
+        
+        let text = CGPoint(x: 0.575*(frame.maxX/4), y: 0.81*(frame.maxY/9))
+        let rect = CGPoint(x: 0.725*(frame.maxX/4), y: 0.9*(frame.maxY/9))
+        let coin = CGPoint(x: 0.85*(frame.maxX/4), y: 0.91*(frame.maxY/9))
+        let moveAction1 = SKAction.move(to: text, duration: 1)
+        let moveAction2 = SKAction.move(to: rect, duration: 1)
+        let moveAction3 = SKAction.move(to: coin, duration: 1)
+        let fadeAction = SKAction.fadeAlpha(to: 1, duration: 1.25)
+  
+        
+        CoinsRect.run(moveAction2)
+        CoinsText.run(moveAction1)
+        Coins.run(moveAction3)
+        CoinsRect.run(fadeAction)
+        CoinsText.run(fadeAction)
+        Coins.run(fadeAction)
+        
+        
+        
+        expText.position = CGPoint(x: frame.maxX + 40, y: 0.85*(frame.maxY/9))
+        expRect.position = CGPoint(x: frame.maxX + 40, y: 0.91*(frame.maxY/9))
+        
+        let exprectt = CGPoint(x: 3.25*(frame.maxX/4), y: 0.91*(frame.maxY/9))
+        let expTextt = CGPoint(x: 3.25*(frame.maxX/4), y: 0.85*(frame.maxY/9))
+        
+        let moveActionn1 = SKAction.move(to: exprectt, duration: 1)
+        let moveActionn2 = SKAction.move(to: expTextt, duration: 1)
+        
+        expText.run(moveActionn1)
+        expRect.run(moveActionn2)
+        
+        
 
-    
+    }
+
     func blackjackpng(){
   
-        //gradient.zPosition = -100
-        //view?.layer.addSublayer(gradient)
-        //view?.layer.insertSublayer(gradient,below: base )
         
         let blackjackText = SKLabelNode(fontNamed:"TextaW00-Heavy")
         blackjackText.xScale = 0.9

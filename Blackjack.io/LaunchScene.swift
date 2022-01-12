@@ -12,9 +12,7 @@ class LaunchScreen: SKScene{
     override func didMove(to view: SKView) {
         LaunchNodes()
         Loading()
-        
-        let wait = SKAction.wait(forDuration: 1.85)
-        run(SKAction.sequence([wait,SKAction.run{self.startgame()}]))
+        defaults.set(true, forKey: "FirstLaunch")
         
     }
     
@@ -22,11 +20,15 @@ class LaunchScreen: SKScene{
         let Menuscene = MenuScene(size: view!.bounds.size)
         let f = SKTransition.crossFade(withDuration: 0.66)
         Menuscene.scaleMode = .aspectFill
-        view!.presentScene(Menuscene,transition: f)
+        let switche = SKAction.run{self.view!.presentScene(Menuscene,transition: f)}
+        run(SKAction.sequence([SKAction.wait(forDuration: 1.5),switche]))
     }
     
-    
-    
+    var LoadingState = 0
+    var outerRect : SKShapeNode!
+    var rect : SKShapeNode!
+    public let defaults = UserDefaults.standard
+
     func LaunchNodes(){
   
         
@@ -35,7 +37,7 @@ class LaunchScreen: SKScene{
         let template = SKSpriteNode(texture: SKTexture(imageNamed: "templatee"))
         template.xScale = 0.4
         template.yScale = 0.4
-        template.position = CGPoint(x: frame.midX, y: frame.midY)
+        template.position = CGPoint(x: frame.midX, y: 0.7*(frame.midY/5))
         let generator = UIImpactFeedbackGenerator(style: .light)
         generator.impactOccurred()
         
@@ -44,11 +46,15 @@ class LaunchScreen: SKScene{
         title.fontSize = 19
         title.position = CGPoint(x: frame.midX, y: 1*(frame.midY/5))
         
+        rect = SKShapeNode(rect: CGRect(x: frame.midX - (4*(frame.maxX/5)/2), y: frame.midY, width: 4*(frame.maxX/5), height: 25), cornerRadius: 10)
+        rect.fillColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
+
+        outerRect = SKShapeNode(rect: CGRect(x: frame.midX - (4.2*(frame.maxX/5)/2), y: frame.midY - 5, width: 4.2*(frame.maxX/5), height: 35), cornerRadius: 10)
+        outerRect.fillColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0)
+        outerRect.lineWidth = CGFloat(3.5)
         
-        
-        
-        
-        
+        addChild(outerRect)
+        addChild(rect)
         addChild(title)
         addChild(template)
     }
@@ -59,7 +65,6 @@ class LaunchScreen: SKScene{
         var multiplicator = 1
         var familyList = ["CARREAU", "COEUR", "PIC", "TREFLE"]
         var index = 0
-        
         var Renderedlist = [SKTexture]()
         for i in 1...52{
             if i > 4 * multiplicator {
@@ -67,9 +72,7 @@ class LaunchScreen: SKScene{
                 index = 0
             }
             Renderedlist.append(SKTexture(imageNamed: "\(multiplicator + 1) \(familyList[index])"))
-            //print(Renderedlist)
             index += 1
-
         }
         Renderedlist.append(SKTexture(imageNamed: "HIT"))
         Renderedlist.append(SKTexture(imageNamed: "STAND"))
@@ -80,12 +83,18 @@ class LaunchScreen: SKScene{
         for i in 1...10{
             Renderedlist.append(SKTexture(imageNamed: "COINS\(i)"))
         }
-
+        var z = 0
+        //rect.xScale = 2
         for each in Renderedlist {
             each.preload {
-                print("The texture is ready!")
-            }
-        }
+                //print("The texture is ready! \(z)/\(Renderedlist.count)")
 
+            }
+            z += 1
+            rect.xScale = CGFloat(z) * ((4*(frame.maxX/5))/62)
+        }
+        if z == Renderedlist.count {
+            startgame()
+        }
     }
 }

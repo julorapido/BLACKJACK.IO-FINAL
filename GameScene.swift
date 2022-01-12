@@ -14,14 +14,15 @@ class GameScene: SKScene {
     
     var noas : Bool!
     override func didMove(to view: SKView) {
-        defo.set(true, forKey: "SwitchScene")
-
+        defo.set(false, forKey: "FirstLaunch")
         disableUserInter(time: 1.5)
         let layout = SKAction.run({self.layoutScene()})
         let game = SKAction.run({self.gameSetup();self.displaycards()})
         let wait = SKAction.wait(forDuration: 0.2)
         run(SKAction.sequence([layout,wait,game]))
         AdaptiveNodes()
+        print("f launch = "+String(defo.bool(forKey: "FirstLaunch")))
+
         
     }
     func updateDealerScore() -> Int{
