@@ -10,10 +10,17 @@ import SpriteKit
 
 class LaunchScreen: SKScene{
     override func didMove(to view: SKView) {
+        defaults.register(defaults: [
+            "FIRSTEVERLAUNCH" : true
+        ])
+        defaults.set(true, forKey: "FirstLaunch")
         LaunchNodes()
         Loading()
-        defaults.set(true, forKey: "FirstLaunch")
-        
+        if defaults.bool(forKey: "FIRSTEVERLAUNCH") == true {
+            StartPlayerData()
+        }
+        defaults.set(false, forKey: "LastGameVictory?")
+
     }
     
     func startgame(){
@@ -97,4 +104,13 @@ class LaunchScreen: SKScene{
             startgame()
         }
     }
+    
+    func  StartPlayerData() {
+        defaults.set(true, forKey: "musicon")
+        defaults.set(0, forKey: "UserExp")
+        defaults.set(1, forKey: "UserLvl")
+        defaults.set(true, forKey: "soundon")
+        defaults.set(0, forKey: "UserCoins")
+            }
+
 }

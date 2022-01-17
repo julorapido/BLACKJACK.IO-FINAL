@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		39573979CE006240A9CDE5B8 /* Pods_Blackjack_io.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D15684635BF5133ECF1088 /* Pods_Blackjack_io.framework */; };
 		5E01B9D72736EBE900AE40D4 /* cardmoov.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5E01B9D62736EBE900AE40D4 /* cardmoov.mp3 */; };
 		5E01B9DB2736F22800AE40D4 /* cardflip.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5E01B9DA2736F22800AE40D4 /* cardflip.mp3 */; };
 		5E61B5A72729DD7A0073778C /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E61B5A62729DD7A0073778C /* GameViewController.swift */; };
@@ -18,10 +19,10 @@
 		5E827A662712E6F60005C9D0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E827A642712E6F60005C9D0 /* LaunchScreen.storyboard */; };
 		5E827A6F2712E7970005C9D0 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E827A6E2712E7970005C9D0 /* MenuScene.swift */; };
 		5E960527278A12C100019D6C /* LaunchScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E960526278A12C100019D6C /* LaunchScene.swift */; };
-		9D337652285C4C29860C5072 /* libPods-Blackjack.io.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F62956EDB0765285B3A467A0 /* libPods-Blackjack.io.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		50D15684635BF5133ECF1088 /* Pods_Blackjack_io.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Blackjack_io.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E01B9D62736EBE900AE40D4 /* cardmoov.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = cardmoov.mp3; sourceTree = SOURCE_ROOT; };
 		5E01B9DA2736F22800AE40D4 /* cardflip.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = cardflip.mp3; sourceTree = SOURCE_ROOT; };
 		5E61B5A62729DD7A0073778C /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -37,7 +38,6 @@
 		5E960526278A12C100019D6C /* LaunchScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScene.swift; sourceTree = "<group>"; };
 		A2F8332C63F7A8663AB069C2 /* Pods-Blackjack.io.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blackjack.io.release.xcconfig"; path = "Target Support Files/Pods-Blackjack.io/Pods-Blackjack.io.release.xcconfig"; sourceTree = "<group>"; };
 		B9E0A50B1A5F0469395DA32C /* Pods-Blackjack.io.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blackjack.io.debug.xcconfig"; path = "Target Support Files/Pods-Blackjack.io/Pods-Blackjack.io.debug.xcconfig"; sourceTree = "<group>"; };
-		F62956EDB0765285B3A467A0 /* libPods-Blackjack.io.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Blackjack.io.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,7 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D337652285C4C29860C5072 /* libPods-Blackjack.io.a in Frameworks */,
+				39573979CE006240A9CDE5B8 /* Pods_Blackjack_io.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,7 +109,7 @@
 		C3550DB53856C01A8D91C2BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F62956EDB0765285B3A467A0 /* libPods-Blackjack.io.a */,
+				50D15684635BF5133ECF1088 /* Pods_Blackjack_io.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

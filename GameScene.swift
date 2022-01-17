@@ -21,10 +21,33 @@ class GameScene: SKScene {
         let wait = SKAction.wait(forDuration: 0.2)
         run(SKAction.sequence([layout,wait,game]))
         AdaptiveNodes()
-        print("f launch = "+String(defo.bool(forKey: "FirstLaunch")))
+        print("gAMESECENE lasvictory : \(defo.bool(forKey: "LastGameVictory?"))")
+
 
         
     }
+    func ModifyPlayerData(Exp : Int, CoinsWon : Int ){
+        let PreviousCoin = defo.integer(forKey: "UserCoins")
+        defo.set(PreviousCoin+CoinsWon, forKey: "UserCoins")
+        
+        let PreviousExp = defo.integer(forKey: "UserExp")
+        
+        if Exp > 0 {
+            defo.set(PreviousExp + Exp, forKey: "UserExp")
+        }else if Exp < 0 {
+            if PreviousExp > 0 {
+                if PreviousExp >= Exp {
+                    defo.set(PreviousExp + Exp, forKey: "UserExp")
+                }else if PreviousExp < Exp {
+                    defo.set(PreviousExp - PreviousExp, forKey: "UserExp")
+                }
+            }else if PreviousExp < 0 {
+                print("NAN CHEH")
+            }
+        }
+        
+    }
+    
     func updateDealerScore() -> Int{
         
         if dealerHasAs == 1 {////////////////// LE DEALER A 21
@@ -72,7 +95,7 @@ class GameScene: SKScene {
             DealerBusted = true
         }
         if dealerScore <= 21{
-          if dealerScore < playerScore + playerHasAs{
+          if dealerScore < playerScore {
                 won(alt: "VICTORY")
                 
             }
@@ -85,8 +108,13 @@ class GameScene: SKScene {
                 lost(way: "DealerBetterScore")
             }
         }
+        if dealerScore == 21 {
+            if dealerScore > playerScore {
+                lost(way: "DealerBetterScore")
+
+            }
+        }
         
-        print("Dealerscore : \(dealerScore)")
     }
 
     func updatePlayerScoreStayPressed(){
@@ -96,6 +124,13 @@ class GameScene: SKScene {
                 playerScoreLabel.text = "\(playerScore)"
                 }
             }
+        if playerHasAs >= 1 {
+            if playerScore + playerHasAs + 10 > 21 {
+                playerScore = playerScore + playerHasAs
+            }else if playerScore + playerHasAs + 10 < 21 {
+                playerScore = playerScore + playerHasAs + 10
+            }
+        }
         
     }
 
@@ -146,7 +181,6 @@ class GameScene: SKScene {
 
                 }
             }
-        print("PlayerScore : \(playerScore)")
 
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -163,13 +197,13 @@ class GameScene: SKScene {
             OperatorString = "+"
         }else if EXP < 0 {
             vector = CGVector(dx: 0, dy: -15)
-            OperatorString = "-"
+            OperatorString = ""
+
         }else if EXP == 0 {
             vector = CGVector(dx: 15, dy: 0)
             OperatorString = "+"
 
         }
-        print("ddddd")
         let vectorSequence = SKAction.move(by: vector, duration: 1.5)
         addChild(ExpText)
         var exptext = String(EXP)
@@ -193,6 +227,11 @@ class GameScene: SKScene {
     let waitingtime =  SKAction.wait(forDuration: 10)
 
     var doubleass = 0
+    
+    var rect3 : SKShapeNode!
+    var rect2 : SKShapeNode!
+    var rect1 : SKShapeNode!
+
     
     var hitRect : SKShapeNode!
     var stayRect : SKShapeNode!
@@ -231,7 +270,7 @@ class GameScene: SKScene {
     var DealerReturnedCard : SKSpriteNode!
     var playerHasOut10 = false
 
-    
+    let CoinsNodes : SKSpriteNode! = nil
     var AlreadyWonLost = false
     var playerHas10onStart = 0
     var dealerHas10 = 0
@@ -246,7 +285,6 @@ class GameScene: SKScene {
     var  playerHasAsonStart = false
     var playercard10 = false
 
-    let soundSpawnCard = SKAction.playSoundFileNamed("", waitForCompletion: false)
     //let NewCardX : CGFloat!
     //let NewCardY : CGFloat!
     
@@ -273,7 +311,14 @@ class GameScene: SKScene {
         view!.presentScene(comebackScene,transition: reveal)
     }
     func EndGameText(way:String){
-    
+        let remove = SKAction.run {
+            self.removeFromParent()
+        }
+        for child in self.children {
+            if child.name == "kards"{
+                child.run(SKAction.sequence([SKAction.wait(forDuration: 1.2),SKAction.fadeOut(withDuration: 0.66),remove]))
+            }
+        }
         let effectsNode = SKEffectNode()
         let filter = CIFilter(name:"CIGaussianBlur",parameters: ["inputRadius": 10.0])
         effectsNode.filter = filter
@@ -289,44 +334,68 @@ class GameScene: SKScene {
         text.fontSize = 33
         text.position = CGPoint(x: frame.maxX + 50, y: 3.35*(frame.maxY/4))
         text.zPosition = 10
+        let InnerRectangle = SKShapeNode(rectOf: CGSize(width: 150, height: 50),cornerRadius: 5)
+        InnerRectangle.position = CGPoint(x: frame.maxX + 200, y: 3.42*(frame.maxY/4))
+        InnerRectangle.strokeColor = UIColor(red: 80/255, green: 130/255, blue: 130/255, alpha: 0)
+        InnerRectangle.alpha = 0.2
+        InnerRectangle.zPosition = 10
+        
         if way == "PlayerBust"{
             text.text = "YOU BUST"
             text.fontColor = UIColor.red
-            EndGameScoreColorRect(User: "Player", Color: UIColor.red, WinState: true)
+            EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: true)
             DisplayEXPnumbers(EXP: -20)
+            ModifyPlayerData(Exp: -20, CoinsWon: 0)
+            InnerRectangle.fillColor = UIColor(red: 15/255, green: 32/255, blue: 45/255, alpha: 1)
+
 
         }else if way == "Victory" {
-            text.text = "WIN"
-            text.fontColor = UIColor.green
-            EndGameScoreColorRect(User: "Player", Color: UIColor.green, WinState: false)
+            text.text = "VICTORY"
+            text.fontColor = UIColor.white
+            EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: false)
             DisplayEXPnumbers(EXP: 25)
+            ModifyPlayerData(Exp: 25, CoinsWon: 2)
+            defo.set(true,forKey: "LastGameVictory?")
+            InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
+
+
         }else if way == "DealerWins" {
-            text.text = "LOST"
-            text.fontColor = UIColor.red
-            EndGameScoreColorRect(User: "Dealer", Color: UIColor.red, WinState: true)
+            text.text = "DEALER WINS"
+            text.fontColor = UIColor.white
+            EndGameScoreColorRect(User: "Dealer", Color: UIColor.white, WinState: true)
             DisplayEXPnumbers(EXP: -20)
+            ModifyPlayerData(Exp: -20, CoinsWon: 0)
+            InnerRectangle.fillColor = UIColor(red: 15/255, green: 32/255, blue: 45/255, alpha: 1)
+
+
         }else if way == "Push"{
             text.text = "PUSH"
-            text.fontColor = UIColor.orange
-            EndGameScoreColorRect(User: "Player", Color: UIColor.orange, WinState: false)
-            EndGameScoreColorRect(User: "Dealer", Color: UIColor.orange, WinState: false)
+            text.fontColor = UIColor.white
+            EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: false)
+            EndGameScoreColorRect(User: "Dealer", Color: UIColor.white, WinState: false)
+            InnerRectangle.fillColor = UIColor(red: 15/255, green: 32/255, blue: 45/255, alpha: 1)
             DisplayEXPnumbers(EXP: 0)
+            ModifyPlayerData(Exp: 0, CoinsWon: 0)
 
         }else if way == "blackjack"{
             text.text = "BLACKJACK"
-            text.fontColor = UIColor.cyan
-            EndGameScoreColorRect(User: "Player", Color: UIColor.cyan, WinState: true)
+            text.fontColor = UIColor.white
+            EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: true)
+            InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
             DisplayEXPnumbers(EXP: 50)
-
+            ModifyPlayerData(Exp: 50, CoinsWon: 5)
+            
+            defo.set(true,forKey: "LastGameVictory?")
         }else if way == "DealerBust"{
             text.text = "DEALERBUST"
-            text.fontColor = UIColor.green
-            EndGameScoreColorRect(User: "Player", Color: UIColor.green, WinState: true)
+            text.fontColor = UIColor.white
+            EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: true)
             DisplayEXPnumbers(EXP: 35)
+            ModifyPlayerData(Exp: 35, CoinsWon: 2)
+            InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
+            defo.set(true,forKey: "LastGameVictory?")
 
         }
-
-
         let addText = SKAction.run {
             self.addChild(text)
             text.alpha = CGFloat(0.3)
@@ -342,17 +411,13 @@ class GameScene: SKScene {
         
         let waitvitefait = SKAction.wait(forDuration: 0.6)
         
-        let InnerRectangle = SKShapeNode(rectOf: CGSize(width: 150, height: 50),cornerRadius: 5)
-        InnerRectangle.position = CGPoint(x: frame.maxX + 200, y: 3.42*(frame.maxY/4))
-        InnerRectangle.fillColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 1)
-        InnerRectangle.strokeColor = UIColor(red: 80/255, green: 130/255, blue: 130/255, alpha: 0)
-        InnerRectangle.alpha = 0.2
-        InnerRectangle.zPosition = 10
+
         
-        let OuterRectangle = SKShapeNode(rectOf: CGSize(width: 150, height: 55),cornerRadius: 5)
+        let OuterRectangle = SKShapeNode(rectOf: CGSize(width: 150, height: 50),cornerRadius: 5)
         OuterRectangle.position = CGPoint(x: frame.maxX + 200, y: 3.42*(frame.maxY/4))
-        OuterRectangle.strokeColor = UIColor(red: 40/255, green: 80/255, blue: 80/255, alpha: 0)
-        OuterRectangle.fillColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+        OuterRectangle.strokeColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+        OuterRectangle.fillColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 0)
+        OuterRectangle.lineWidth = CGFloat(5.5)
         OuterRectangle.zPosition = 9
         
         let ScaleScene = SKAction.scaleX(to: 15, duration: 0.8)
@@ -374,11 +439,8 @@ class GameScene: SKScene {
                 rectSeq
             ]))
             self.deck.run(SKAction.moveTo(y: self.frame.maxY + 100, duration: 0.6))
+
         }
-
-
-
-        
         run(SKAction.sequence([waitvitefait,VectorAll,wait,trans]))
         
         //let kards = childNode(withName: "")
@@ -386,53 +448,71 @@ class GameScene: SKScene {
     
     func EndGameScoreColorRect(User : String,Color : UIColor, WinState : Bool){
         
-        let rect1 = SKShapeNode(rect: CGRect(x: frame.midX-30, y: frame.midY-30, width: 62, height: 37),cornerRadius: 10)
+        rect1 = SKShapeNode(rectOf: CGSize(width: 60, height: 35),cornerRadius: 10)
         rect1.fillColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0)
         rect1.lineWidth = CGFloat(2)
         rect1.strokeColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
+        rect1.zPosition = CGFloat(1)
 
-        let rect2 = SKShapeNode(rect: CGRect(x: frame.midX-30, y: frame.midY-30, width: 62, height: 37),cornerRadius: 10)
+        rect2 = SKShapeNode(rectOf: CGSize(width: 60, height: 35),cornerRadius: 10)
         rect2.fillColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0)
         rect2.lineWidth = CGFloat(2)
         rect2.strokeColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
-
+        rect2.zPosition = CGFloat(1)
         
-        let rect3 = SKShapeNode(rect: CGRect(x: frame.midX-30, y: frame.midY-30, width: 62, height: 37),cornerRadius: 10)
-
+        rect3 = SKShapeNode(rectOf: CGSize(width: 60, height: 35),cornerRadius: 10)
         rect3.fillColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0)
         rect3.lineWidth = CGFloat(2)
         rect3.strokeColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
-
+        rect3.zPosition = CGFloat(1)
+        
+        addChild(rect1)
+        addChild(rect2)
+        addChild(rect3)
+        
+        rect1.run(SKAction.fadeOut(withDuration: 0.8))
+        rect1.run(SKAction.scaleX(to: 1.3, duration: 1))
+        rect1.run(SKAction.scaleY(to: 1.15, duration: 1))
+        
+        rect2.run(SKAction.fadeOut(withDuration: 0.65))
+        rect2.run(SKAction.scaleX(to: 1.35, duration: 1))
+        rect2.run(SKAction.scaleY(to: 1.2, duration: 1))
+        
+        rect3.run(SKAction.fadeOut(withDuration: 0.5))
+        rect3.run(SKAction.scaleX(to: 1.4, duration: 1))
+        rect3.run(SKAction.scaleY(to: 1.25, duration: 1))
         
         if User == "Dealer"{
             dealerScoreRect.strokeColor = Color
+            rect1.position = CGPoint(x: frame.midX, y:2.88*(frame.maxY/4))
+            rect2.position = CGPoint(x: frame.midX, y:2.88*(frame.maxY/4))
+            rect3.position = CGPoint(x: frame.midX, y:2.88*(frame.maxY/4))
+
         }else if User == "Player"{
             playerScoreRect.strokeColor = Color
-        }
-        if WinState == true {
-            addChild(rect1)
+            rect2.position = CGPoint(x: frame.midX, y: frame.midY-10)
+            rect1.position = CGPoint(x: frame.midX, y: frame.midY-10)
+            rect3.position = CGPoint(x: frame.midX, y: frame.midY-10)
 
         }
-    }
+        if WinState == true {
     
+        }
+    }
+
     
     func lost(way:String){
         AlreadyWonLost = true
         isUserInteractionEnabled = false
-        let previousExp = defo.integer(forKey: "UserExp")
         
         
         if way == "Bust"{
             EndGameText(way: "PlayerBust")
-            if previousExp > 0 {
-                defo.set(previousExp - 20 , forKey: "UserExp")
-            }
+
             
         }else if way == "DealerBetterScore"{
             EndGameText(way: "DealerWins")
-            if previousExp > 0 {
-                defo.set(previousExp - 25, forKey: "UserExp")
-            }
+   
         }
     }
 
@@ -446,30 +526,22 @@ class GameScene: SKScene {
     func won(alt : String){
         AlreadyWonLost = true
         isUserInteractionEnabled = false
-        let previousExp = defo.integer(forKey: "UserExp")
         hitbutton.isUserInteractionEnabled = false
         staybutton.isUserInteractionEnabled = false
 
         
         if alt == "DealerBust"{
-            if previousExp >= 0 {
-                defo.set(40 + previousExp, forKey: "UserExp")
-            }
+
             EndGameText(way: "DealerBust")
 
             
         }else if alt == "VICTORY"{
 
             EndGameText(way: "Victory")
-            if previousExp >= 0 {
-            defo.set(45 + previousExp, forKey: "UserExp")
-            }
+
 
         }else if alt == "BLACKJACK"{
             EndGameText(way: "blackjack")
-            if previousExp >= 0 {
-                defo.set(60 + previousExp, forKey: "UserExp")
-            }
         }
         
     }
@@ -493,8 +565,78 @@ class GameScene: SKScene {
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    func Particles(XValue : CGPoint){
+        var exodeX = CGFloat(30)
+        var exodeY = CGFloat(10)
+        let zizou = Int.random(in: 1...2)
+        let zizou2 = Int.random(in: 1...2)
+        var rotateValue : Double!
+        if zizou == 1 {
+            exodeX = -(exodeX)
+            rotateValue = M_PI/4
+        }else if zizou == 2{
+            exodeY = -(exodeY)
+            rotateValue = -M_PI/4
+
+        }
+            
+    
+        let exodeAction = SKAction.move(by: CGVector(dx: exodeX, dy: exodeY), duration: 2.6)
+        let fadeSequence = SKAction.sequence([SKAction.fadeAlpha(to: 0.7, duration: 1.3),SKAction.fadeAlpha(to: 0, duration: 1.3)])
+        let square = SKShapeNode(rectOf: CGSize(width: 4, height: 4))
+        let rotating = SKAction.rotate(byAngle: rotateValue, duration: 2)
+        let scaleSequence = SKAction.sequence([SKAction.scale(by: 1.3, duration: 1),SKAction.scale(by: 0.6, duration: 1)])
+        square.fillColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
+        square.strokeColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0)
+        square.alpha = 0.2
+
+        square.zPosition = -99
+     
+        
+        let randomValue = Int.random(in: 1...30)
+        let fdp = CGFloat(randomValue)
+            square.position = CGPoint(x: XValue.x + fdp, y: XValue.y + fdp)
+            addChild(square)
+            square.run(exodeAction)
+        square.run(fadeSequence)
+        square.run(rotating)
+        square.run(scaleSequence)
+        
+    }
 
     func layoutScene(){
+        let wait4 = SKAction.wait(forDuration: 4.25)
+        let wait5 = SKAction.wait(forDuration: 3.9)
+        let wait3 = SKAction.wait(forDuration: 3.2)
+        let e = SKAction.run{self.Particles(XValue: CGPoint(x: self.frame.midX, y: self.frame.midY))}
+        let f = SKAction.run{self.Particles(XValue: CGPoint(x: 2*(self.frame.maxX/5), y: 4*(self.frame.maxY/5)))}
+        let t = SKAction.run{self.Particles(XValue: CGPoint(x: 1*(self.frame.maxX/5), y: 4.6*(self.frame.maxY/5)))}
+        let y = SKAction.run{self.Particles(XValue: CGPoint(x: 3.4*(self.frame.maxX/5), y: 3.5*(self.frame.maxY/5)))}
+        let p = SKAction.run{self.Particles(XValue: CGPoint(x: 0.7*(self.frame.maxX/5), y: 4*(self.frame.maxY/5)))}
+        let pp = SKAction.run{self.Particles(XValue: CGPoint(x: 0.4*(self.frame.maxX/5), y: 1.6*(self.frame.maxY/5)))}
+
+        
+        let o = SKAction.run{self.Particles(XValue: CGPoint(x: 1*(self.frame.maxX/5), y: 4*(self.frame.maxY/10)))}
+        let oo = SKAction.run{self.Particles(XValue: CGPoint(x: 3.5*(self.frame.maxX/5), y: 4*(self.frame.maxY/10)))}
+
+        let i = SKAction.run{self.Particles(XValue: CGPoint(x: 1.5*(self.frame.maxX/5), y: 1*(self.frame.maxY/10)))}
+        let ii = SKAction.run{self.Particles(XValue: CGPoint(x: 3.25*(self.frame.maxX/5), y: 1*(self.frame.maxY/10)))}
+        
+        let pd = SKAction.run{self.Particles(XValue: CGPoint(x: 2.1*(self.frame.maxX/5), y: 3.7*(self.frame.maxY/10)))}
+        let z = SKAction.run{self.Particles(XValue: CGPoint(x: 4.4*(self.frame.maxX/5), y: 9*(self.frame.maxY/10)))}
+        run(SKAction.repeatForever(SKAction.sequence([wait4,e])))
+        run(SKAction.repeatForever(SKAction.sequence([wait3,f])))
+        run(SKAction.repeatForever(SKAction.sequence([t,wait5])))
+        run(SKAction.repeatForever(SKAction.sequence([wait3,y])))
+        run(SKAction.repeatForever(SKAction.sequence([i,wait5])))
+        run(SKAction.repeatForever(SKAction.sequence([wait3,ii])))
+        run(SKAction.repeatForever(SKAction.sequence([o,wait4])))
+        run(SKAction.repeatForever(SKAction.sequence([oo,wait5])))
+        run(SKAction.repeatForever(SKAction.sequence([p,wait4])))
+        run(SKAction.repeatForever(SKAction.sequence([pp,wait5])))
+        run(SKAction.repeatForever(SKAction.sequence([z,wait3])))
+        run(SKAction.repeatForever(SKAction.sequence([pd,wait3])))
+
         let a = MakeCGcolor(RED: 0, GREEN: 12, BLUE: 24)
         let b = MakeCGcolor(RED: 0, GREEN: 23, BLUE: 45)
         let c = MakeCGcolor(RED: 0, GREEN: 38 , BLUE: 77)
@@ -546,7 +688,7 @@ class GameScene: SKScene {
         func BottomRect(){
             let rect = SKShapeNode(rectOf: CGSize(width: frame.maxX - 25, height: 3.5 * (frame.maxY/10)),cornerRadius: 35)
             rect.position = CGPoint(x: frame.midX, y: frame.minY)
-            rect.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
+            rect.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 1)
             rect.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1.0)
             rect.lineWidth = CGFloat(7.5)
             addChild(rect)
@@ -772,20 +914,24 @@ class GameScene: SKScene {
                     playerScoreLabel.position = CGPoint (x : frame.midX, y: frame.midY-20)
                     playerScoreLabel.text = "0"
                     playerScoreLabel.fontSize = 23
+            playerScoreLabel.zPosition = 21
                     playerScoreRect = SKShapeNode(rect: CGRect(x: frame.midX-30, y: frame.midY-30, width: 60, height: 35),cornerRadius: 10)
-                    playerScoreRect.fillColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0.4)
+                    playerScoreRect.fillColor = UIColor(red: 15/255, green: 32/255, blue: 45/255, alpha: 1)
                     playerScoreRect.lineWidth = CGFloat(3)
                     playerScoreRect.strokeColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
+            playerScoreRect.zPosition = 20
                     addChild(playerScoreLabel)
                     addChild(playerScoreRect)
                     
                     dealerScoreLabel.position = CGPoint (x: frame.midX, y: 2 * (frame.maxY/2.8))
                     dealerScoreLabel.text = "0"
                     dealerScoreLabel.fontSize = 23
+            dealerScoreLabel.zPosition = 21
             
                     dealerScoreRect = SKShapeNode(rect: CGRect(x: frame.midX-30, y: 2 * (frame.maxY/2.8) - 10, width: 60, height: 35),cornerRadius: 10)
-                    dealerScoreRect.fillColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0.4)
+                    dealerScoreRect.fillColor = UIColor(red: 15/255, green: 32/255, blue: 45/255, alpha: 1)
                     dealerScoreRect.strokeColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
+            dealerScoreRect.zPosition = 20
                     dealerScoreRect.lineWidth = CGFloat(3)
                     addChild(dealerScoreLabel)
                     addChild(dealerScoreRect)
@@ -813,8 +959,8 @@ class GameScene: SKScene {
 
              
                 let playerAction1 = SKAction.run {
-                    _ = self.spawnRandomCard(user: "Player", xPos: -10, yPos: self.frame.maxY / 3.6 )
-                    
+                    self.playercard1 = self.spawnRandomCard(user: "Player", xPos: -10, yPos: self.frame.maxY / 3.6 )
+                    self.playercard1.name = "kards"
                     if self.playerScore == 10 {
                         self.playerHas10onStart += 1
                     }
@@ -824,12 +970,14 @@ class GameScene: SKScene {
                 }
                 
                 let dealerCard1Action = SKAction.run {
-                    _ = self.spawnRandomCard(user: "Dealer", xPos: -10, yPos: 2 * (self.frame.maxY / 3.6) );
-
+                    self.dealercard1 = self.spawnRandomCard(user: "Dealer", xPos: -10, yPos: 2 * (self.frame.maxY / 3.6) );
+                    self.dealercard1.name = "kards"
                 }
+                
                 let playerAction2 = SKAction.run {
-                    _ = self.spawnRandomCard(user: "Player", xPos: 30 , yPos: self.frame.maxY / 3.6 - 10);
-                    
+                    self.playercard2 = self.spawnRandomCard(user: "Player", xPos: 30 , yPos: self.frame.maxY / 3.6 - 10);
+                    self.playercard2.name = "kards"
+
                     if self.playerScore == 10 {
                         self.playerHas10onStart += 1
                     }
@@ -840,6 +988,8 @@ class GameScene: SKScene {
 
                 let dealerCard2Action = SKAction.run {
                     self.DealerReturnedCard = self.spawnRandomCard(user: "Returned", xPos: 30, yPos: 2 * (self.frame.maxY / 3.6) - 10);
+                    self.DealerReturnedCard.name = "kards"
+
                 }
                 run(SKAction.sequence([playerAction1,waitCard,updatePlayerAction,
                                        dealerCard1Action,waitCard,updateDealerAction,
@@ -871,6 +1021,8 @@ class GameScene: SKScene {
                     self.updatePlayerScore()
                 }
                 playercard3 = spawnRandomCard(user : "Player", xPos: PlayerNewCardX, yPos: self.frame.maxY / 3.6 - PlayerNewCardY)
+                playercard3.name = "kards"
+
                 run(SKAction.sequence([waitCard,PlayerUpdate]))
 
                 let waitCardSpawn = SKAction.wait(forDuration: 0.5)
@@ -914,13 +1066,7 @@ class GameScene: SKScene {
                 let waitNextCard = SKAction.wait(forDuration: 0.7)
                 var randFamily = Int.random(in: 0...3)
                 
-                if playerHasAs >= 1 {
-                    if playerScore + playerHasAs + 10 > 21 {
-                        playerScore = playerScore + playerHasAs
-                    }else if playerScore + playerHasAs + 10 < 21 {
-                        playerScore = playerScore + playerHasAs + 10
-                    }
-                }
+
                 
                 let spawnReturnedCard = SKAction.run {
                    
@@ -954,6 +1100,7 @@ class GameScene: SKScene {
 
                     if self.dealerScore < 17 {
                         self.dealercard3 = self.spawnRandomCard(user: "Dealer", xPos: stayX, yPos:  2 * (self.frame.maxY / 3.6) - stayY)
+                        self.dealercard3.name = "kards"
                         stayX += 40
                         stayY += 10
                     }else{
@@ -975,6 +1122,7 @@ class GameScene: SKScene {
                 run(SKAction.sequence([spawnReturnedCard,waitCardAnim,returnUpdate,waitNextCard,boucle]))
                 
                 print("Playerscore stayed : \(playerScore)")
+
             }
             
     
