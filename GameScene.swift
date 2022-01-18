@@ -14,6 +14,7 @@ class GameScene: SKScene {
     
     var noas : Bool!
     override func didMove(to view: SKView) {
+        defo.set(false, forKey: "LastGameVictory?")
         defo.set(false, forKey: "FirstLaunch")
         disableUserInter(time: 1.5)
         let layout = SKAction.run({self.layoutScene()})
@@ -21,7 +22,6 @@ class GameScene: SKScene {
         let wait = SKAction.wait(forDuration: 0.2)
         run(SKAction.sequence([layout,wait,game]))
         AdaptiveNodes()
-        print("gAMESECENE lasvictory : \(defo.bool(forKey: "LastGameVictory?"))")
 
 
         
@@ -39,10 +39,9 @@ class GameScene: SKScene {
                 if PreviousExp >= Exp {
                     defo.set(PreviousExp + Exp, forKey: "UserExp")
                 }else if PreviousExp < Exp {
-                    defo.set(PreviousExp - PreviousExp, forKey: "UserExp")
+                    defo.set(0, forKey: "UserExp")
                 }
             }else if PreviousExp < 0 {
-                print("NAN CHEH")
             }
         }
         
@@ -316,16 +315,10 @@ class GameScene: SKScene {
         }
         for child in self.children {
             if child.name == "kards"{
-                child.run(SKAction.sequence([SKAction.wait(forDuration: 1.2),SKAction.fadeOut(withDuration: 0.66),remove]))
+                child.run(SKAction.sequence([SKAction.wait(forDuration: 2),SKAction.fadeOut(withDuration: 0.7),remove]))
             }
         }
-        let effectsNode = SKEffectNode()
-        let filter = CIFilter(name:"CIGaussianBlur",parameters: ["inputRadius": 10.0])
-        effectsNode.filter = filter
-        effectsNode.position = self.view!.center
-        effectsNode.blendMode = .alpha
-        shouldEnableEffects = true
-        shouldRasterize = true
+
         
         
         let wait = SKAction.wait(forDuration: 2.5)
@@ -470,29 +463,29 @@ class GameScene: SKScene {
         addChild(rect2)
         addChild(rect3)
         
-        rect1.run(SKAction.fadeOut(withDuration: 0.8))
+        rect1.run(SKAction.fadeOut(withDuration: 1))
         rect1.run(SKAction.scaleX(to: 1.3, duration: 1))
-        rect1.run(SKAction.scaleY(to: 1.15, duration: 1))
+        rect1.run(SKAction.scaleY(to: 1.3, duration: 1))
         
-        rect2.run(SKAction.fadeOut(withDuration: 0.65))
-        rect2.run(SKAction.scaleX(to: 1.35, duration: 1))
-        rect2.run(SKAction.scaleY(to: 1.2, duration: 1))
+        rect2.run(SKAction.fadeOut(withDuration: 0.9))
+        rect2.run(SKAction.scaleX(to: 1.5, duration: 0.9))
+        rect2.run(SKAction.scaleY(to: 1.5, duration: 0.9))
         
-        rect3.run(SKAction.fadeOut(withDuration: 0.5))
-        rect3.run(SKAction.scaleX(to: 1.4, duration: 1))
-        rect3.run(SKAction.scaleY(to: 1.25, duration: 1))
+        rect3.run(SKAction.fadeOut(withDuration: 0.65))
+        rect3.run(SKAction.scaleX(to: 1.6, duration: 0.65))
+        rect3.run(SKAction.scaleY(to: 1.6, duration: 0.65))
         
         if User == "Dealer"{
             dealerScoreRect.strokeColor = Color
-            rect1.position = CGPoint(x: frame.midX, y:2.88*(frame.maxY/4))
-            rect2.position = CGPoint(x: frame.midX, y:2.88*(frame.maxY/4))
-            rect3.position = CGPoint(x: frame.midX, y:2.88*(frame.maxY/4))
+            rect1.position = CGPoint(x: frame.midX, y:2.9*(frame.maxY/4))
+            rect2.position = CGPoint(x: frame.midX, y:2.9*(frame.maxY/4))
+            rect3.position = CGPoint(x: frame.midX, y:2.9*(frame.maxY/4))
 
         }else if User == "Player"{
             playerScoreRect.strokeColor = Color
-            rect2.position = CGPoint(x: frame.midX, y: frame.midY-10)
-            rect1.position = CGPoint(x: frame.midX, y: frame.midY-10)
-            rect3.position = CGPoint(x: frame.midX, y: frame.midY-10)
+            rect2.position = CGPoint(x: frame.midX, y: frame.midY-11.25)
+            rect1.position = CGPoint(x: frame.midX, y: frame.midY-11.25)
+            rect3.position = CGPoint(x: frame.midX, y: frame.midY-11.25)
 
         }
         if WinState == true {

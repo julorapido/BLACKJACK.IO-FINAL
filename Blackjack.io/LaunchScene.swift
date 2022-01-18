@@ -7,12 +7,16 @@
 
 import Foundation
 import SpriteKit
-
+import AVFoundation
 class LaunchScreen: SKScene{
     override func didMove(to view: SKView) {
         defaults.register(defaults: [
-            "FIRSTEVERLAUNCH" : true
+            "FIRSTEVERLAUNCH" : true,
+            "UserCoins" : 0
+
         ])
+        defaults.set(false, forKey: "MUSICEVERLAUNCHED")
+
         defaults.set(true, forKey: "FirstLaunch")
         LaunchNodes()
         Loading()
@@ -31,10 +35,12 @@ class LaunchScreen: SKScene{
         run(SKAction.sequence([SKAction.wait(forDuration: 1.5),switche]))
     }
     
+    
     var LoadingState = 0
     var outerRect : SKShapeNode!
     var rect : SKShapeNode!
     public let defaults = UserDefaults.standard
+
 
     func LaunchNodes(){
   
@@ -106,11 +112,10 @@ class LaunchScreen: SKScene{
     }
     
     func  StartPlayerData() {
-        defaults.set(true, forKey: "musicon")
+        defaults.set(true,forKey: "MusicOn?")
         defaults.set(0, forKey: "UserExp")
         defaults.set(1, forKey: "UserLvl")
         defaults.set(true, forKey: "soundon")
-        defaults.set(0, forKey: "UserCoins")
             }
 
 }
