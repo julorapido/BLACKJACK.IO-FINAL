@@ -12,7 +12,16 @@ class LaunchScreen: SKScene{
     override func didMove(to view: SKView) {
         defaults.register(defaults: [
             "FIRSTEVERLAUNCH" : true,
-            "UserCoins" : 0
+            "UserCoins" : 0,
+            "Slot1" : "checkeddd",
+            "Slot2" : "locked",
+            "Slot3" : "locked",
+            "Slot4" : "locked",
+            "Slot5" : "locked",
+            "Slot6" : "locked",
+            "Slot7" : "locked",
+            "Slot8" : "locked",
+            "Slot9" : "locked"
 
         ])
         defaults.set(false, forKey: "MUSICEVERLAUNCHED")
