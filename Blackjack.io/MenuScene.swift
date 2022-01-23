@@ -202,16 +202,7 @@ class MenuScene: SKScene {
     let pressedAction = SKAction.scale(to: 0.7, duration: 0.3)
     var musicImage :SKSpriteNode!
     
-    var slot1 : Any!
-    var slot2 : Any!
-    var slot3 : Any!
-    var slot4 : Any!
-    var slot5 : Any!
-    var slot6 : Any!
-    var slot7 : Any!
-    var slot8 : Any!
-    var slot9 : Any!
-    
+  
     
 
     func disableUserInter(time :Double){
@@ -268,46 +259,86 @@ class MenuScene: SKScene {
     class SKINslot{
         
     }
-    class AddSkinSlot{
+    class AddSkinSlot {
         var positionn : CGPoint!
         var SkinTexture : SKTexture!
         var skincheckbox : SKTexture!
         var SlotUnlocked : Bool!
         var checkbox : SKSpriteNode!
+        var LockState : Bool!
         var OuterRectangle = SKShapeNode(rectOf: CGSize(width: 72, height: 80), cornerRadius: 10)
-        //ar checkbox : SKSpriteNode!
-        var Menusenee = MenuScene()
         
-        init(Position : CGPoint, SkinTexture : SKTexture, NodeName : String, SkinCheckbox : SKTexture){
+        
+        var PriceBanner : SKShapeNode!
+        var PriceText = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        var CoinsImage : SKSpriteNode!
+
+
+        //ar checkbox : SKSpriteNode!
+
+        
+        init(Position : CGPoint, SkinTexture : SKTexture, NodeName : String, LockedState : Bool){
+            OuterRectangle.zPosition = 30
+            OuterRectangle.lineWidth = CGFloat(5)
             positionn = Position
-            let outerRectangle = SKShapeNode(rectOf: CGSize(width: 72, height: 80), cornerRadius: 10)
-            outerRectangle.lineWidth = CGFloat(3)
-            outerRectangle.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 0)
-            outerRectangle.position = CGPoint(x: positionn.x, y: positionn.y + 60)
-            outerRectangle.zPosition = 309
-            let checkbox = SKSpriteNode(texture: SkinCheckbox)
+            OuterRectangle.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 0)
+            OuterRectangle.position = CGPoint(x: Position.x, y: Position.y + 60)
+            
+            if LockedState == true{
+                checkbox = SKSpriteNode(texture: SKTexture(imageNamed: "locked"))
+                PriceBanner = SKShapeNode(rectOf: CGSize(width: 72, height: 27), cornerRadius: 0)
+                PriceBanner.fillColor = UIColor(red: 120/255, green: 120/255, blue: 120/255, alpha: 1)
+                PriceBanner.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0)
+
+                CoinsImage = SKSpriteNode(texture: SKTexture(imageNamed: "COINS1"))
+                CoinsImage.xScale = 0.3
+                CoinsImage.yScale = 0.3
+                PriceText.text = "50"
+                PriceText.fontSize = 17
+            
+                PriceBanner.position = CGPoint(x: Position.x, y: Position.y + 60)
+                CoinsImage.position = CGPoint(x: Position.x + 13, y: Position.y + 62)
+                PriceText.position = CGPoint(x: Position.x - 13, y: Position.y + 55)
+                
+                CoinsImage.zPosition = 60
+                PriceBanner.zPosition = 29
+                PriceText.zPosition = 40
+                PriceText.name = "locknode"
+                CoinsImage.name = "locknode"
+                PriceBanner.name = "locknode"
+
+            }else if LockedState == false{
+                checkbox = SKSpriteNode(texture: SKTexture(imageNamed: "unchecked"))
+                PriceBanner = SKShapeNode()
+                CoinsImage = SKSpriteNode()
+            }
             checkbox.xScale = 0.2
             checkbox.yScale = 0.2
             checkbox.alpha = 1
-            outerRectangle.alpha = 1
+            OuterRectangle.alpha = 1
             checkbox.zPosition = 16
-
             checkbox.run(SKAction.fadeIn(withDuration: 0.3))
-            outerRectangle.run(SKAction.fadeIn(withDuration: 0.3))
+            OuterRectangle.run(SKAction.fadeIn(withDuration: 0.3))
             print("PEDALE")
             checkbox.position = positionn
-            outerRectangle.name = "shopnode"
+            OuterRectangle.name = "shopnode"
             checkbox.name = "shopnode"
         }
-        func addChilds(){
-            self.Menusenee.addChild(checkbox)
-            self.Menusenee.addChild(OuterRectangle)
-        }
+        
+
     }
+    var slot9 : AddSkinSlot?
+    var slot8 : AddSkinSlot?
+    var slot7 : AddSkinSlot?
+    var slot6 : AddSkinSlot?
+    var slot5 : AddSkinSlot?
+    var slot4 : AddSkinSlot?
+    var slot3 : AddSkinSlot?
+    var slot2 : AddSkinSlot?
+    var slot1 : AddSkinSlot?
+
     func SkinShopFunc(){
         SkinShopTouched = true
-        slot9 = AddSkinSlot(Position: CGPoint(x: 1.5*(frame.maxX/6), y: 1.2*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot9", SkinCheckbox: SKTexture(imageNamed: defaults.string(forKey: "Slot9")!))
-        
         mainrect = SKShapeNode(rectOf: CGSize(width: 4.5*(frame.maxX/5), height: 3.4*(frame.maxY/5)), cornerRadius: 10)
         mainrect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
         mainrect.zPosition = 15
@@ -317,20 +348,35 @@ class MenuScene: SKScene {
         mainrect.position = CGPoint(x: frame.midX, y: frame.midY)
         addChild(mainrect)
         mainrect.run(SKAction.fadeIn(withDuration: 0.3))
-        //slot9 = addSkinSlot(Position: CGPoint(x: 1.5*(frame.maxX/6), y: 1.2*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot9", SkinCheckbox: SKTexture(imageNamed: defaults.string(forKey: "Slot9")!))
-        slot8 = addSkinSlot(Position: CGPoint(x: 3*(frame.maxX/6), y: 1.2*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot8", SkinCheckbox: SKTexture(imageNamed: defaults.string(forKey: "Slot8")!))
-        slot7 = addSkinSlot(Position: CGPoint(x: 4.5*(frame.maxX/6), y: 1.2*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot7", SkinCheckbox: SKTexture(imageNamed: defaults.string(forKey: "Slot7")!))
         
-        slot6 = addSkinSlot(Position: CGPoint(x: 1.5*(frame.maxX/6), y: 2.6*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot6", SkinCheckbox: SKTexture(imageNamed: defaults.string(forKey: "Slot6")!))
-        slot5 = addSkinSlot(Position: CGPoint(x: 3*(frame.maxX/6), y: 2.6*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot5", SkinCheckbox: SKTexture(imageNamed: defaults.string(forKey: "Slot5")!))
-        slot4 = addSkinSlot(Position: CGPoint(x: 4.5*(frame.maxX/6), y: 2.6*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot4", SkinCheckbox: SKTexture(imageNamed: defaults.string(forKey: "Slot4")!))
+        slot9 = AddSkinSlot.init(Position: CGPoint(x: 1.5*(frame.maxX/6), y: 1.2*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot9", LockedState: defaults.bool(forKey: "Slot9LockState"))
+        slot8 = AddSkinSlot.init(Position: CGPoint(x: 3*(frame.maxX/6), y: 1.2*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot9", LockedState: defaults.bool(forKey: "Slot8LockState"))
+        slot7 = AddSkinSlot.init(Position: CGPoint(x: 4.5*(frame.maxX/6), y: 1.2*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot9", LockedState: defaults.bool(forKey: "Slot7LockState"))
+        
+        slot6 = AddSkinSlot.init(Position: CGPoint(x: 1.5*(frame.maxX/6), y: 2.6*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot9", LockedState: defaults.bool(forKey: "Slot6LockState"))
+        slot5 = AddSkinSlot.init(Position: CGPoint(x: 3*(frame.maxX/6), y: 2.6*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot9", LockedState: defaults.bool(forKey: "Slot5LockState"))
+        slot4 = AddSkinSlot.init(Position: CGPoint(x: 4.5*(frame.maxX/6), y: 2.6*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot9", LockedState: defaults.bool(forKey: "Slot4LockState"))
 
-        slot1 = addSkinSlot(Position: CGPoint(x: 1.5*(frame.maxX/6), y: 4*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot3", SkinCheckbox: SKTexture(imageNamed: defaults.string(forKey: "Slot1")!))
-        slot2 = addSkinSlot(Position: CGPoint(x: 3*(frame.maxX/6), y: 4*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot2", SkinCheckbox: SKTexture(imageNamed: defaults.string(forKey: "Slot2")!))
-        slot3 = addSkinSlot(Position: CGPoint(x: 4.5*(frame.maxX/6), y: 4*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot1", SkinCheckbox: SKTexture(imageNamed: defaults.string(forKey: "Slot3")!))
 
+        slot1 = AddSkinSlot.init(Position: CGPoint(x: 1.5*(frame.maxX/6), y: 4*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot9", LockedState: defaults.bool(forKey: "Slot1LockState"))
+        slot2 = AddSkinSlot.init(Position: CGPoint(x: 3*(frame.maxX/6), y: 4*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot9", LockedState: defaults.bool(forKey: "Slot2LockState"))
+        slot3 = AddSkinSlot.init(Position: CGPoint(x: 4.5*(frame.maxX/6), y: 4*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot9", LockedState: defaults.bool(forKey: "Slot3LockState"))
+    
+        addChild(slot9!.OuterRectangle); addChild(slot8!.OuterRectangle); addChild(slot7!.OuterRectangle); addChild(slot6!.OuterRectangle); addChild(slot5!.OuterRectangle); addChild(slot4!.OuterRectangle); addChild(slot3!.OuterRectangle); addChild(slot2!.OuterRectangle); addChild(slot1!.OuterRectangle)
+        
+        addChild(slot9!.CoinsImage); addChild(slot8!.CoinsImage); addChild(slot7!.CoinsImage); addChild(slot6!.CoinsImage); addChild(slot5!.CoinsImage); addChild(slot4!.CoinsImage); addChild(slot3!.CoinsImage); addChild(slot2!.CoinsImage); addChild(slot1!.CoinsImage)
+        
+        addChild(slot9!.checkbox); addChild(slot8!.checkbox); addChild(slot7!.checkbox); addChild(slot6!.checkbox); addChild(slot5!.checkbox); addChild(slot4!.checkbox); addChild(slot3!.checkbox); addChild(slot2!.checkbox); addChild(slot1!.checkbox)
+        
+        addChild(slot9!.PriceText); addChild(slot8!.PriceText); addChild(slot7!.PriceText); addChild(slot6!.PriceText); addChild(slot5!.PriceText); addChild(slot4!.PriceText); addChild(slot3!.PriceText); addChild(slot2!.PriceText); addChild(slot1!.PriceText)
+        
+        addChild(slot9!.PriceBanner); addChild(slot8!.PriceBanner); addChild(slot7!.PriceBanner) ;addChild(slot6!.PriceBanner) ;addChild(slot5!.PriceBanner) ;addChild(slot4!.PriceBanner) ;addChild(slot3!.PriceBanner) ;addChild(slot2!.PriceBanner) ;addChild(slot1!.PriceBanner)
     }
-        
+
+    func Unlock(Slot : AddSkinSlot){
+        defaults.
+    }
+    
     func MakeCGcolor(RED : CGFloat, GREEN : CGFloat,BLUE : CGFloat) -> CGColor {
         return(CGColor(red: RED/255, green: GREEN/255, blue: BLUE/255, alpha: 1.0))
     }
@@ -591,8 +637,7 @@ class MenuScene: SKScene {
                     swapCardSide(node: upperCard, texture: SKTexture(imageNamed: "\(Int.random(in: 2...14)) \(family[Int.random(in: 0...3)])"))
                 },waitMove,bb])
                 
-             
-                
+        
                 run(SKAction.sequence([BottomSequence,wait1,UpperSequence]))
             }
             
@@ -635,12 +680,6 @@ class MenuScene: SKScene {
         run(SKAction.repeatForever(SKAction.sequence([pp,wait5])))
         run(SKAction.repeatForever(SKAction.sequence([z,wait3])))
         run(SKAction.repeatForever(SKAction.sequence([pd,wait3])))
-
-
-
-
-
-
 
         addChild(soundImage)
         addChild(musicImage)
@@ -800,6 +839,7 @@ class MenuScene: SKScene {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
     {
+
         
         for touch in touches {
             let location = touch.location(in: self)
@@ -809,11 +849,19 @@ class MenuScene: SKScene {
                     self.playRec.isUserInteractionEnabled = false
                 })
                 if mainrect.frame.contains(location){
-                    print(slot9)
+                    
                     print("LA PUTE LA PUTE")
+                    if slot1!.OuterRectangle.contains(location){
+                        print("e ouai")
+                    }else if slot2!.OuterRectangle.contains(location){
+                        Unlock(Slot: slot2!)
+                    }
                 }else{
                     for child in self.children {
                         if child.name == "shopnode"{
+                            child.run(SKAction.fadeOut(withDuration: 0.2))
+                            child.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),SKAction.run{child.removeFromParent()}]))
+                        }else if child.name == "locknode"{
                             child.run(SKAction.fadeOut(withDuration: 0.2))
                             child.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),SKAction.run{child.removeFromParent()}]))
                         }
