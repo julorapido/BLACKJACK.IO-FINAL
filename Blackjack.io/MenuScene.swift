@@ -261,20 +261,53 @@ class MenuScene: SKScene {
         checkbox.name = "shopnode"
         return(outerRectangle,checkbox)
     }
-    
-    
-    struct AddSkinSlot{
-        var position : CGPoint!
+   
+    func sida(rect : SKShapeNode){
+        addChild(rect)
+    }
+    class SKINslot{
+        
+    }
+    class AddSkinSlot{
+        var positionn : CGPoint!
         var SkinTexture : SKTexture!
-        var
-        var SlotUnlocked = false
-        init(){
-            
+        var skincheckbox : SKTexture!
+        var SlotUnlocked : Bool!
+        var checkbox : SKSpriteNode!
+        var OuterRectangle = SKShapeNode(rectOf: CGSize(width: 72, height: 80), cornerRadius: 10)
+        //ar checkbox : SKSpriteNode!
+        var Menusenee = MenuScene()
+        
+        init(Position : CGPoint, SkinTexture : SKTexture, NodeName : String, SkinCheckbox : SKTexture){
+            positionn = Position
+            let outerRectangle = SKShapeNode(rectOf: CGSize(width: 72, height: 80), cornerRadius: 10)
+            outerRectangle.lineWidth = CGFloat(3)
+            outerRectangle.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 0)
+            outerRectangle.position = CGPoint(x: positionn.x, y: positionn.y + 60)
+            outerRectangle.zPosition = 309
+            let checkbox = SKSpriteNode(texture: SkinCheckbox)
+            checkbox.xScale = 0.2
+            checkbox.yScale = 0.2
+            checkbox.alpha = 1
+            outerRectangle.alpha = 1
+            checkbox.zPosition = 16
+
+            checkbox.run(SKAction.fadeIn(withDuration: 0.3))
+            outerRectangle.run(SKAction.fadeIn(withDuration: 0.3))
+            print("PEDALE")
+            checkbox.position = positionn
+            outerRectangle.name = "shopnode"
+            checkbox.name = "shopnode"
+        }
+        func addChilds(){
+            self.Menusenee.addChild(checkbox)
+            self.Menusenee.addChild(OuterRectangle)
         }
     }
-
     func SkinShopFunc(){
         SkinShopTouched = true
+        slot9 = AddSkinSlot(Position: CGPoint(x: 1.5*(frame.maxX/6), y: 1.2*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot9", SkinCheckbox: SKTexture(imageNamed: defaults.string(forKey: "Slot9")!))
+        
         mainrect = SKShapeNode(rectOf: CGSize(width: 4.5*(frame.maxX/5), height: 3.4*(frame.maxY/5)), cornerRadius: 10)
         mainrect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
         mainrect.zPosition = 15
@@ -284,9 +317,10 @@ class MenuScene: SKScene {
         mainrect.position = CGPoint(x: frame.midX, y: frame.midY)
         addChild(mainrect)
         mainrect.run(SKAction.fadeIn(withDuration: 0.3))
-        slot9 = addSkinSlot(Position: CGPoint(x: 1.5*(frame.maxX/6), y: 1.2*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot9", SkinCheckbox: SKTexture(imageNamed: defaults.string(forKey: "Slot9")!))
+        //slot9 = addSkinSlot(Position: CGPoint(x: 1.5*(frame.maxX/6), y: 1.2*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot9", SkinCheckbox: SKTexture(imageNamed: defaults.string(forKey: "Slot9")!))
         slot8 = addSkinSlot(Position: CGPoint(x: 3*(frame.maxX/6), y: 1.2*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot8", SkinCheckbox: SKTexture(imageNamed: defaults.string(forKey: "Slot8")!))
         slot7 = addSkinSlot(Position: CGPoint(x: 4.5*(frame.maxX/6), y: 1.2*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot7", SkinCheckbox: SKTexture(imageNamed: defaults.string(forKey: "Slot7")!))
+        
         slot6 = addSkinSlot(Position: CGPoint(x: 1.5*(frame.maxX/6), y: 2.6*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot6", SkinCheckbox: SKTexture(imageNamed: defaults.string(forKey: "Slot6")!))
         slot5 = addSkinSlot(Position: CGPoint(x: 3*(frame.maxX/6), y: 2.6*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot5", SkinCheckbox: SKTexture(imageNamed: defaults.string(forKey: "Slot5")!))
         slot4 = addSkinSlot(Position: CGPoint(x: 4.5*(frame.maxX/6), y: 2.6*(frame.maxY/6)), SkinTexture: SKTexture(), NodeName: "Slot4", SkinCheckbox: SKTexture(imageNamed: defaults.string(forKey: "Slot4")!))
@@ -775,7 +809,7 @@ class MenuScene: SKScene {
                     self.playRec.isUserInteractionEnabled = false
                 })
                 if mainrect.frame.contains(location){
-                    print(s)
+                    print(slot9)
                     print("LA PUTE LA PUTE")
                 }else{
                     for child in self.children {
