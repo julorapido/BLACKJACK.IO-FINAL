@@ -14,6 +14,8 @@ class GameScene: SKScene {
     
     var noas : Bool!
     override func didMove(to view: SKView) {
+        print(defo.bool(forKey: "Slot2LockState"))
+
         defo.set(false, forKey: "LastGameVictory?")
         defo.set(false, forKey: "FirstLaunch")
         disableUserInter(time: 1.5)
@@ -27,13 +29,15 @@ class GameScene: SKScene {
         
     }
     func ModifyPlayerData(Exp : Int, CoinsWon : Int ){
-        let PreviousCoin = defo.integer(forKey: "UserCoins")
-        defo.set(PreviousCoin+CoinsWon, forKey: "UserCoins")
+        var PreviousCoin = defo.integer(forKey: "UserCoins")
+        PreviousCoin += CoinsWon
+        defo.set(PreviousCoin, forKey: "UserCoins")
         
-        let PreviousExp = defo.integer(forKey: "UserExp")
+        var PreviousExp = defo.integer(forKey: "UserExp")
         
         if Exp > 0 {
-            defo.set(PreviousExp + Exp, forKey: "UserExp")
+            PreviousExp += Exp
+            defo.set(PreviousExp, forKey: "UserExp")
         }else if Exp < 0 {
             if PreviousExp > 0 {
                 if PreviousExp >= Exp {
@@ -347,7 +351,7 @@ class GameScene: SKScene {
             text.fontColor = UIColor.white
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: false)
             DisplayEXPnumbers(EXP: 25)
-            ModifyPlayerData(Exp: 25, CoinsWon: 2)
+            ModifyPlayerData(Exp: 25, CoinsWon: 50)
             defo.set(true,forKey: "LastGameVictory?")
             InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
 
@@ -376,7 +380,7 @@ class GameScene: SKScene {
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: true)
             InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
             DisplayEXPnumbers(EXP: 50)
-            ModifyPlayerData(Exp: 50, CoinsWon: 5)
+            ModifyPlayerData(Exp: 50, CoinsWon: 50)
             
             defo.set(true,forKey: "LastGameVictory?")
         }else if way == "DealerBust"{
@@ -384,7 +388,7 @@ class GameScene: SKScene {
             text.fontColor = UIColor.white
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: true)
             DisplayEXPnumbers(EXP: 35)
-            ModifyPlayerData(Exp: 35, CoinsWon: 2)
+            ModifyPlayerData(Exp: 35, CoinsWon: 50)
             InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
             defo.set(true,forKey: "LastGameVictory?")
 

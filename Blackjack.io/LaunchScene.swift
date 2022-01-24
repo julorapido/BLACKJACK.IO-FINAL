@@ -21,8 +21,17 @@ class LaunchScreen: SKScene{
             "Slot6LockState"  : true,
             "Slot7LockState"  : true,
             "Slot8LockState"  : true,
-            "Slot9LockState"  : true
-
+            "Slot9LockState"  : true,
+            
+            "Slot1Checked" : true,
+            "Slot2Checked" : false,
+            "Slot3Checked" : false,
+            "Slot4Checked" : false,
+            "Slot5Checked" : false,
+            "Slot6Checked" : false,
+            "Slot7Checked" : false,
+            "Slot8Checked" : false,
+            "Slot9Checked" : false,            
         ])
         defaults.set(false, forKey: "MUSICEVERLAUNCHED")
 
