@@ -14,8 +14,6 @@ class GameScene: SKScene {
     
     var noas : Bool!
     override func didMove(to view: SKView) {
-        print(defo.bool(forKey: "Slot2LockState"))
-
         defo.set(false, forKey: "LastGameVictory?")
         defo.set(false, forKey: "FirstLaunch")
         disableUserInter(time: 1.5)
@@ -82,6 +80,7 @@ class GameScene: SKScene {
                     dealerScore = 21
                     dealerScoreLabel.text = "\(dealerScore)"
                     lost(way: "DealerBetterScore")
+                    return(0)
                 }else if (dealerHasAs + dealerScore + 10) > 21{///////////// LE 11 AS L'AURAIT FAIT BUST
                     dealerScore += 1
                     dealerScoreLabel.text = "\(dealerScore)"
@@ -92,7 +91,8 @@ class GameScene: SKScene {
         return(0)
 
     }
-    func checkwin(){
+    func checkwin() -> Int{
+        print("bro")
         if dealerScore > 21 {
             won(alt: "DealerBust")
             DealerBusted = true
@@ -100,7 +100,7 @@ class GameScene: SKScene {
         if dealerScore <= 21{
           if dealerScore < playerScore {
                 won(alt: "VICTORY")
-                
+                return(0)
             }
             }
         if dealerScore == playerScore {
@@ -109,15 +109,19 @@ class GameScene: SKScene {
         if DealerBusted == false {
             if dealerScore > playerScore+playerHasAs {
                 lost(way: "DealerBetterScore")
+                return(0)
+
             }
         }
         if dealerScore == 21 {
             if dealerScore > playerScore {
                 lost(way: "DealerBetterScore")
+                return(0)
+
 
             }
         }
-        
+        return(0)
     }
 
     func updatePlayerScoreStayPressed(){
@@ -188,12 +192,88 @@ class GameScene: SKScene {
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///
+    ///
+    ///
+    func SpawnCoins(IntGap : Int) {
+        let CoinSound = SKAction.playSoundFileNamed("gamecoin.wav", waitForCompletion: false)
+        if defo.bool(forKey: "soundon") == true{
+            run(SKAction.sequence([CoinSound]))
+        }
+    
+        let vector = SKAction.move(by: CGVector(dx: 30, dy: 17), duration: 2)
+        let fadeout = SKAction.fadeOut(withDuration: 0.8)
+        let Coins = SKSpriteNode(texture: SKTexture(imageNamed: "COINS1"))
+        let CoinsText = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        
+        CoinsText.fontColor = UIColor.yellow
+        Coins.xScale = 0.35
+        Coins.yScale = 0.35
+        Coins.zPosition = 20
+        CoinsText.zPosition = 20
+        CoinsText.fontSize = 16
+        addChild(Coins)
+        addChild(CoinsText)
+                 
+        let randomint = Int.random(in: -(IntGap)...(IntGap))
+        let brr = CGFloat(randomint)
+        
+        let wait = SKAction.wait(forDuration: 0.2)
+        let Animation = SKAction.sequence([
+            (SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS2")}),
+            wait,
+            (SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS3")}),
+            wait,
+            (SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS4")}),
+            wait,
+            (SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS5")}),
+            wait,
+            (SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS6")}),
+            wait,
+            (SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS7")}),
+            wait,
+            (SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS8")}),
+            wait,
+            (SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS9")}),
+            wait,
+            (SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS10")}),
+            wait,
+            (SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS1")})
+        ])
+        let loop = SKAction.sequence([Animation])
+        let final = SKAction.repeatForever(loop)
+        
+            Coins.run(SKAction.rotate(toAngle: M_PI/2,duration: 0.001))
+            CoinsText.text = "+1"
+        
+            Coins.position = CGPoint(x: 3*(self.frame.maxX/4), y: brr + 1.3*(self.frame.maxY/3))
+            CoinsText.position = CGPoint(x: 12 + 3*(self.frame.maxX/4) + 3, y: brr + 1.3*(self.frame.maxY/3))
+        
+            Coins.run(final)
+            CoinsText.run(SKAction.sequence([SKAction.wait(forDuration: 1),fadeout]))
+            Coins.run(SKAction.sequence([SKAction.wait(forDuration: 1),fadeout]))
+            Coins.run(vector)
+            CoinsText.run(vector)
+        
+        
+    }
+    
+    func displayCoins(CoinsNumber : Int) {
+
+        if CoinsNumber == 2 {
+            print("bro")
+            run(SKAction.sequence([SKAction.run{self.SpawnCoins(IntGap: 10)},SKAction.wait(forDuration: 0.5),SKAction.run{self.SpawnCoins(IntGap: 40)}]))
+        }else if CoinsNumber == 3 {
+            //run(SKAction.sequence([SKAction.run{self.SpawnCoins(IntGap: 4)},SKAction.wait(forDuration: 0.35),SKAction.run{self.SpawnCoins(IntGap: 10)}]))
+        }
+    }
+    
     func DisplayEXPnumbers(EXP : Int) -> SKLabelNode{
-        let fadeSequence = SKAction.sequence([SKAction.fadeAlpha(to: 1, duration: 1),SKAction.fadeAlpha(to: 0, duration: 0.75)])
+        let fadeSequence = SKAction.sequence([SKAction.fadeAlpha(to: 1, duration: 1),SKAction.fadeAlpha(to: 0, duration: 1.1)])
         var vector : CGVector!
         var OperatorString : String!
         let ExpText = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        ExpText.position = CGPoint(x: 2.7*(frame.maxX/5), y: 1.77*(frame.maxY/4))
+        ExpText.position = CGPoint(x: 2.7*(frame.maxX/5), y: 1.7*(frame.maxY/4))
         ExpText.zPosition = 20
         if EXP > 0 {
             vector = CGVector(dx: 0, dy: 15)
@@ -207,7 +287,7 @@ class GameScene: SKScene {
             OperatorString = "+"
 
         }
-        let vectorSequence = SKAction.move(by: vector, duration: 1.5)
+        let vectorSequence = SKAction.move(by: vector, duration: 1.85)
         addChild(ExpText)
         var exptext = String(EXP)
         var zbeub = OperatorString + exptext + "exp"
@@ -341,8 +421,8 @@ class GameScene: SKScene {
             text.text = "YOU BUST"
             text.fontColor = UIColor.red
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: true)
-            DisplayEXPnumbers(EXP: -20)
-            ModifyPlayerData(Exp: -20, CoinsWon: 0)
+            DisplayEXPnumbers(EXP: -10)
+            ModifyPlayerData(Exp: -10, CoinsWon: 0)
             InnerRectangle.fillColor = UIColor(red: 15/255, green: 32/255, blue: 45/255, alpha: 1)
 
 
@@ -351,7 +431,9 @@ class GameScene: SKScene {
             text.fontColor = UIColor.white
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: false)
             DisplayEXPnumbers(EXP: 25)
-            ModifyPlayerData(Exp: 25, CoinsWon: 50)
+            ModifyPlayerData(Exp: 200, CoinsWon: 2)
+            displayCoins(CoinsNumber: 2)
+            print("ppupuepute")
             defo.set(true,forKey: "LastGameVictory?")
             InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
 
@@ -360,8 +442,8 @@ class GameScene: SKScene {
             text.text = "DEALER WINS"
             text.fontColor = UIColor.white
             EndGameScoreColorRect(User: "Dealer", Color: UIColor.white, WinState: true)
-            DisplayEXPnumbers(EXP: -20)
-            ModifyPlayerData(Exp: -20, CoinsWon: 0)
+            DisplayEXPnumbers(EXP: -15)
+            ModifyPlayerData(Exp: -15, CoinsWon: 0)
             InnerRectangle.fillColor = UIColor(red: 15/255, green: 32/255, blue: 45/255, alpha: 1)
 
 
@@ -380,17 +462,19 @@ class GameScene: SKScene {
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: true)
             InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
             DisplayEXPnumbers(EXP: 50)
-            ModifyPlayerData(Exp: 50, CoinsWon: 50)
-            
+            ModifyPlayerData(Exp: 50, CoinsWon: 3)
+            displayCoins(CoinsNumber: 3)
             defo.set(true,forKey: "LastGameVictory?")
         }else if way == "DealerBust"{
             text.text = "DEALERBUST"
             text.fontColor = UIColor.white
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: true)
             DisplayEXPnumbers(EXP: 35)
-            ModifyPlayerData(Exp: 35, CoinsWon: 50)
+            ModifyPlayerData(Exp: 200, CoinsWon: 2)
+            displayCoins(CoinsNumber: 2)
             InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
             defo.set(true,forKey: "LastGameVictory?")
+
 
         }
         let addText = SKAction.run {
@@ -467,17 +551,17 @@ class GameScene: SKScene {
         addChild(rect2)
         addChild(rect3)
         
-        rect1.run(SKAction.fadeOut(withDuration: 1))
-        rect1.run(SKAction.scaleX(to: 1.3, duration: 1))
-        rect1.run(SKAction.scaleY(to: 1.3, duration: 1))
+        rect1.run(SKAction.fadeOut(withDuration: 0.8))
+        rect1.run(SKAction.scaleX(to: 1.15, duration: 0.8))
+        rect1.run(SKAction.scaleY(to: 1.15, duration: 0.8))
         
         rect2.run(SKAction.fadeOut(withDuration: 0.9))
-        rect2.run(SKAction.scaleX(to: 1.5, duration: 0.9))
-        rect2.run(SKAction.scaleY(to: 1.5, duration: 0.9))
+        rect2.run(SKAction.scaleX(to: 1.25, duration: 0.9))
+        rect2.run(SKAction.scaleY(to: 1.25, duration: 0.9))
         
         rect3.run(SKAction.fadeOut(withDuration: 0.65))
-        rect3.run(SKAction.scaleX(to: 1.6, duration: 0.65))
-        rect3.run(SKAction.scaleY(to: 1.6, duration: 0.65))
+        rect3.run(SKAction.scaleX(to: 1.3, duration: 0.65))
+        rect3.run(SKAction.scaleY(to: 1.3, duration: 0.65))
         
         if User == "Dealer"{
             dealerScoreRect.strokeColor = Color
@@ -1062,15 +1146,11 @@ class GameScene: SKScene {
                 var randInt = Int.random(in: 2...14)/////////////////////////////////////////////////// RANDOMIZER
                 let waitNextCard = SKAction.wait(forDuration: 0.7)
                 var randFamily = Int.random(in: 0...3)
-                
-
-                
                 let spawnReturnedCard = SKAction.run {
                    
                   _ = self.funcReturnDealer(card: self.DealerReturnedCard, CardNumber: randInt, FamilyNumber: randFamily)
                 }
                 let waitCardAnim = SKAction.wait(forDuration: 0.2)
-
                 
                 let returnUpdate = SKAction.run {
                     if randInt == 11 || randInt == 12 || randInt == 13{
@@ -1083,29 +1163,27 @@ class GameScene: SKScene {
                     }
                     self.updateDealerScore()
                 }
-                
                 let dealerUpdate = SKAction.run {
                     self.updateDealerScore()
                 }
-
-                
                 let checkwinn = SKAction.run {
                     self.checkwin()
                 }
                 
                 let giveNewCard = SKAction.run {
-
                     if self.dealerScore < 17 {
                         self.dealercard3 = self.spawnRandomCard(user: "Dealer", xPos: stayX, yPos:  2 * (self.frame.maxY / 3.6) - stayY)
                         self.dealercard3.name = "kards"
                         stayX += 40
                         stayY += 10
                     }else{
-                        self.gameOver = true
-                        if self.AlreadyWonLost == false {
-                            self.run(checkwinn)
+                        if self.gameOver == false {
+                            self.gameOver = true
+                            if self.AlreadyWonLost == false {
+                                self.run(checkwinn)
+                            }
+                            self.removeAllActions()
                         }
-                        self.removeAllActions()
                     }
                 
                 }
@@ -1121,16 +1199,13 @@ class GameScene: SKScene {
                 print("Playerscore stayed : \(playerScore)")
 
             }
-            
     
             override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
             {
 
-                
                 let wait = SKAction.wait(forDuration: 0.1)
                 
-                
-                
+            
                 let ScaleDown = SKAction.scale(by: 0.85, duration: 0.11)
                 let FadeDown = SKAction.fadeAlpha(to: 0.92, duration: 0.11)
                 let ScaleBack = SKAction.scale(to: 0.35, duration: 0.11)

@@ -18,10 +18,8 @@ class MenuScene: SKScene {
     
     
     override func didMove(to view: SKView) {
-        print(defaults.bool(forKey: "Slot2LockState"))
         
         defaults.set(false, forKey: "FIRSTEVERLAUNCH")
-        print("Menu lasvictory : \(defaults.bool(forKey: "LastGameVictory?"))")
         var CoinsTexture:[SKTexture] = []
         for i in 1...10 {
             CoinsTexture.append(SKTexture(imageNamed: "COINS\(i)"))
@@ -86,8 +84,35 @@ class MenuScene: SKScene {
         }
         MUSIClaunched = true
     }
+    
+    func spawncoins() {
+        let CoinSound = SKAction.playSoundFileNamed("gamecoin.wav", waitForCompletion: false)
+        if defaults.bool(forKey: "soundon") == true{
+            run(SKAction.sequence([CoinSound]))
+        }
+        let vector = SKAction.move(to: CGPoint(x: 0.85*(frame.maxX/4), y: 0.91*(frame.maxY/9)), duration: 0.85)
+        let fadeout = SKAction.fadeOut(withDuration: 0.15)
+        let Coins = SKSpriteNode(texture: SKTexture(imageNamed: "COINS1"))
+        Coins.xScale = 0.35
+        Coins.yScale = 0.35
+        Coins.zPosition = 20
+        addChild(Coins)
+        let wait = SKAction.wait(forDuration: 0.09)
+        let Animation = SKAction.sequence([
+            (SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS2")}),wait,(SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS3")}),wait,(SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS4")}),wait,(SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS5")}),wait,(SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS6")}),wait,(SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS7")}),wait,(SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS8")}),wait,(SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS9")}),wait,(SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS10")}),wait,(SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS1")})])
+        let loop = SKAction.sequence([Animation])
+        let final = SKAction.repeatForever(loop)
+        
+        Coins.run(SKAction.rotate(toAngle: M_PI/2,duration: 0.0001))
+        Coins.position = CGPoint(x: 0.8*(self.frame.maxX/4), y: 0.3*(self.frame.maxY/9))
+        Coins.run(final)
+        Coins.run(SKAction.sequence([SKAction.wait(forDuration: 0.7),fadeout]))
+        Coins.run(vector)
+        
+    }
+    
+    
     func LastGameVictory(){
-        print("pupupute")
         let ApparitionRect = SKShapeNode(rectOf: CGSize(width: 105, height: 32.5), cornerRadius: 10)
         ApparitionRect.position = CGPoint(x: 3.25*(frame.maxX/4), y: 0.91*(frame.maxY/9))
         ApparitionRect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
@@ -98,7 +123,7 @@ class MenuScene: SKScene {
         ApparitionRect.run(SKAction.sequence([SKAction.wait(forDuration: 1.5),SKAction.fadeOut(withDuration: 0.5)]))
 
         
-        let AppearCoinsRect = SKShapeNode(rectOf: CGSize(width: 80, height: 35), cornerRadius: 10)
+        let AppearCoinsRect = SKShapeNode(rectOf: CGSize(width: 85, height: 40), cornerRadius: 10)
         AppearCoinsRect.position = CGPoint(x: 0.725*(frame.maxX/4), y: 0.9*(frame.maxY/9))
         AppearCoinsRect.fillColor = UIColor(red: 254/255, green: 207/255, blue: 41/255, alpha: 1)
         AppearCoinsRect.strokeColor = UIColor(red: 254/255, green: 207/255, blue: 41/255, alpha: 1)
@@ -106,8 +131,12 @@ class MenuScene: SKScene {
         AppearCoinsRect.zPosition = 2
         addChild(AppearCoinsRect)
         addChild(ApparitionRect)
-
+        
+        
         AppearCoinsRect.run(SKAction.sequence([SKAction.wait(forDuration: 1.5),SKAction.fadeOut(withDuration: 0.5)]))
+        
+        run(SKAction.sequence([SKAction.run{self.spawncoins()},SKAction.wait(forDuration: 0.8),SKAction.run{self.spawncoins()}]))
+ 
     }
     
     func Particles(XValue : CGPoint){
@@ -155,6 +184,21 @@ class MenuScene: SKScene {
         defaults.set(previousLevel + 1, forKey: "UserLvl")
         defaults.set(previousExp - (previousLevel * 100), forKey: "UserExp")
     
+        let lvluptext = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        lvluptext.position = CGPoint(x:1.9*(frame.maxX/3), y: (3.5 * (frame.maxY/5)))
+        lvluptext.fontSize = 20
+        lvluptext.text = "LEVEL UP!"
+        lvluptext.zPosition = 4
+        lvluptext.run(SKAction.move(by: CGVector(dx: 0, dy: 10), duration: 1.75))
+        lvluptext.run(SKAction.fadeOut(withDuration: 1.75))
+        
+        
+        let lvluprect = SKShapeNode(rectOf: CGSize(width: 110, height: 35), cornerRadius: 10)
+        lvluprect.fillColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+        lvluprect.strokeColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0)
+        lvluprect.position = CGPoint(x:frame.midX, y: (3.95 * (frame.maxY/5)))
+        lvluprect.zPosition = 3
+        lvluprect.run(SKAction.fadeOut(withDuration: 1.75))
     }
     
     func pressedButton (button: SKSpriteNode, time : CGFloat, scale : CGFloat) -> SKAction {
@@ -264,7 +308,6 @@ class MenuScene: SKScene {
     class AddSkinSlot {
         var positionn : CGPoint!
         var SkinTexture : SKTexture!
-        var skincheckbox : SKTexture!
         var SlotUnlocked : Bool!
         var checkbox : SKSpriteNode!
         var LockState : Bool!
@@ -275,7 +318,7 @@ class MenuScene: SKScene {
         var PriceText = SKLabelNode(fontNamed: "TextaW00-Heavy")
         var CoinsImage : SKSpriteNode!
 
-
+        var CheckedBool : Bool!
         //ar checkbox : SKSpriteNode!
 
         
@@ -287,6 +330,8 @@ class MenuScene: SKScene {
             OuterRectangle.position = CGPoint(x: Position.x, y: Position.y + 60)
             SlotNumberValue = SlotNumber
             LockState = LockedState
+            CheckedBool = CheckedState
+            
             if LockState == true{
                 checkbox = SKSpriteNode(texture: SKTexture(imageNamed: "locked"))
                 PriceBanner = SKShapeNode(rectOf: CGSize(width: 72, height: 27), cornerRadius: 0)
@@ -338,15 +383,18 @@ class MenuScene: SKScene {
         
 
     }
-    var slot9 : AddSkinSlot?
-    var slot8 : AddSkinSlot?
-    var slot7 : AddSkinSlot?
-    var slot6 : AddSkinSlot?
-    var slot5 : AddSkinSlot?
-    var slot4 : AddSkinSlot?
-    var slot3 : AddSkinSlot?
-    var slot2 : AddSkinSlot?
-    var slot1 : AddSkinSlot?
+    var lvltext : SKLabelNode!
+    var lvlrect : SKShapeNode!
+    
+    var slot9 : AddSkinSlot!
+    var slot8 : AddSkinSlot!
+    var slot7 : AddSkinSlot!
+    var slot6 : AddSkinSlot!
+    var slot5 : AddSkinSlot!
+    var slot4 : AddSkinSlot!
+    var slot3 : AddSkinSlot!
+    var slot2 : AddSkinSlot!
+    var slot1 : AddSkinSlot!
 
     func SkinShopFunc(){
         SkinShopTouched = true
@@ -393,30 +441,24 @@ class MenuScene: SKScene {
         defaults.set(previousCoinValue - 50, forKey: "UserCoins")
         coinsInt = defaults.integer(forKey: "UserCoins")
         CoinsText.text = "\(coinsInt!)"
+        let a = String(Slot.SlotNumberValue)
+        let stringg = "Slot\(a)LockState"
+        print(stringg)
+        defaults.set(false, forKey: stringg)
         
-        if Slot.SlotNumberValue == 1{
-            //defaults.set(false, forKey: "Slot2LockState")
-        }else if Slot.SlotNumberValue == 2{
-            defaults.set(false, forKey: "Slot2LockState")
-        }else if Slot.SlotNumberValue == 3{
-            defaults.set(false, forKey: "Slot3LockState")
-        }else if Slot.SlotNumberValue == 4{
-            defaults.set(false, forKey: "Slot4LockState")
-        }else if Slot.SlotNumberValue == 5{
-            defaults.set(false, forKey: "Slot5LockState")
-        }else if Slot.SlotNumberValue == 6{
-            defaults.set(false, forKey: "Slot6LockState")
-        }else if Slot.SlotNumberValue == 7{
-            defaults.set(false, forKey: "Slot7LockState")
-        }else if Slot.SlotNumberValue == 8{
-            defaults.set(false, forKey: "Slot8LockState")
-        }else if Slot.SlotNumberValue == 9{
-            defaults.set(false, forKey: "Slo9LockState")
-        }
     }
     
-    
-    
+    func CheckIn(Slot : AddSkinSlot){
+        print("couille")
+        //Slot.OuterRectangle = SKSpriteNode(texture: SKTexture(imageNamed: "checked"))
+        //Slot.OuterRectangle.run(SKAction.fadeOut(withDuration: 1))
+        Slot.checkbox.texture = SKTexture(imageNamed: "checked")
+        let a = String(Slot.SlotNumberValue)
+        let stringg = "Slot\(a)Checked"
+
+        defaults.set(true, forKey: stringg)
+        
+    }
     func MakeCGcolor(RED : CGFloat, GREEN : CGFloat,BLUE : CGFloat) -> CGColor {
         return(CGColor(red: RED/255, green: GREEN/255, blue: BLUE/255, alpha: 1.0))
     }
@@ -497,15 +539,17 @@ class MenuScene: SKScene {
             SkinShop.yScale = Scaling/2
         }
         
-        let lvltext = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        lvltext = SKLabelNode(fontNamed: "TextaW00-Heavy")
         lvltext.position = CGPoint(x:frame.midX, y: (3.9 * (frame.maxY/5)))
         lvltext.fontSize = 20
         lvltext.text = "LEVEL \(defaults.integer(forKey: "UserLvl"))"
+        lvltext.zPosition = 4
         
-        let lvlrect = SKShapeNode(rectOf: CGSize(width: 100, height: 30), cornerRadius: 10)
+        lvlrect = SKShapeNode(rectOf: CGSize(width: 100, height: 30), cornerRadius: 10)
         lvlrect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
         lvlrect.strokeColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
         lvlrect.position = CGPoint(x:frame.midX, y: (3.95 * (frame.maxY/5)))
+        lvlrect.zPosition = 3
 
         
         expText = SKLabelNode(fontNamed: "TextaW00-Heavy")
@@ -548,11 +592,29 @@ class MenuScene: SKScene {
         CoinsRect.zPosition = 4
         Coins = SKSpriteNode(texture: SKTexture(imageNamed: "COINS1"))
         Coins.zPosition = 20
-        Coins.position = CGPoint(x: 0.85*(frame.maxX/4), y: 0.91*(frame.maxY/9))
         Coins.xScale = 0.35
         Coins.yScale = 0.35
         Coins.run(SKAction.rotate(toAngle: M_PI/2,duration: 0.01))
+        if defaults.integer(forKey: "UserCoins") < 1000 {
+            CoinsRect = SKShapeNode(rectOf: CGSize(width: 80, height: 35), cornerRadius: 10)
+            CoinsRect.position = CGPoint(x: 0.725*(frame.maxX/4), y: 0.9*(frame.maxY/9))
+            CoinsRect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
+            CoinsRect.strokeColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
+            Coins.position = CGPoint(x: 0.85*(frame.maxX/4), y: 0.91*(frame.maxY/9))
+            CoinsRect.zPosition = 4
+
+        }
         
+        if defaults.integer(forKey: "UserCoins") >= 1000 {
+            CoinsRect = SKShapeNode(rectOf: CGSize(width: 105, height: 35), cornerRadius: 10)
+            CoinsRect.position = CGPoint(x: 0.725*(frame.maxX/4), y: 0.9*(frame.maxY/9))
+            CoinsRect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
+            CoinsRect.strokeColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
+            Coins.position = CGPoint(x: 1*(frame.maxX/4), y: 0.91*(frame.maxY/9))
+            CoinsRect.zPosition = 4
+
+        }
+     
 
         addChild(Coins)
         addChild(CoinsText)
@@ -779,7 +841,13 @@ class MenuScene: SKScene {
         
         let text = CGPoint(x: 0.575*(frame.maxX/4), y: 0.81*(frame.maxY/9))
         let rect = CGPoint(x: 0.725*(frame.maxX/4), y: 0.9*(frame.maxY/9))
-        let coin = CGPoint(x: 0.85*(frame.maxX/4), y: 0.91*(frame.maxY/9))
+        var coin : CGPoint!
+        if defaults.integer(forKey: "UserCoins") < 1000 {
+             coin = CGPoint(x: 0.85*(frame.maxX/4), y: 0.91*(frame.maxY/9))
+        }else if defaults.integer(forKey: "UserCoins") >= 1000 {
+             coin = CGPoint(x: 1*(frame.maxX/4), y: 0.91*(frame.maxY/9))
+
+        }
         let moveAction1 = SKAction.move(to: text, duration: 0.75)
         let moveAction2 = SKAction.move(to: rect, duration: 0.75)
         let moveAction3 = SKAction.move(to: coin, duration: 0.75)
@@ -891,11 +959,19 @@ class MenuScene: SKScene {
                 if mainrect.frame.contains(location){
                     if slot1!.OuterRectangle.contains(location){
                         print("e ouai")
-                        
+                        if slot9!.LockState == false{
+                            if slot9!.CheckedBool == false{
+                                CheckIn(Slot: slot9!)
+                            }
+                        }
                     }else if slot2!.OuterRectangle.contains(location){
                         if slot2!.LockState == true {
                             if defaults.integer(forKey: "UserCoins") >= 50 {
                                 Unlock(Slot: slot2!)
+                            }
+                        }else if slot2!.LockState == false{
+                            if slot2!.CheckedBool == false{
+                                CheckIn(Slot: slot2!)
                             }
                         }
                     }else if slot3!.OuterRectangle.contains(location){
@@ -903,11 +979,19 @@ class MenuScene: SKScene {
                             if defaults.integer(forKey: "UserCoins") >= 50 {
                                 Unlock(Slot: slot3!)
                             }
+                        }else if slot3!.LockState == false{
+                            if slot3!.CheckedBool == false{
+                                CheckIn(Slot: slot3!)
+                            }
                         }
                     }else if slot4!.OuterRectangle.contains(location){
                         if slot4!.LockState == true {
                             if defaults.integer(forKey: "UserCoins") >= 50 {
                                 Unlock(Slot: slot4!)
+                            }
+                        }else if slot4!.LockState == false{
+                            if slot4!.CheckedBool == false{
+                                CheckIn(Slot: slot4!)
                             }
                         }
                     }else if slot5!.OuterRectangle.contains(location){
@@ -915,11 +999,19 @@ class MenuScene: SKScene {
                             if defaults.integer(forKey: "UserCoins") >= 50 {
                                 Unlock(Slot: slot5!)
                             }
+                        }else if slot5!.LockState == false{
+                            if slot5!.CheckedBool == false{
+                                CheckIn(Slot: slot5!)
+                            }
                         }
                     }else if slot6!.OuterRectangle.contains(location){
                         if slot6!.LockState == true {
                             if defaults.integer(forKey: "UserCoins") >= 50 {
                                 Unlock(Slot: slot6!)
+                            }
+                        }else if slot6!.LockState == false{
+                            if slot6!.CheckedBool == false{
+                                CheckIn(Slot: slot6!)
                             }
                         }
                     }else if slot7!.OuterRectangle.contains(location){
@@ -927,17 +1019,30 @@ class MenuScene: SKScene {
                             if defaults.integer(forKey: "UserCoins") >= 50 {
                                 Unlock(Slot: slot7!)
                             }
+                        }else if slot7!.LockState == false{
+                            if slot7!.CheckedBool == false{
+                                CheckIn(Slot: slot7!)
+                                print("maxime")
+                            }
                         }
                     }else if slot8!.OuterRectangle.contains(location){
                         if slot8!.LockState == true {
                             if defaults.integer(forKey: "UserCoins") >= 50 {
                                 Unlock(Slot: slot8!)
                             }
+                        }else if slot8!.LockState == false{
+                            if slot8!.CheckedBool == false{
+                                CheckIn(Slot: slot8!)
+                            }
                         }
                     }else if slot9!.OuterRectangle.contains(location){
                         if slot9!.LockState == true {
                             if defaults.integer(forKey: "UserCoins") >= 50 {
                                 Unlock(Slot: slot9!)
+                            }
+                        }else if slot9!.LockState == false{
+                            if slot9!.CheckedBool == false{
+                                CheckIn(Slot: slot9!)
                             }
                         }
                     }

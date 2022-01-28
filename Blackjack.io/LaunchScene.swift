@@ -79,10 +79,12 @@ class LaunchScreen: SKScene{
         
         rect = SKShapeNode(rect: CGRect(x: frame.midX - (4*(frame.maxX/5)/2), y: frame.midY, width: 4*(frame.maxX/5), height: 25), cornerRadius: 10)
         rect.fillColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
-
+        rect.zPosition = 4
+        
         outerRect = SKShapeNode(rect: CGRect(x: frame.midX - (4.2*(frame.maxX/5)/2), y: frame.midY - 5, width: 4.2*(frame.maxX/5), height: 35), cornerRadius: 10)
         outerRect.fillColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0)
         outerRect.lineWidth = CGFloat(3.5)
+        outerRect.zPosition = 2
         
         addChild(outerRect)
         addChild(rect)

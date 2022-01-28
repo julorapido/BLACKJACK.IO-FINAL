@@ -19,6 +19,7 @@
 		5E827A662712E6F60005C9D0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E827A642712E6F60005C9D0 /* LaunchScreen.storyboard */; };
 		5E827A6F2712E7970005C9D0 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E827A6E2712E7970005C9D0 /* MenuScene.swift */; };
 		5E960527278A12C100019D6C /* LaunchScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E960526278A12C100019D6C /* LaunchScene.swift */; };
+		5ECE246B27A40D7600165095 /* gamecoin.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5ECE246A27A40D7600165095 /* gamecoin.wav */; };
 		5EF236052796C37000AEBB78 /* MainMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5EF236042796C37000AEBB78 /* MainMusic.mp3 */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +38,7 @@
 		5E827A6E2712E7970005C9D0 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		5E8C0F95271368AD006278C7 /* Blackjack-io-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Blackjack-io-Info.plist"; sourceTree = SOURCE_ROOT; };
 		5E960526278A12C100019D6C /* LaunchScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScene.swift; sourceTree = "<group>"; };
+		5ECE246A27A40D7600165095 /* gamecoin.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = gamecoin.wav; sourceTree = "<group>"; };
 		5EF236042796C37000AEBB78 /* MainMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = MainMusic.mp3; sourceTree = "<group>"; };
 		A2F8332C63F7A8663AB069C2 /* Pods-Blackjack.io.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blackjack.io.release.xcconfig"; path = "Target Support Files/Pods-Blackjack.io/Pods-Blackjack.io.release.xcconfig"; sourceTree = "<group>"; };
 		B9E0A50B1A5F0469395DA32C /* Pods-Blackjack.io.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blackjack.io.debug.xcconfig"; path = "Target Support Files/Pods-Blackjack.io/Pods-Blackjack.io.debug.xcconfig"; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				5E827A6E2712E7970005C9D0 /* MenuScene.swift */,
 				5E61B5AA272A157C0073778C /* GameScene.swift */,
 				5EF236042796C37000AEBB78 /* MainMusic.mp3 */,
+				5ECE246A27A40D7600165095 /* gamecoin.wav */,
 				5E01B9DA2736F22800AE40D4 /* cardflip.mp3 */,
 				5E01B9D62736EBE900AE40D4 /* cardmoov.mp3 */,
 			);
@@ -179,6 +182,7 @@
 				5E827A612712E6F50005C9D0 /* Main.storyboard in Resources */,
 				5E01B9DB2736F22800AE40D4 /* cardflip.mp3 in Resources */,
 				5E61B5A92729DD910073778C /* TextaW00-Heavy.ttf in Resources */,
+				5ECE246B27A40D7600165095 /* gamecoin.wav in Resources */,
 				5E827A632712E6F60005C9D0 /* Assets.xcassets in Resources */,
 				5E01B9D72736EBE900AE40D4 /* cardmoov.mp3 in Resources */,
 				5EF236052796C37000AEBB78 /* MainMusic.mp3 in Resources */,
@@ -377,6 +381,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JL5ZB6G3HN;
+				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Blackjack-io-Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
@@ -410,6 +415,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JL5ZB6G3HN;
+				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Blackjack-io-Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
