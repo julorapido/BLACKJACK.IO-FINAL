@@ -23,6 +23,7 @@ class LaunchScreen: SKScene{
             "Slot8LockState"  : true,
             "Slot9LockState"  : true,
             
+            "SlotChecked" : "Slot1",
             "Slot1Checked" : true,
             "Slot2Checked" : false,
             "Slot3Checked" : false,

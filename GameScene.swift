@@ -411,11 +411,32 @@ class GameScene: SKScene {
         text.fontSize = 33
         text.position = CGPoint(x: frame.maxX + 50, y: 3.35*(frame.maxY/4))
         text.zPosition = 10
-        let InnerRectangle = SKShapeNode(rectOf: CGSize(width: 150, height: 50),cornerRadius: 5)
+        var InnerRectangle = SKShapeNode(rectOf: CGSize(width: 150, height: 50),cornerRadius: 5)
         InnerRectangle.position = CGPoint(x: frame.maxX + 200, y: 3.42*(frame.maxY/4))
         InnerRectangle.strokeColor = UIColor(red: 80/255, green: 130/255, blue: 130/255, alpha: 0)
         InnerRectangle.alpha = 0.2
         InnerRectangle.zPosition = 10
+        
+        var OuterRectangle = SKShapeNode(rectOf: CGSize(width: 150, height: 50),cornerRadius: 5)
+        OuterRectangle.position = CGPoint(x: frame.maxX + 200, y: 3.42*(frame.maxY/4))
+        OuterRectangle.strokeColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+        OuterRectangle.fillColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 0)
+        OuterRectangle.lineWidth = CGFloat(5.5)
+        OuterRectangle.zPosition = 9
+        if (frame.maxY) > CGFloat(736) {
+            InnerRectangle = SKShapeNode(rectOf: CGSize(width: 150, height: 52),cornerRadius: 5)
+            OuterRectangle = SKShapeNode(rectOf: CGSize(width: 150, height: 54),cornerRadius: 5)
+            OuterRectangle.position = CGPoint(x: frame.maxX + 200, y: 3.405*(frame.maxY/4))
+            OuterRectangle.strokeColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+            OuterRectangle.fillColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 0)
+            OuterRectangle.lineWidth = CGFloat(5.5)
+            OuterRectangle.zPosition = 9
+            InnerRectangle.position = CGPoint(x: frame.maxX + 200, y: 3.405*(frame.maxY/4))
+            InnerRectangle.strokeColor = UIColor(red: 80/255, green: 130/255, blue: 130/255, alpha: 0)
+            InnerRectangle.alpha = 0.2
+            InnerRectangle.zPosition = 10
+
+        }
         
         if way == "PlayerBust"{
             text.text = "YOU BUST"
@@ -431,7 +452,7 @@ class GameScene: SKScene {
             text.fontColor = UIColor.white
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: false)
             DisplayEXPnumbers(EXP: 25)
-            ModifyPlayerData(Exp: 200, CoinsWon: 2)
+            ModifyPlayerData(Exp: 200, CoinsWon: 50)
             displayCoins(CoinsNumber: 2)
             print("ppupuepute")
             defo.set(true,forKey: "LastGameVictory?")
@@ -462,7 +483,7 @@ class GameScene: SKScene {
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: true)
             InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
             DisplayEXPnumbers(EXP: 50)
-            ModifyPlayerData(Exp: 50, CoinsWon: 3)
+            ModifyPlayerData(Exp: 50, CoinsWon: 50)
             displayCoins(CoinsNumber: 3)
             defo.set(true,forKey: "LastGameVictory?")
         }else if way == "DealerBust"{
@@ -470,7 +491,7 @@ class GameScene: SKScene {
             text.fontColor = UIColor.white
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: true)
             DisplayEXPnumbers(EXP: 35)
-            ModifyPlayerData(Exp: 200, CoinsWon: 2)
+            ModifyPlayerData(Exp: 200, CoinsWon: 50)
             displayCoins(CoinsNumber: 2)
             InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
             defo.set(true,forKey: "LastGameVictory?")
@@ -493,13 +514,7 @@ class GameScene: SKScene {
         let waitvitefait = SKAction.wait(forDuration: 0.6)
         
 
-        
-        let OuterRectangle = SKShapeNode(rectOf: CGSize(width: 150, height: 50),cornerRadius: 5)
-        OuterRectangle.position = CGPoint(x: frame.maxX + 200, y: 3.42*(frame.maxY/4))
-        OuterRectangle.strokeColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
-        OuterRectangle.fillColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 0)
-        OuterRectangle.lineWidth = CGFloat(5.5)
-        OuterRectangle.zPosition = 9
+
         
         let ScaleScene = SKAction.scaleX(to: 15, duration: 0.8)
         let meh = SKAction.fadeAlpha(to: 1, duration: 1.25)
