@@ -33,7 +33,7 @@ class LaunchScreen: SKScene{
             "Slot7Checked" : false,
             "Slot8Checked" : false,
             "Slot9Checked" : false,
-            "SkinSelected" : "back",
+            "SkinSelected" : "back basicblue",
             "DeckSelected" : "deck",
             "PlayColor" : "basicblue"
         ])

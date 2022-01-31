@@ -23,12 +23,7 @@ class MenuScene: SKScene {
         for i in 1...10 {
             CoinsTexture.append(SKTexture(imageNamed: "COINS\(i)"))
         }
-        if defaults.bool(forKey: "MusicOn?") == true {
-            if defaults.bool(forKey: "MUSICEVERLAUNCHED") == false {
-                BackgroundMusic()
-                defaults.set(true, forKey: "MUSICEVERLAUNCHED")
-            }
-        }
+
         layoutScene()
         playbuttonFunc()
         blackjackpng()
@@ -255,7 +250,7 @@ class MenuScene: SKScene {
     var newNode : SKSpriteNode!
     let fadeAction = SKAction.fadeAlpha(to: 0.95, duration: 0.2)
     let pressedAction = SKAction.scale(to: 0.7, duration: 0.3)
-    var musicImage :SKSpriteNode!
+    var info :SKSpriteNode!
     var coinsInt : Int!
   
     
@@ -295,7 +290,7 @@ class MenuScene: SKScene {
         var SlotUnlocked : Bool!
         var checkbox : SKSpriteNode!
         var LockState : Bool!
-        var OuterRectangle = SKShapeNode(rectOf: CGSize(width: 76, height: 87), cornerRadius: 12.5)
+        var OuterRectangle = SKShapeNode(rectOf: CGSize(width: 76, height: 87), cornerRadius: 5)
         
         var SlotNumberValue : Int!
         var PriceBanner : SKShapeNode!
@@ -310,7 +305,7 @@ class MenuScene: SKScene {
         
         init(Position : CGPoint, SkinTexture : SKTexture, LockedState : Bool, SlotNumber : Int, CheckedState : Bool){
             OuterRectangle.zPosition = 30
-            OuterRectangle.lineWidth = CGFloat(2.36)
+            OuterRectangle.lineWidth = CGFloat(2.25)
             positionn = Position
             OuterRectangle.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 0)
             OuterRectangle.position = CGPoint(x: Position.x, y: Position.y + 65)
@@ -518,7 +513,7 @@ class MenuScene: SKScene {
         Slot.checkbox.texture = SKTexture(imageNamed: "checked")
         let a = String(Slot.SlotNumberValue)
         let stringg = "Slot\(a)"
-        let FadeRect = SKShapeNode(rectOf: CGSize(width: 82, height: 91), cornerRadius: 12.5)
+        let FadeRect = SKShapeNode(rectOf: CGSize(width: 82, height: 91), cornerRadius: 5)
         let daPoint = Slot.OuterRectangle.position
         FadeRect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 0)
         FadeRect.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
@@ -590,15 +585,11 @@ class MenuScene: SKScene {
         soundImage.yScale = 0.065
         soundImage.name = "sound_image"
         
-        musicImage = SKSpriteNode(imageNamed: "musicon")
-        if defaults.bool(forKey: "MusicOn?") == true {
-            musicImage.texture = SKTexture(imageNamed: "musicon")
-        }else if defaults.bool(forKey: "MusicOn?") == false {
-            musicImage.texture = SKTexture(imageNamed: "musicoff")
-        }
-        musicImage.xScale = 0.07
-        musicImage.yScale = 0.07
-        musicImage.name = "music_image"
+        info = SKSpriteNode(imageNamed: "info")
+
+        info.xScale = 0.04
+        info.yScale = 0.04
+        info.name = "info_image"
         
         SkinShop = SKSpriteNode(imageNamed: "shop")
         SkinShop.xScale = 0.1
@@ -620,12 +611,12 @@ class MenuScene: SKScene {
         
         
         func SideButtons(Scaling : CGFloat){
-            musicImage.xScale = Scaling
-            musicImage.yScale = Scaling
-            soundImage.xScale = Scaling - CGFloat(0.01)
-            soundImage.yScale = Scaling - CGFloat(0.01)
-            SkinShop.xScale = Scaling/2
-            SkinShop.yScale = Scaling/2
+            info.xScale = Scaling/1.5
+            info.yScale = Scaling/1.5
+            soundImage.xScale = Scaling
+            soundImage.yScale = Scaling
+            SkinShop.xScale = Scaling/1.3
+            SkinShop.yScale = Scaling/1.3
         }
         
         lvltext = SKLabelNode(fontNamed: "TextaW00-Heavy")
@@ -655,7 +646,7 @@ class MenuScene: SKScene {
         
         
         
-        musicImage.position = CGPoint(x: frame.minX + 55, y: 13.75*(frame.maxY/20))
+        info.position = CGPoint(x: frame.minX + 55, y: 13.75*(frame.maxY/20))
         SkinShop.position = CGPoint(x: frame.minX + 55, y: 12.75*(frame.maxY/20))
         soundImage.position = CGPoint(x: frame.minX + 55, y: 11.75*(frame.maxY/20))
         
@@ -733,13 +724,13 @@ class MenuScene: SKScene {
             }else if (frame.maxY) > CGFloat(600) && (frame.maxY) < CGFloat(730){///////////////// IPHONE 7 8
                 AdaptiveValue = CGFloat(0.52)
                 CoinsAdaptivePos = CGPoint(x: 0.575*(frame.maxX/4), y: 0.81*(frame.maxY/9))
-                musicImage.position = CGPoint(x: frame.minX + 55, y: 13.75*(frame.maxY/20))
+                info.position = CGPoint(x: frame.minX + 55, y: 13.75*(frame.maxY/20))
                 SkinShop.position = CGPoint(x: frame.minX + 55, y: 12.4*(frame.maxY/20))
                 soundImage.position = CGPoint(x: frame.minX + 55, y: 11.05*(frame.maxY/20))
                 SideButtons(Scaling: 0.18)
             }else if (frame.maxY) > CGFloat(736) && (frame.maxY) < CGFloat(900){////////////////// IPHONE XR 11 12 13
                 AdaptiveValue = CGFloat(0.55)
-                musicImage.position = CGPoint(x: frame.minX + 55, y: 13.75*(frame.maxY/20))
+                info.position = CGPoint(x: frame.minX + 55, y: 13.75*(frame.maxY/20))
                 SkinShop.position = CGPoint(x: frame.minX + 55, y: 12.75*(frame.maxY/20))
                 CoinsAdaptivePos = CGPoint(x: 0.575*(frame.maxX/4), y: 0.83*(frame.maxY/9))
 
@@ -747,7 +738,7 @@ class MenuScene: SKScene {
                 SideButtons(Scaling: 0.2)
             }else if (frame.maxY) > CGFloat(900){///////////// IPHONE MAX 13 MAX 12 MAX
                 AdaptiveValue = CGFloat(0.585)
-                musicImage.position = CGPoint(x: frame.minX + 55, y: 13.75*(frame.maxY/20))
+                info.position = CGPoint(x: frame.minX + 55, y: 13.75*(frame.maxY/20))
                 SkinShop.position = CGPoint(x: frame.minX + 55, y: 12.75*(frame.maxY/20))
                 soundImage.position = CGPoint(x: frame.minX + 55, y: 11.75*(frame.maxY/20))
                 CoinsAdaptivePos = CGPoint(x: 0.575*(frame.maxX/4), y: 0.845*(frame.maxY/9))
@@ -878,7 +869,7 @@ class MenuScene: SKScene {
         run(SKAction.repeatForever(SKAction.sequence([pd,wait3])))
 
         addChild(soundImage)
-        addChild(musicImage)
+        addChild(info)
         addChild(SkinShop)
         addChild(GiftImage)
         addChild(GiftText)
@@ -1197,7 +1188,7 @@ class MenuScene: SKScene {
                     if defaults.bool(forKey: "soundon") == true{
                         run(gouttesound)
                     }
-                    pressedButton(button: soundImage, time: 0.2, scale: 0.04)
+                    pressedButton(button: soundImage, time: 0.2, scale: 0.2)
                     disableUserInter(time: 1)
                     if defaults.bool(forKey: "soundon") == true {
                         defaults.set(false, forKey: "soundon")
@@ -1206,37 +1197,16 @@ class MenuScene: SKScene {
                         defaults.set(true, forKey: "soundon")
                         soundImage.texture = SKTexture(imageNamed: "sound on")
                         }
-                }else if node.name == "music_image"{
-                    if defaults.bool(forKey: "soundon") == true{
-                        run(gouttesound)
-                    }
-                    pressedButton(button: musicImage, time: 0.2, scale: 0.04)
-                    disableUserInter(time: 1)
-                    
-                    if defaults.bool(forKey: "MusicOn?") == false {
-                        defaults.set(true, forKey: "MusicOn?")
-                        musicImage.texture = SKTexture(imageNamed: "musicon")
-                        if defaults.bool(forKey: "MUSICEVERLAUNCHED") == true {
-                            if MUSIClaunched == true {
-                            MusicPlayer.play()
-                            }else{
-                                BackgroundMusic()
-                            }
-                        }else if defaults.bool(forKey: "MUSICEVERLAUNCHEE") == false{
-                            BackgroundMusic()
-                        }
-                    }else if defaults.bool(forKey: "MusicOn?") == true {
-                        defaults.set(false, forKey: "MusicOn?")
-                        MusicPlayer.pause()
-                        musicImage.texture = SKTexture(imageNamed: "musicoff")
-                    }
                 }else if node.name == "skinshop_image"{
                     if defaults.bool(forKey: "soundon") == true{
                         run(gouttesound)
                     }
-                    pressedButton(button: SkinShop, time: 0.2, scale: 0.08)
+                    pressedButton(button: SkinShop, time: 0.2, scale: 0.15)
                     disableUserInter(time: 1)
                     SkinShopFunc()
+                }else if node.name == "info" {
+                    pressedButton(button: info, time: 0.2, scale: 0.05)
+
                 }
             }
         }

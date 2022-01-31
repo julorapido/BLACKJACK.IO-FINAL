@@ -129,13 +129,10 @@ class GameScene: SKScene {
             if playerHasOut10 == false { ////////////// STAY APPUYÉ :   SI LE SCORE DU  JOUEUR N'A PAS DEPASSSÉ 10 :     4,14 === > 14
                 playerScore += playerHasAs+10
                 playerScoreLabel.text = "\(playerScore)"
-                }
-            }
-        if playerHasAs >= 1 {
-            if playerScore + playerHasAs + 10 > 21 {
+                print("LA ICI")
+            }else {
+                print("injad")
                 playerScore = playerScore + playerHasAs
-            }else if playerScore + playerHasAs + 10 < 21 {
-                playerScore = playerScore + playerHasAs + 10
             }
         }
         
@@ -143,6 +140,7 @@ class GameScene: SKScene {
 
     func updatePlayerScore(){
         
+        print("playerscore :\(playerScore)")
         if playerScore + playerHasAs > 21 {//////////////////// LE JOUEUR BUST
             lost(way: "Bust")
             PlayerBusted = true
@@ -790,13 +788,17 @@ class GameScene: SKScene {
         }
         
         func deckq(){
-            deck = SKSpriteNode(imageNamed: defo.string(forKey: "DeckSelected")!)
+            deck = SKSpriteNode(texture: SKTexture(imageNamed: defo.string(forKey: "DeckSelected")!))
             deck.position = CGPoint(x: frame.maxX - 40, y: frame.maxY + 40)
             deck.xScale = 0.7
             deck.yScale = 0.65
             deck.zPosition = -10
             addChild(deck)
             deck.run(SKAction.move(to: deckpos  , duration: 1))
+            if (defo.string(forKey: "DeckSelected")!) == "deckhalloween" {
+                deck.xScale = 0.5
+                deck.yScale = 0.45
+            }
         }
         func hitfunc(){
             hitbutton = SKSpriteNode(imageNamed: "HIT")
