@@ -504,12 +504,18 @@ class MenuScene: SKScene {
         Slot.checkbox.texture = SKTexture(imageNamed: "checked")
         let a = String(Slot.SlotNumberValue)
         let stringg = "Slot\(a)"
-        var FadeRect = SKShapeNode(rectOf: CGSize(width: 79.2, height: 88), cornerRadius: 10)
-        var daPoint = Slot.OuterRectangle.position
+        let FadeRect = SKShapeNode(rectOf: CGSize(width: 79.2, height: 88), cornerRadius: 12.5)
+        let daPoint = Slot.OuterRectangle.position
         FadeRect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 0)
         FadeRect.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
         FadeRect.position = daPoint
-    
+        FadeRect.zPosition = 100
+        FadeRect.lineWidth = CGFloat(2.5)
+        addChild(FadeRect)
+        FadeRect.run(SKAction.sequence([SKAction.wait(forDuration: 0.35),SKAction.fadeOut(withDuration: 0.15)]))
+        FadeRect.run(SKAction.scaleX(to: 1.3, duration: 1))
+        FadeRect.run(SKAction.scaleY(to: 1.1, duration: 0.58))
+
         defaults.set(stringg, forKey: "SlotChecked")
         
     }
@@ -1079,7 +1085,7 @@ class MenuScene: SKScene {
                                 Unlock(Slot: slot7!)
                             }
                         }else if slot7!.LockState == false{
-                            if slot7!.CheckedBool == false{
+                            if "Slot7" != defaults.string(forKey: "SlotChecked"){
                                 CheckIn(Slot: slot7!)
                                 print("maxime")
                             }
@@ -1090,7 +1096,7 @@ class MenuScene: SKScene {
                                 Unlock(Slot: slot8!)
                             }
                         }else if slot8!.LockState == false{
-                            if slot8!.CheckedBool == false{
+                            if "Slot8" != defaults.string(forKey: "SlotChecked"){
                                 CheckIn(Slot: slot8!)
                             }
                         }
@@ -1100,7 +1106,7 @@ class MenuScene: SKScene {
                                 Unlock(Slot: slot9!)
                             }
                         }else if slot9!.LockState == false{
-                            if slot9!.CheckedBool == false{
+                            if "Slot9" != defaults.string(forKey: "SlotChecked"){
                                 CheckIn(Slot: slot9!)
                             }
                         }

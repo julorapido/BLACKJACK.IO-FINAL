@@ -440,7 +440,7 @@ class GameScene: SKScene {
         
         if way == "PlayerBust"{
             text.text = "YOU BUST"
-            text.fontColor = UIColor.red
+            text.fontColor = UIColor.white
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: true)
             DisplayEXPnumbers(EXP: -10)
             ModifyPlayerData(Exp: -10, CoinsWon: 0)
@@ -452,7 +452,7 @@ class GameScene: SKScene {
             text.fontColor = UIColor.white
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: false)
             DisplayEXPnumbers(EXP: 25)
-            ModifyPlayerData(Exp: 200, CoinsWon: 50)
+            ModifyPlayerData(Exp: 200, CoinsWon: 2)
             displayCoins(CoinsNumber: 2)
             print("ppupuepute")
             defo.set(true,forKey: "LastGameVictory?")
@@ -483,7 +483,7 @@ class GameScene: SKScene {
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: true)
             InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
             DisplayEXPnumbers(EXP: 50)
-            ModifyPlayerData(Exp: 50, CoinsWon: 50)
+            ModifyPlayerData(Exp: 80, CoinsWon: 3)
             displayCoins(CoinsNumber: 3)
             defo.set(true,forKey: "LastGameVictory?")
         }else if way == "DealerBust"{
@@ -491,11 +491,10 @@ class GameScene: SKScene {
             text.fontColor = UIColor.white
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: true)
             DisplayEXPnumbers(EXP: 35)
-            ModifyPlayerData(Exp: 200, CoinsWon: 50)
+            ModifyPlayerData(Exp: 40, CoinsWon: 2)
             displayCoins(CoinsNumber: 2)
             InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
             defo.set(true,forKey: "LastGameVictory?")
-
 
         }
         let addText = SKAction.run {
