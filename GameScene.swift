@@ -790,7 +790,7 @@ class GameScene: SKScene {
         }
         
         func deckq(){
-            deck = SKSpriteNode(imageNamed: "blue deck")
+            deck = SKSpriteNode(imageNamed: defo.string(forKey: "DeckSelected")!)
             deck.position = CGPoint(x: frame.maxX - 40, y: frame.maxY + 40)
             deck.xScale = 0.23
             deck.yScale = 0.2
@@ -851,7 +851,7 @@ class GameScene: SKScene {
         let family = ["TREFLE", "CARREAU", "COEUR", "PIC"]
         let randFamily = Int.random(in: 0...3)
         var randInt = Int.random(in: 2...14)///////////////////////////////////////////// RANDOMIZER
-        let returnedCard = SKSpriteNode(imageNamed: "backk")
+        let returnedCard = SKSpriteNode(imageNamed: defo.string(forKey: "SkinSelected")!)
         let randomCardAction = SKAction.run({self.addChild(returnedCard)})
         let RandomCardTexture = SKTexture(imageNamed: "\(randInt) \(family[randFamily])")
 

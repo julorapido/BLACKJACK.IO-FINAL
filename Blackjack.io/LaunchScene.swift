@@ -32,7 +32,9 @@ class LaunchScreen: SKScene{
             "Slot6Checked" : false,
             "Slot7Checked" : false,
             "Slot8Checked" : false,
-            "Slot9Checked" : false,            
+            "Slot9Checked" : false,
+            "SkinSelected" : "back",
+            "DeckSelected" : "deck"
         ])
         defaults.set(false, forKey: "MUSICEVERLAUNCHED")
 
