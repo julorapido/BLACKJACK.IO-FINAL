@@ -34,7 +34,8 @@ class LaunchScreen: SKScene{
             "Slot8Checked" : false,
             "Slot9Checked" : false,
             "SkinSelected" : "back",
-            "DeckSelected" : "deck"
+            "DeckSelected" : "deck",
+            "PlayColor" : "basicblue"
         ])
         defaults.set(false, forKey: "MUSICEVERLAUNCHED")
 

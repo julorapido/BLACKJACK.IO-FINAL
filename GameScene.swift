@@ -792,8 +792,8 @@ class GameScene: SKScene {
         func deckq(){
             deck = SKSpriteNode(imageNamed: defo.string(forKey: "DeckSelected")!)
             deck.position = CGPoint(x: frame.maxX - 40, y: frame.maxY + 40)
-            deck.xScale = 0.23
-            deck.yScale = 0.2
+            deck.xScale = 0.7
+            deck.yScale = 0.65
             deck.zPosition = -10
             addChild(deck)
             deck.run(SKAction.move(to: deckpos  , duration: 1))
