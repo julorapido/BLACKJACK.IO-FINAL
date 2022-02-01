@@ -11,13 +11,14 @@ import SpriteKit
 import UIKit
 import Foundation
 import AVFoundation
-//import GoogleMobileAds
+import GoogleMobileAds
 //MAX X IPHONE 8 : 375
 // MAX X IPHONE 8 PLUS : 414
 class MenuScene: SKScene {
     
     
     override func didMove(to view: SKView) {
+
         defaults.set(false, forKey: "FIRSTEVERLAUNCH")
         var CoinsTexture:[SKTexture] = []
         for i in 1...10 {
@@ -60,7 +61,7 @@ class MenuScene: SKScene {
                                            "black" :UIColor(red: 31/255, green: 31/255, blue: 31/255, alpha: 1.0),]
     
     var expNeeded : Double!
-    
+
     func UserData() {
 
         
@@ -308,6 +309,7 @@ class MenuScene: SKScene {
             OuterRectangle.lineWidth = CGFloat(2.25)
             positionn = Position
             OuterRectangle.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 0)
+            OuterRectangle.strokeColor = UIColor(red: 50/255, green: 50/255, blue: 50/255, alpha: 1)
             OuterRectangle.position = CGPoint(x: Position.x, y: Position.y + 65)
             SlotNumberValue = SlotNumber
             LockState = LockedState
@@ -413,6 +415,7 @@ class MenuScene: SKScene {
 
 
     func SkinShopFunc(){
+        playRec.isUserInteractionEnabled = true
         SkinShopTouched = true
         mainrect = SKShapeNode(rectOf: CGSize(width: 4.5*(frame.maxX/5), height: 3.4*(frame.maxY/5)), cornerRadius: 10)
         mainrect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
@@ -425,11 +428,11 @@ class MenuScene: SKScene {
         mainrect.run(SKAction.fadeIn(withDuration: 0.3))
         
         skinshoprect = SKShapeNode(rectOf: CGSize(width: 4.25*(frame.maxX/5), height: 1*(frame.maxY/12)), cornerRadius: 10)
-        skinshoprect.position = CGPoint(x: frame.minX - 50, y: 8*(frame.maxY/9))
+        skinshoprect.position = CGPoint(x: frame.minX - 50, y: 8.3*(frame.maxY/9))
         skinshoprect.zPosition = 14
         skinshoprect.fillColor = UIColor(red: 19/255, green: 28/255, blue: 47/255, alpha: 1)
         skinshoprect.strokeColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
-        skinshoprect.lineWidth = CGFloat(2.5)
+        skinshoprect.lineWidth = CGFloat(3.75   )
         skinshoprect.alpha = 0
 
 
@@ -447,8 +450,8 @@ class MenuScene: SKScene {
         skinshoptxt.run(SKAction.fadeIn(withDuration: 0.35))
         skinshoprect.run(SKAction.fadeIn(withDuration: 0.35))
 
-        skinshoprect.run(SKAction.move(to: CGPoint(x: frame.midX, y: 8*(frame.maxY/9)), duration: 0.4))
-        skinshoptxt.run(SKAction.move(to: CGPoint(x: frame.midX, y: 7.85*(frame.maxY/9)), duration: 0.4))
+        skinshoprect.run(SKAction.move(to: CGPoint(x: frame.midX, y: 8.05*(frame.maxY/9)), duration: 0.4))
+        skinshoptxt.run(SKAction.move(to: CGPoint(x: frame.midX, y: 7.9*(frame.maxY/9)), duration: 0.4))
         addChild(skinshoprect)
         addChild(skinshoptxt)
 
@@ -1039,9 +1042,7 @@ class MenuScene: SKScene {
             let location = touch.location(in: self)
             let touchedNode = self.nodes(at: location)
             if SkinShopTouched == true {
-                playRec.run(SKAction.run {
-                    self.playRec.isUserInteractionEnabled = false
-                })
+        
                 if mainrect.frame.contains(location){
                     if slot1!.OuterRectangle.contains(location){
                         if slot1!.LockState == false{
@@ -1160,6 +1161,7 @@ class MenuScene: SKScene {
                 }else{//////////////////////////// SORT DU SHOP
                     for child in self.children {
                         SkinShopTouched = false
+                        playRec.isUserInteractionEnabled = true
                         if child.name == "shopnode"{
                             child.run(SKAction.fadeOut(withDuration: 0.2))
                             child.run(SKAction.sequence([SKAction.wait(forDuration: 0.25),SKAction.run{child.removeFromParent()}]))

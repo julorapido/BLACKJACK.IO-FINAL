@@ -70,9 +70,10 @@ class LaunchScreen: SKScene{
         backgroundColor = UIColor(red: 15/255, green: 17/255, blue: 39/255, alpha: 1.0)
         
         let template = SKSpriteNode(texture: SKTexture(imageNamed: "templatee"))
-        template.xScale = 0.4
-        template.yScale = 0.4
-        template.position = CGPoint(x: frame.midX, y: 0.7*(frame.midY/5))
+        template.xScale = 0.85
+        template.yScale = 0.85
+        template.zPosition = 30
+        template.position = CGPoint(x: frame.midX, y: 2*(frame.maxY/3))
         let generator = UIImpactFeedbackGenerator(style: .light)
         generator.impactOccurred()
         
@@ -81,19 +82,23 @@ class LaunchScreen: SKScene{
         title.fontSize = 19
         title.position = CGPoint(x: frame.midX, y: 1*(frame.midY/5))
         
-        rect = SKShapeNode(rect: CGRect(x: frame.midX - (4*(frame.maxX/5)/2), y: frame.midY, width: 4*(frame.maxX/5), height: 25), cornerRadius: 10)
-        rect.fillColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
-        rect.zPosition = 4
+        let bruh = SKShapeNode(rect: CGRect(x: (frame.minX + 20), y: (1*(frame.maxY/3)), width: 15, height: 25))
+        bruh.fillColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
+        bruh.zPosition = 4
+    
         
-        outerRect = SKShapeNode(rect: CGRect(x: frame.midX - (4.2*(frame.maxX/5)/2), y: frame.midY - 5, width: 4.2*(frame.maxX/5), height: 35), cornerRadius: 10)
+        outerRect = SKShapeNode(rectOf: CGSize(width: frame.maxX - 30, height: 25))
+        outerRect.position = CGPoint(x: frame.midX, y: frame.midY)
         outerRect.fillColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0)
         outerRect.lineWidth = CGFloat(3.5)
         outerRect.zPosition = 2
         
         addChild(outerRect)
-        addChild(rect)
         addChild(title)
         addChild(template)
+        addChild(bruh)
+    
+        bruh.run(SKAction.scaleX(to: frame.maxX - 30, duration: 1))
     }
     
     
@@ -114,8 +119,7 @@ class LaunchScreen: SKScene{
         Renderedlist.append(SKTexture(imageNamed: "HIT"))
         Renderedlist.append(SKTexture(imageNamed: "STAND"))
         Renderedlist.append(SKTexture(imageNamed: "gift"))
-        Renderedlist.append(SKTexture(imageNamed: "backk"))
-        Renderedlist.append(SKTexture(imageNamed: "blue deck"))
+
 
         for i in 1...10{
             Renderedlist.append(SKTexture(imageNamed: "COINS\(i)"))
@@ -128,7 +132,7 @@ class LaunchScreen: SKScene{
 
             }
             z += 1
-            rect.xScale = CGFloat(z) * ((4*(frame.maxX/5))/62)
+            //rect.xScale = CGFloat(z) * ((4*(frame.maxX/5))/62)
         }
         if z == Renderedlist.count {
             startgame()

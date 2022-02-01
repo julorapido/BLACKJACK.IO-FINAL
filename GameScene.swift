@@ -401,6 +401,14 @@ class GameScene: SKScene {
             }
         }
 
+        let square = SKShapeNode(rectOf: CGSize(width: 4, height: 1.5))
+        square.position = CGPoint(x: frame.maxX + 20, y: 0.9525*(frame.maxY/5))
+        square.fillColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 0.8)
+        square.alpha = 0
+        addChild(square)
+        square.run(SKAction.scaleX(to: frame.maxX + 30, duration: 2))
+        square.run(SKAction.fadeIn(withDuration: 0.66))
+        
         
         
         let wait = SKAction.wait(forDuration: 2.5)

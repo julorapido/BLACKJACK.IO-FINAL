@@ -1,6 +1,8 @@
- platform :ios, '11.0'
+  platform :ios, '12.0'
+
 
 target 'Blackjack.io' do
   use_frameworks!
-  # Pods for Blackjack.io
+  pod 'Google-Mobile-Ads-SDK'
+
 end

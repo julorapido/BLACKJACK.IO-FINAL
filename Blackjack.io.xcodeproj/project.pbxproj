@@ -131,6 +131,7 @@
 				5E827A4E2712E6F50005C9D0 /* Sources */,
 				5E827A4F2712E6F50005C9D0 /* Frameworks */,
 				5E827A502712E6F50005C9D0 /* Resources */,
+				169D52E50B83B6C965ECAE99 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -193,6 +194,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		169D52E50B83B6C965ECAE99 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Blackjack.io/Pods-Blackjack.io-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Blackjack.io/Pods-Blackjack.io-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Blackjack.io/Pods-Blackjack.io-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		3BF977006E034E615783D690 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
