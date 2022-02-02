@@ -12,22 +12,25 @@ import UIKit
 import Foundation
 import AVFoundation
 import GoogleMobileAds
+import AudioToolbox
+
+
 //MAX X IPHONE 8 : 375
 // MAX X IPHONE 8 PLUS : 414
 class MenuScene: SKScene {
     
     
-    override func didMove(to view: SKView) {
-
+    override func didMove(to view: SKView) {     
+        
         defaults.set(false, forKey: "FIRSTEVERLAUNCH")
         var CoinsTexture:[SKTexture] = []
         for i in 1...10 {
             CoinsTexture.append(SKTexture(imageNamed: "COINS\(i)"))
         }
-
         layoutScene()
         playbuttonFunc()
         blackjackpng()
+
         AnimateCoins(TimeInterval: 0.1)
         if defaults.bool(forKey: "FirstLaunch") == true {
             AdustNodeApparitions()
@@ -36,6 +39,8 @@ class MenuScene: SKScene {
             LastGameVictory()
         }
     }
+    
+
         
 
     public let defaults = UserDefaults.standard
@@ -51,14 +56,17 @@ class MenuScene: SKScene {
     var MusicPlayer: AVAudioPlayer!
 
     var bruhColors : [String : UIColor] = ["basicblue" :UIColor(red: 1/255, green: 122/255, blue: 255/255, alpha: 1.0),
-                                           "green" :UIColor(red: 25/255, green: 127/255, blue: 44/255, alpha: 1.0),
                                            "red" :UIColor(red: 214/255, green: 37/255, blue: 45/255, alpha: 1.0),
-                                           "grey" :UIColor(red: 75/255, green: 75/255, blue: 75/255, alpha: 1.0),
-                                           "orange" :UIColor(red: 235/255, green: 159/255, blue: 50/255, alpha: 1.0),
                                            "blue" :UIColor(red: 38/255, green: 35/255, blue: 140/255, alpha: 1.0),
-                                           "christmas" :UIColor(red: 43/255, green: 87/255, blue: 65/255, alpha: 1.0),
                                            "halloween" :UIColor(red: 127/255, green: 70/255, blue: 253/255, alpha: 1.0),
-                                           "black" :UIColor(red: 31/255, green: 31/255, blue: 31/255, alpha: 1.0),]
+                                           "christmas" :UIColor(red: 43/255, green: 87/255, blue: 65/255, alpha: 1.0),
+                                           "green" :UIColor(red: 25/255, green: 127/255, blue: 44/255, alpha: 1.0),
+                                           "black" :UIColor(red: 31/255, green: 31/255, blue: 31/255, alpha: 1.0),
+                                           "purple" :UIColor(red: 168/255, green: 18/255, blue: 117/255, alpha: 1.0),
+                                           "cloud" :UIColor(red: 125/255, green: 91/255, blue: 186/255, alpha: 1.0),
+                                           "sky" :UIColor(red: 119/255, green: 193/255, blue: 254/255, alpha: 1.0)
+                                            ]
+    
     
     var expNeeded : Double!
 
@@ -291,7 +299,7 @@ class MenuScene: SKScene {
         var SlotUnlocked : Bool!
         var checkbox : SKSpriteNode!
         var LockState : Bool!
-        var OuterRectangle = SKShapeNode(rectOf: CGSize(width: 76, height: 87), cornerRadius: 5)
+        var OuterRectangle = SKShapeNode(rectOf: CGSize(width: 75, height: 90), cornerRadius: 7.5)
         
         var SlotNumberValue : Int!
         var PriceBanner : SKShapeNode!
@@ -302,14 +310,17 @@ class MenuScene: SKScene {
         
         var CheckedBool : Bool!
         //ar checkbox : SKSpriteNode!
-
+     
         
         init(Position : CGPoint, SkinTexture : SKTexture, LockedState : Bool, SlotNumber : Int, CheckedState : Bool){
-            OuterRectangle.zPosition = 30
-            OuterRectangle.lineWidth = CGFloat(2.25)
+        
+            
+            
+            OuterRectangle.zPosition = 16
+            OuterRectangle.lineWidth = CGFloat(3)
             positionn = Position
-            OuterRectangle.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 0)
-            OuterRectangle.strokeColor = UIColor(red: 50/255, green: 50/255, blue: 50/255, alpha: 1)
+            OuterRectangle.fillColor = UIColor(red: 40/255, green: 70/255, blue: 110/255, alpha: 1)
+            OuterRectangle.strokeColor = UIColor(red: 50/255, green: 50/255, blue: 50/255, alpha: 0)
             OuterRectangle.position = CGPoint(x: Position.x, y: Position.y + 65)
             SlotNumberValue = SlotNumber
             LockState = LockedState
@@ -323,28 +334,28 @@ class MenuScene: SKScene {
     
             
             if SlotNumber == 2 {
-                SkinSelec.texture = SKTexture(imageNamed: "back green")
-            }else if SlotNumber == 3 {
                 SkinSelec.texture = SKTexture(imageNamed: "back red")
-            }else if SlotNumber == 4 {
+            }else if SlotNumber == 3 {
                 SkinSelec.texture = SKTexture(imageNamed: "back blue")
-            }else if SlotNumber == 5 {
-                SkinSelec.texture = SKTexture(imageNamed: "back orange")
-            }else if SlotNumber == 6 {
-                SkinSelec.texture = SKTexture(imageNamed: "back grey")
-            }else if SlotNumber == 7 {
-                SkinSelec.texture = SKTexture(imageNamed: "back christmas")
-            }else if SlotNumber == 8 {
-                SkinSelec.texture = SKTexture(imageNamed: "back halloween")
-            }else if SlotNumber == 9 {
+            }else if SlotNumber == 4 {
                 SkinSelec.texture = SKTexture(imageNamed: "back black")
+            }else if SlotNumber == 5 {
+                SkinSelec.texture = SKTexture(imageNamed: "back christmas")
+            }else if SlotNumber == 6 {
+                SkinSelec.texture = SKTexture(imageNamed: "back halloween")
+            }else if SlotNumber == 7 {
+                SkinSelec.texture = SKTexture(imageNamed: "back purple")
+            }else if SlotNumber == 8 {
+                SkinSelec.texture = SKTexture(imageNamed: "back cloud")
+            }else if SlotNumber == 9 {
+                SkinSelec.texture = SKTexture(imageNamed: "back sky")
             }
             
             
             if LockState == true{
                 checkbox = SKSpriteNode(texture: SKTexture(imageNamed: "locked"))
-                PriceBanner = SKShapeNode(rectOf: CGSize(width: 72, height: 27), cornerRadius: 0)
-                PriceBanner.fillColor = UIColor(red: 120/255, green: 120/255, blue: 120/255, alpha: 1)
+                PriceBanner = SKShapeNode(rectOf: CGSize(width: 80, height: 26), cornerRadius: 0)
+                PriceBanner.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
                 PriceBanner.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0)
 
                 CoinsImage = SKSpriteNode(texture: SKTexture(imageNamed: "COINS1"))
@@ -353,9 +364,10 @@ class MenuScene: SKScene {
                 PriceText.text = "50"
                 PriceText.fontSize = 17
             
-                PriceBanner.position = CGPoint(x: Position.x, y: Position.y + 60)
-                CoinsImage.position = CGPoint(x: Position.x + 13, y: Position.y + 62)
-                PriceText.position = CGPoint(x: Position.x - 13, y: Position.y + 55)
+                PriceBanner.position = CGPoint(x: Position.x, y: Position.y + 65)
+                CoinsImage.position = CGPoint(x: Position.x + 13, y: Position.y + 66)
+                PriceText.position = CGPoint(x: Position.x - 13, y: Position.y + 59)
+                
                 
                 CoinsImage.zPosition = 41
                 PriceBanner.zPosition = 39
@@ -372,8 +384,10 @@ class MenuScene: SKScene {
                 
                 if defo.string(forKey: "SlotChecked") == str {
                     checkbox = SKSpriteNode(texture: SKTexture(imageNamed: "checked"))
+                    OuterRectangle.strokeColor = UIColor.green
                 }else {
                     checkbox = SKSpriteNode(texture: SKTexture(imageNamed: "unchecked"))
+                    OuterRectangle.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0)
 
                 }
         
@@ -394,6 +408,9 @@ class MenuScene: SKScene {
         
 
     }
+    let generator = UIImpactFeedbackGenerator(style: .medium)
+
+    
     var lvltext : SKLabelNode!
     var lvlrect : SKShapeNode!
     var CoinsAdaptivePos : CGPoint!
@@ -438,7 +455,7 @@ class MenuScene: SKScene {
 
         skinshoptxt = SKLabelNode(fontNamed: "TextaW00-Heavy")
         skinshoptxt.zPosition = 15
-        skinshoptxt.text = "SKIN SHOP"
+        skinshoptxt.text = "DECK SHOP"
         skinshoptxt.fontSize = 30
         skinshoptxt.position = CGPoint(x: frame.minX - 50, y: 7.93*(frame.maxY/9))
         skinshoptxt.alpha = 0
@@ -464,9 +481,9 @@ class MenuScene: SKScene {
         slot5 = AddSkinSlot.init(Position: CGPoint(x: 3*(frame.maxX/6), y: 2.6*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot5LockState"), SlotNumber: 5,CheckedState: defaults.bool(forKey: "Slot5Checked"))
         slot4 = AddSkinSlot.init(Position: CGPoint(x: 4.7*(frame.maxX/6), y: 2.6*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot4LockState"), SlotNumber: 4,CheckedState: defaults.bool(forKey: "Slot4Checked"))
 
-        slot1 = AddSkinSlot.init(Position: CGPoint(x: 1.3*(frame.maxX/6), y: 4*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot1LockState"), SlotNumber: 1,CheckedState: defaults.bool(forKey: "Slot1Checked"))
-        slot2 = AddSkinSlot.init(Position: CGPoint(x: 3*(frame.maxX/6), y: 4*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot2LockState"), SlotNumber: 2,CheckedState: defaults.bool(forKey: "Slot2Checked"))
-        slot3 = AddSkinSlot.init(Position: CGPoint(x: 4.7*(frame.maxX/6), y: 4*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot3LockState"), SlotNumber: 3,CheckedState: defaults.bool(forKey: "Slot3Checked"))
+        slot1 = AddSkinSlot.init(Position: CGPoint(x: 1.3*(frame.maxX/6), y: 3.9*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot1LockState"), SlotNumber: 1,CheckedState: defaults.bool(forKey: "Slot1Checked"))
+        slot2 = AddSkinSlot.init(Position: CGPoint(x: 3*(frame.maxX/6), y: 3.9*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot2LockState"), SlotNumber: 2,CheckedState: defaults.bool(forKey: "Slot2Checked"))
+        slot3 = AddSkinSlot.init(Position: CGPoint(x: 4.7*(frame.maxX/6), y: 3.9*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot3LockState"), SlotNumber: 3,CheckedState: defaults.bool(forKey: "Slot3Checked"))
    
  
 
@@ -488,6 +505,7 @@ class MenuScene: SKScene {
     
 
     func Unlock(Slot : AddSkinSlot){
+        generator.impactOccurred()
         let previousCoinValue = defaults.integer(forKey: "UserCoins")
         Slot.PriceText.run(SKAction.fadeOut(withDuration: 0.5))
         Slot.CoinsImage.run(SKAction.fadeOut(withDuration: 0.5))
@@ -502,21 +520,26 @@ class MenuScene: SKScene {
         print(stringg)
         defaults.set(false, forKey: stringg)
         
+        print(defaults.bool(forKey: stringg))
+        
     }
     
     func CheckIn(Slot : AddSkinSlot){
+        generator.impactOccurred()
         let slotarray = [slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9]
         let str1 = defaults.string(forKey: "SlotChecked")
         for (_, element) in slotarray.enumerated(){
             if "Slot\(String(element!.SlotNumberValue))" == str1 {
                 let slot = element!
                 slot.checkbox.texture = SKTexture(imageNamed: "unchecked")
+                slot.OuterRectangle.strokeColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 0)
             }
         }
         Slot.checkbox.texture = SKTexture(imageNamed: "checked")
+        Slot.OuterRectangle.strokeColor = UIColor.green
         let a = String(Slot.SlotNumberValue)
         let stringg = "Slot\(a)"
-        let FadeRect = SKShapeNode(rectOf: CGSize(width: 82, height: 91), cornerRadius: 5)
+        let FadeRect = SKShapeNode(rectOf: CGSize(width: 82, height: 91), cornerRadius: 7)
         let daPoint = Slot.OuterRectangle.position
         FadeRect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 0)
         FadeRect.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
@@ -525,8 +548,8 @@ class MenuScene: SKScene {
         FadeRect.lineWidth = CGFloat(2.5)
         addChild(FadeRect)
         FadeRect.run(SKAction.sequence([SKAction.wait(forDuration: 0.35),SKAction.fadeOut(withDuration: 0.15)]))
-        FadeRect.run(SKAction.scaleX(to: 1.3, duration: 1))
-        FadeRect.run(SKAction.scaleY(to: 1.1, duration: 0.58))
+        FadeRect.run(SKAction.scaleX(to: 1.05, duration: 0.4))
+        FadeRect.run(SKAction.scaleY(to: 1.1, duration: 0.4))
         bottomCard.texture = SKTexture(imageNamed: defaults.string(forKey: "SkinSelected")!)
         defaults.set(stringg, forKey: "SlotChecked")
         
@@ -678,6 +701,8 @@ class MenuScene: SKScene {
         Coins.xScale = 0.35
         Coins.yScale = 0.35
         Coins.run(SKAction.rotate(toAngle: M_PI/2,duration: 0.01))
+        Coins.position = CGPoint(x: 0.85*(frame.maxX/4), y: 0.91*(frame.maxY/9))
+
         if defaults.integer(forKey: "UserCoins") < 1000 {
             CoinsRect = SKShapeNode(rectOf: CGSize(width: 80, height: 35), cornerRadius: 10)
             CoinsRect.position = CGPoint(x: 0.725*(frame.maxX/4), y: 0.9*(frame.maxY/9))
@@ -685,6 +710,7 @@ class MenuScene: SKScene {
             CoinsRect.strokeColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
             Coins.position = CGPoint(x: 0.85*(frame.maxX/4), y: 0.91*(frame.maxY/9))
             CoinsRect.zPosition = 4
+            print("caca")
 
         }
         
@@ -694,6 +720,7 @@ class MenuScene: SKScene {
             CoinsRect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
             CoinsRect.strokeColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
             Coins.position = CGPoint(x: 1*(frame.maxX/4), y: 0.91*(frame.maxY/9))
+            print("prout")
             CoinsRect.zPosition = 4
 
         }
@@ -730,13 +757,15 @@ class MenuScene: SKScene {
                 info.position = CGPoint(x: frame.minX + 55, y: 13.75*(frame.maxY/20))
                 SkinShop.position = CGPoint(x: frame.minX + 55, y: 12.4*(frame.maxY/20))
                 soundImage.position = CGPoint(x: frame.minX + 55, y: 11.05*(frame.maxY/20))
+                CoinsText.position = CGPoint(x: 0.575*(frame.maxX/4), y: 0.81*(frame.maxY/9))
+
                 SideButtons(Scaling: 0.18)
             }else if (frame.maxY) > CGFloat(736) && (frame.maxY) < CGFloat(900){////////////////// IPHONE XR 11 12 13
                 AdaptiveValue = CGFloat(0.55)
                 info.position = CGPoint(x: frame.minX + 55, y: 13.75*(frame.maxY/20))
                 SkinShop.position = CGPoint(x: frame.minX + 55, y: 12.75*(frame.maxY/20))
                 CoinsAdaptivePos = CGPoint(x: 0.575*(frame.maxX/4), y: 0.83*(frame.maxY/9))
-
+                CoinsText.position = CGPoint(x: 0.575*(frame.maxX/4), y: 0.83*(frame.maxY/9))
                 soundImage.position = CGPoint(x: frame.minX + 55, y: 11.75*(frame.maxY/20))
                 SideButtons(Scaling: 0.2)
             }else if (frame.maxY) > CGFloat(900){///////////// IPHONE MAX 13 MAX 12 MAX
@@ -745,6 +774,7 @@ class MenuScene: SKScene {
                 SkinShop.position = CGPoint(x: frame.minX + 55, y: 12.75*(frame.maxY/20))
                 soundImage.position = CGPoint(x: frame.minX + 55, y: 11.75*(frame.maxY/20))
                 CoinsAdaptivePos = CGPoint(x: 0.575*(frame.maxX/4), y: 0.845*(frame.maxY/9))
+                CoinsText.position = CGPoint(x: 0.575*(frame.maxX/4), y: 0.845*(frame.maxY/9))
 
                 SideButtons(Scaling: 0.21)
             }
@@ -1059,8 +1089,8 @@ class MenuScene: SKScene {
                             }
                         }else if slot2!.LockState == false{
                             if "Slot2" != defaults.string(forKey: "SlotChecked"){
-                                defaults.set("back green", forKey: "SkinSelected")
-                                defaults.set("deckgreen", forKey: "DeckSelected")
+                                defaults.set("back red", forKey: "SkinSelected")
+                                defaults.set("deckred", forKey: "DeckSelected")
                                 CheckIn(Slot: slot2!)
 
                             }
@@ -1072,8 +1102,8 @@ class MenuScene: SKScene {
                             }
                         }else if slot3!.LockState == false{
                             if "Slot3" != defaults.string(forKey: "SlotChecked"){
-                                defaults.set("back red", forKey: "SkinSelected")
-                                defaults.set("deckred", forKey: "DeckSelected")
+                                defaults.set("back blue", forKey: "SkinSelected")
+                                defaults.set("deckblue", forKey: "DeckSelected")
                                 CheckIn(Slot: slot3!)
 
                             }
@@ -1085,8 +1115,8 @@ class MenuScene: SKScene {
                             }
                         }else if slot4!.LockState == false{
                             if "Slot4" != defaults.string(forKey: "SlotChecked"){
-                                defaults.set("back blue", forKey: "SkinSelected")
-                                defaults.set("deckblue", forKey: "DeckSelected")
+                                defaults.set("back halloween", forKey: "SkinSelected")
+                                defaults.set("deckhalloween", forKey: "DeckSelected")
                                 CheckIn(Slot: slot4!)
 
                             }
@@ -1098,8 +1128,8 @@ class MenuScene: SKScene {
                             }
                         }else if slot5!.LockState == false{
                             if "Slot5" != defaults.string(forKey: "SlotChecked"){
-                                defaults.set("back orange", forKey: "SkinSelected")
-                                defaults.set("deckorange", forKey: "DeckSelected")
+                                defaults.set("back christmas", forKey: "SkinSelected")
+                                defaults.set("deckchristmas", forKey: "DeckSelected")
                                 CheckIn(Slot: slot5!)
 
                             }
@@ -1111,8 +1141,8 @@ class MenuScene: SKScene {
                             }
                         }else if slot6!.LockState == false{
                             if "Slot6" != defaults.string(forKey: "SlotChecked"){
-                                defaults.set("back grey", forKey: "SkinSelected")
-                                defaults.set("deckgrey", forKey: "DeckSelected")
+                                defaults.set("back black", forKey: "SkinSelected")
+                                defaults.set("deckblack", forKey: "DeckSelected")
                                 CheckIn(Slot: slot6!)
 
                             }
@@ -1124,8 +1154,8 @@ class MenuScene: SKScene {
                             }
                         }else if slot7!.LockState == false{
                             if "Slot7" != defaults.string(forKey: "SlotChecked"){
-                                defaults.set("back christmas", forKey: "SkinSelected")
-                                defaults.set("deckchristmas", forKey: "DeckSelected")
+                                defaults.set("back purple", forKey: "SkinSelected")
+                                defaults.set("deckpurple", forKey: "DeckSelected")
                                 CheckIn(Slot: slot7!)
 
                             }
@@ -1137,8 +1167,8 @@ class MenuScene: SKScene {
                             }
                         }else if slot8!.LockState == false{
                             if "Slot8" != defaults.string(forKey: "SlotChecked"){
-                                defaults.set("back halloween", forKey: "SkinSelected")
-                                defaults.set("deckhalloween", forKey: "DeckSelected")
+                                defaults.set("back cloud", forKey: "SkinSelected")
+                                defaults.set("deckcloud", forKey: "DeckSelected")
                                 CheckIn(Slot: slot8!)
 
                             }
@@ -1150,8 +1180,8 @@ class MenuScene: SKScene {
                             }
                         }else if slot9!.LockState == false{
                             if "Slot9" != defaults.string(forKey: "SlotChecked"){
-                                defaults.set("back black", forKey: "SkinSelected")
-                                defaults.set("deckblack", forKey: "DeckSelected")
+                                defaults.set("back sky", forKey: "SkinSelected")
+                                defaults.set("decksky", forKey: "DeckSelected")
                                 CheckIn(Slot: slot9!)
 
                             }
@@ -1173,7 +1203,11 @@ class MenuScene: SKScene {
                 }
             }
             for node in touchedNode {
+                let generator = UIImpactFeedbackGenerator(style: .medium)
+
                 if node.name == "playrectangle"{
+                    generator.impactOccurred()
+
                     if defaults.bool(forKey: "soundon") == true{
                         run(gouttesound)
                     }
@@ -1187,6 +1221,8 @@ class MenuScene: SKScene {
                     playbutton.run(SKAction.scaleY(to: 0.93, duration: 0.43))
                     
                 }else if node.name == "sound_image"{
+                    generator.impactOccurred()
+
                     if defaults.bool(forKey: "soundon") == true{
                         run(gouttesound)
                     }
@@ -1200,6 +1236,7 @@ class MenuScene: SKScene {
                         soundImage.texture = SKTexture(imageNamed: "sound on")
                         }
                 }else if node.name == "skinshop_image"{
+                    generator.impactOccurred()
                     if defaults.bool(forKey: "soundon") == true{
                         run(gouttesound)
                     }
@@ -1207,6 +1244,7 @@ class MenuScene: SKScene {
                     disableUserInter(time: 1)
                     SkinShopFunc()
                 }else if node.name == "info" {
+                    generator.impactOccurred()
                     pressedButton(button: info, time: 0.2, scale: 0.05)
 
                 }

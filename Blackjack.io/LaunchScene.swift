@@ -4,7 +4,7 @@
 //
 //  Created by Jules Sainthorant on 08/01/2022.
 //
-
+import UIKit
 import Foundation
 import SpriteKit
 import AVFoundation
@@ -98,7 +98,7 @@ class LaunchScreen: SKScene{
         addChild(template)
         addChild(bruh)
     
-        bruh.run(SKAction.scaleX(to: frame.maxX - 30, duration: 1))
+        bruh.run(SKAction.scaleX(to: 500, duration: 1))
     }
     
     

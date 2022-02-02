@@ -1,4 +1,4 @@
-  platform :ios, '12.0'
+platform :ios, '12.0'
 
 
 target 'Blackjack.io' do

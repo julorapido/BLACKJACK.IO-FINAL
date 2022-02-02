@@ -8,12 +8,14 @@
 import SpriteKit
 import GameplayKit
 import UIKit
-
+import GoogleMobileAds
 
 class GameScene: SKScene {
-    
+    weak var viewController: GameViewController?
     var noas : Bool!
     override func didMove(to view: SKView) {
+
+
         defo.set(false, forKey: "LastGameVictory?")
         defo.set(false, forKey: "FirstLaunch")
         disableUserInter(time: 1.5)
@@ -332,7 +334,8 @@ class GameScene: SKScene {
     var DealercardSpawned = 0
     
     var justdepasse11 = false
-    
+    let generator = UIImpactFeedbackGenerator(style: .medium)
+
     var playerScoreRect : SKShapeNode!
     var dealerScoreRect : SKShapeNode!
     
@@ -392,6 +395,8 @@ class GameScene: SKScene {
         view!.presentScene(comebackScene,transition: reveal)
     }
     func EndGameText(way:String){
+        disableUserInter(time: 3.6)
+        generator.impactOccurred()
         let remove = SKAction.run {
             self.removeFromParent()
         }
@@ -458,7 +463,7 @@ class GameScene: SKScene {
             text.fontColor = UIColor.white
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: false)
             DisplayEXPnumbers(EXP: 25)
-            ModifyPlayerData(Exp: 200, CoinsWon: 2)
+            ModifyPlayerData(Exp: 200, CoinsWon: 40)
             displayCoins(CoinsNumber: 2)
             print("ppupuepute")
             defo.set(true,forKey: "LastGameVictory?")
@@ -489,7 +494,7 @@ class GameScene: SKScene {
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: true)
             InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
             DisplayEXPnumbers(EXP: 50)
-            ModifyPlayerData(Exp: 80, CoinsWon: 3)
+            ModifyPlayerData(Exp: 80, CoinsWon: 40)
             displayCoins(CoinsNumber: 3)
             defo.set(true,forKey: "LastGameVictory?")
         }else if way == "DealerBust"{
@@ -497,7 +502,7 @@ class GameScene: SKScene {
             text.fontColor = UIColor.white
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: true)
             DisplayEXPnumbers(EXP: 35)
-            ModifyPlayerData(Exp: 40, CoinsWon: 2)
+            ModifyPlayerData(Exp: 40, CoinsWon: 40)
             displayCoins(CoinsNumber: 2)
             InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
             defo.set(true,forKey: "LastGameVictory?")
@@ -1229,7 +1234,8 @@ class GameScene: SKScene {
 
                 let wait = SKAction.wait(forDuration: 0.1)
                 
-            
+                let generator = UIImpactFeedbackGenerator(style: .medium)
+
                 let ScaleDown = SKAction.scale(by: 0.85, duration: 0.11)
                 let FadeDown = SKAction.fadeAlpha(to: 0.92, duration: 0.11)
                 let ScaleBack = SKAction.scale(to: 0.35, duration: 0.11)
@@ -1244,6 +1250,8 @@ class GameScene: SKScene {
                     for node in touchedNode {
                         
                         if node.name == "ButtonHit"{
+                            generator.impactOccurred()
+                            disableUserInter(time: 2)
                             node.run(Pressedbutton)
                             if StayTouched == 0 {
                                 if playerScore < 21 {
@@ -1253,8 +1261,9 @@ class GameScene: SKScene {
                             }
                         }
                         else if node.name == "ButtonStay"{
+                            disableUserInter(time: 5)
                             if PlayerBusted == false {
-                            //AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+                            generator.impactOccurred()
                             node.run(Pressedbutton)
                             if StayTouched < 1 || AutomaticHIT == false {
                                 StayTouched += 1
