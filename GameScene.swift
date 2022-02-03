@@ -15,18 +15,17 @@ class GameScene: SKScene {
     var noas : Bool!
     override func didMove(to view: SKView) {
 
-
         defo.set(false, forKey: "LastGameVictory?")
         defo.set(false, forKey: "FirstLaunch")
-        disableUserInter(time: 1.5)
         let layout = SKAction.run({self.layoutScene()})
         let game = SKAction.run({self.gameSetup();self.displaycards()})
         let wait = SKAction.wait(forDuration: 0.2)
         run(SKAction.sequence([layout,wait,game]))
         AdaptiveNodes()
-
-
         
+        disableUserInter(time: 2.3)
+
+
     }
     func ModifyPlayerData(Exp : Int, CoinsWon : Int ){
         var PreviousCoin = defo.integer(forKey: "UserCoins")
@@ -196,6 +195,8 @@ class GameScene: SKScene {
     ///
     ///
     func SpawnCoins(IntGap : Int) {
+        generator.impactOccurred()
+
         let CoinSound = SKAction.playSoundFileNamed("gamecoin.wav", waitForCompletion: false)
         if defo.bool(forKey: "soundon") == true{
             run(SKAction.sequence([CoinSound]))
@@ -259,16 +260,21 @@ class GameScene: SKScene {
     }
     
     func displayCoins(CoinsNumber : Int) {
-
-        if CoinsNumber == 2 {
-            print("bro")
-            run(SKAction.sequence([SKAction.run{self.SpawnCoins(IntGap: 10)},SKAction.wait(forDuration: 0.5),SKAction.run{self.SpawnCoins(IntGap: 40)}]))
-        }else if CoinsNumber == 3 {
-            //run(SKAction.sequence([SKAction.run{self.SpawnCoins(IntGap: 4)},SKAction.wait(forDuration: 0.35),SKAction.run{self.SpawnCoins(IntGap: 10)}]))
+        var bruh = CGFloat(0.3)
+        var bruh2 = 5
+        for i in 1...CoinsNumber {
+            run(SKAction.sequence([SKAction.wait(forDuration: bruh),SKAction.run{self.SpawnCoins(IntGap: bruh2)}]))
+            bruh2 += 5
+            bruh = bruh + CGFloat(0.3)
         }
+
     }
     
     func DisplayEXPnumbers(EXP : Int) -> SKLabelNode{
+        let expsound = SKAction.playSoundFileNamed("expsound.wav", waitForCompletion: false)
+        if self.defo.bool(forKey: "soundon") == true{
+            self.run(SKAction.sequence([expsound]))
+        }
         let fadeSequence = SKAction.sequence([SKAction.fadeAlpha(to: 1, duration: 1),SKAction.fadeAlpha(to: 0, duration: 1.1)])
         var vector : CGVector!
         var OperatorString : String!
@@ -395,7 +401,6 @@ class GameScene: SKScene {
         view!.presentScene(comebackScene,transition: reveal)
     }
     func EndGameText(way:String){
-        disableUserInter(time: 3.6)
         generator.impactOccurred()
         let remove = SKAction.run {
             self.removeFromParent()
@@ -406,16 +411,6 @@ class GameScene: SKScene {
             }
         }
 
-        let square = SKShapeNode(rectOf: CGSize(width: 4, height: 1.5))
-        square.position = CGPoint(x: frame.maxX + 20, y: 0.9525*(frame.maxY/5))
-        square.fillColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 0.8)
-        square.alpha = 0
-        addChild(square)
-        square.run(SKAction.scaleX(to: frame.maxX + 30, duration: 2))
-        square.run(SKAction.fadeIn(withDuration: 0.66))
-        
-        
-        
         let wait = SKAction.wait(forDuration: 2.5)
         let trans = SKAction.run({self.transition()})
         let text = SKLabelNode(fontNamed: "TextaW00-Heavy")
@@ -446,8 +441,10 @@ class GameScene: SKScene {
             InnerRectangle.strokeColor = UIColor(red: 80/255, green: 130/255, blue: 130/255, alpha: 0)
             InnerRectangle.alpha = 0.2
             InnerRectangle.zPosition = 10
-
         }
+        let victorySound = SKAction.playSoundFileNamed("victory.wav", waitForCompletion: false)
+        let lostsound = SKAction.playSoundFileNamed("lost.wav", waitForCompletion: false)
+
         
         if way == "PlayerBust"{
             text.text = "YOU BUST"
@@ -456,19 +453,25 @@ class GameScene: SKScene {
             DisplayEXPnumbers(EXP: -10)
             ModifyPlayerData(Exp: -10, CoinsWon: 0)
             InnerRectangle.fillColor = UIColor(red: 15/255, green: 32/255, blue: 45/255, alpha: 1)
-
+            if self.defo.bool(forKey: "soundon") == true{
+                self.run(SKAction.sequence([SKAction.wait(forDuration: 1),lostsound]))
+            }
 
         }else if way == "Victory" {
             text.text = "VICTORY"
             text.fontColor = UIColor.white
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: false)
             DisplayEXPnumbers(EXP: 25)
-            ModifyPlayerData(Exp: 200, CoinsWon: 40)
-            displayCoins(CoinsNumber: 2)
+            ModifyPlayerData(Exp: 200, CoinsWon: 2 + defo.integer(forKey: "CoinsBonus"))
+            displayCoins(CoinsNumber: 2 + defo.integer(forKey: "CoinsBonus"))
             print("ppupuepute")
             defo.set(true,forKey: "LastGameVictory?")
+            defo.set(2 + defo.integer(forKey: "CoinsBonus"), forKey: "LastGameCoins")
             InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
 
+            if self.defo.bool(forKey: "soundon") == true{
+                self.run(SKAction.sequence([SKAction.wait(forDuration: 1),victorySound]))
+            }
 
         }else if way == "DealerWins" {
             text.text = "DEALER WINS"
@@ -477,8 +480,9 @@ class GameScene: SKScene {
             DisplayEXPnumbers(EXP: -15)
             ModifyPlayerData(Exp: -15, CoinsWon: 0)
             InnerRectangle.fillColor = UIColor(red: 15/255, green: 32/255, blue: 45/255, alpha: 1)
-
-
+            if self.defo.bool(forKey: "soundon") == true{
+                self.run(SKAction.sequence([SKAction.wait(forDuration: 1),lostsound]))
+            }
         }else if way == "Push"{
             text.text = "PUSH"
             text.fontColor = UIColor.white
@@ -489,24 +493,36 @@ class GameScene: SKScene {
             ModifyPlayerData(Exp: 0, CoinsWon: 0)
 
         }else if way == "blackjack"{
+            
             text.text = "BLACKJACK"
             text.fontColor = UIColor.white
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: true)
             InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
             DisplayEXPnumbers(EXP: 50)
-            ModifyPlayerData(Exp: 80, CoinsWon: 40)
+            ModifyPlayerData(Exp: 500, CoinsWon: 2 + defo.integer(forKey: "CoinsBonus"))
             displayCoins(CoinsNumber: 3)
             defo.set(true,forKey: "LastGameVictory?")
+            defo.set(3 + defo.integer(forKey: "CoinsBonus"), forKey: "LastGameCoins")
+            
+            if self.defo.bool(forKey: "soundon") == true{
+                self.run(SKAction.sequence([SKAction.wait(forDuration: 1),victorySound]))
+            }
         }else if way == "DealerBust"{
+            
             text.text = "DEALERBUST"
             text.fontColor = UIColor.white
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: true)
             DisplayEXPnumbers(EXP: 35)
-            ModifyPlayerData(Exp: 40, CoinsWon: 40)
-            displayCoins(CoinsNumber: 2)
+            ModifyPlayerData(Exp: 500, CoinsWon: 2 + defo.integer(forKey: "CoinsBonus"))
+            displayCoins(CoinsNumber: 2 + defo.integer(forKey: "CoinsBonus"))
             InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
             defo.set(true,forKey: "LastGameVictory?")
-
+            defo.set(2 + defo.integer(forKey: "CoinsBonus"), forKey: "LastGameCoins")
+            
+            
+            if self.defo.bool(forKey: "soundon") == true{
+                self.run(SKAction.sequence([SKAction.wait(forDuration: 1),victorySound]))
+            }
         }
         let addText = SKAction.run {
             self.addChild(text)
@@ -548,8 +564,7 @@ class GameScene: SKScene {
 
         }
         run(SKAction.sequence([waitvitefait,VectorAll,wait,trans]))
-        
-        //let kards = childNode(withName: "")
+
     }
     
     func EndGameScoreColorRect(User : String,Color : UIColor, WinState : Bool){
@@ -565,16 +580,9 @@ class GameScene: SKScene {
         rect2.lineWidth = CGFloat(2)
         rect2.strokeColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
         rect2.zPosition = CGFloat(1)
-        
-        rect3 = SKShapeNode(rectOf: CGSize(width: 60, height: 35),cornerRadius: 10)
-        rect3.fillColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0)
-        rect3.lineWidth = CGFloat(2)
-        rect3.strokeColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
-        rect3.zPosition = CGFloat(1)
-        
+    
         addChild(rect1)
         addChild(rect2)
-        addChild(rect3)
         
         rect1.run(SKAction.fadeOut(withDuration: 0.8))
         rect1.run(SKAction.scaleX(to: 1.15, duration: 0.8))
@@ -584,21 +592,17 @@ class GameScene: SKScene {
         rect2.run(SKAction.scaleX(to: 1.25, duration: 0.9))
         rect2.run(SKAction.scaleY(to: 1.25, duration: 0.9))
         
-        rect3.run(SKAction.fadeOut(withDuration: 0.65))
-        rect3.run(SKAction.scaleX(to: 1.3, duration: 0.65))
-        rect3.run(SKAction.scaleY(to: 1.3, duration: 0.65))
+
         
         if User == "Dealer"{
             dealerScoreRect.strokeColor = Color
             rect1.position = CGPoint(x: frame.midX, y:2.9*(frame.maxY/4))
             rect2.position = CGPoint(x: frame.midX, y:2.9*(frame.maxY/4))
-            rect3.position = CGPoint(x: frame.midX, y:2.9*(frame.maxY/4))
 
         }else if User == "Player"{
             playerScoreRect.strokeColor = Color
             rect2.position = CGPoint(x: frame.midX, y: frame.midY-11.25)
             rect1.position = CGPoint(x: frame.midX, y: frame.midY-11.25)
-            rect3.position = CGPoint(x: frame.midX, y: frame.midY-11.25)
 
         }
         if WinState == true {
@@ -610,8 +614,6 @@ class GameScene: SKScene {
     func lost(way:String){
         AlreadyWonLost = true
         isUserInteractionEnabled = false
-        
-        
         if way == "Bust"{
             EndGameText(way: "PlayerBust")
 
@@ -848,7 +850,9 @@ class GameScene: SKScene {
         background.zPosition = -100
         background.position = CGPoint(x: frame.width/2, y: frame.height/2)
         addChild(background)
-        
+        print(staybutton.isUserInteractionEnabled)
+        print(hitbutton.isUserInteractionEnabled)
+
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -860,7 +864,8 @@ class GameScene: SKScene {
     }
     
     func spawnRandomCard(user:String, xPos:CGFloat ,yPos:CGFloat) -> SKSpriteNode{
-        
+        print(staybutton.isUserInteractionEnabled)
+        print(hitbutton.isUserInteractionEnabled)
         addedValue = 1
         zCardPositions = zCardPositions + addedValue
         let family = ["TREFLE", "CARREAU", "COEUR", "PIC"]
@@ -1003,12 +1008,13 @@ class GameScene: SKScene {
 
     func disableUserInter(time :Double){
         let disable = SKAction.run {
-            self.isUserInteractionEnabled = false
+            self.view!.isUserInteractionEnabled = false
         }
         let waitTime = SKAction.wait(forDuration: time)
         let enable = SKAction.run {
-            self.isUserInteractionEnabled = true
+            self.view!.isUserInteractionEnabled = true
         }
+        
         run(SKAction.sequence([disable,waitTime,enable]))
     }
     
@@ -1055,7 +1061,6 @@ class GameScene: SKScene {
             func displaycards(){
 
                 
-                disableUserInter(time: 1.5)
                 
                 
                 
@@ -1125,7 +1130,7 @@ class GameScene: SKScene {
             }
     
             func hit(){
-                disableUserInter(time: 1)
+          
                 let waitCard = SKAction.wait(forDuration: 0.7)
                 let PlayerUpdate = SKAction.run{
                     self.updatePlayerScore()
@@ -1167,11 +1172,10 @@ class GameScene: SKScene {
                 AutomaticHIT = true
                 var stayX : CGFloat!
                 var stayY : CGFloat!
-                isUserInteractionEnabled = false
                 stayX = 70
                 stayY = 20
                 updatePlayerScoreStayPressed()
-                disableUserInter(time: 5)
+   
                 var randInt = Int.random(in: 2...14)/////////////////////////////////////////////////// RANDOMIZER
                 let waitNextCard = SKAction.wait(forDuration: 0.7)
                 var randFamily = Int.random(in: 0...3)
@@ -1250,28 +1254,32 @@ class GameScene: SKScene {
                     for node in touchedNode {
                         
                         if node.name == "ButtonHit"{
-                            generator.impactOccurred()
-                            disableUserInter(time: 2)
-                            node.run(Pressedbutton)
-                            if StayTouched == 0 {
-                                if playerScore < 21 {
-                                    hit()
-                                    hitPressed += 1
-                                }
-                            }
+                                    disableUserInter(time: 1.2)
+                                    generator.impactOccurred()
+                                    node.run(Pressedbutton)
+                                    if StayTouched == 0 {
+                                        if playerScore < 21 {
+                                            hit()
+                                            hitPressed += 1
+                                        }
+                                    }
+                            
                         }
                         else if node.name == "ButtonStay"{
-                            disableUserInter(time: 5)
-                            if PlayerBusted == false {
-                            generator.impactOccurred()
-                            node.run(Pressedbutton)
-                            if StayTouched < 1 || AutomaticHIT == false {
-                                StayTouched += 1
-                                stay()
-                            }
-                        }
+                                    if PlayerBusted == false {
+                                    generator.impactOccurred()
+                                    node.run(Pressedbutton)
+                                    if StayTouched < 1 || AutomaticHIT == false {
+                                        StayTouched += 1
+                                        stay()
+                                    }
+                                }
+                            
                         }
                     }
                 }
             }
         }
+
+
+

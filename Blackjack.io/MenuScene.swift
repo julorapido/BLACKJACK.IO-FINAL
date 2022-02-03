@@ -6,7 +6,6 @@
 // ID ca-app-pub-4889346564502252~7541718210
 // Unit ID: ca-app-pub-4889346564502252/3842146359
 
-
 import SpriteKit
 import UIKit
 import Foundation
@@ -20,7 +19,7 @@ import AudioToolbox
 class MenuScene: SKScene {
     
     
-    override func didMove(to view: SKView) {     
+    override func didMove(to view: SKView) {
         
         defaults.set(false, forKey: "FIRSTEVERLAUNCH")
         var CoinsTexture:[SKTexture] = []
@@ -54,7 +53,9 @@ class MenuScene: SKScene {
     var uselvl : Double!
     var UserCoins : Int!
     var MusicPlayer: AVAudioPlayer!
-
+    var inforect : SKShapeNode!
+    var infotouched = false
+    
     var bruhColors : [String : UIColor] = ["basicblue" :UIColor(red: 1/255, green: 122/255, blue: 255/255, alpha: 1.0),
                                            "red" :UIColor(red: 214/255, green: 37/255, blue: 45/255, alpha: 1.0),
                                            "blue" :UIColor(red: 38/255, green: 35/255, blue: 140/255, alpha: 1.0),
@@ -97,12 +98,34 @@ class MenuScene: SKScene {
         }
         MUSIClaunched = true
     }
-    
-    func spawncoins() {
-        let CoinSound = SKAction.playSoundFileNamed("gamecoin.wav", waitForCompletion: false)
-        if defaults.bool(forKey: "soundon") == true{
-            run(SKAction.sequence([CoinSound]))
-        }
+    func DisplayInfo() {
+        playRec.isUserInteractionEnabled = false
+        infotouched = true
+        inforect = SKShapeNode(rectOf: CGSize(width: 4*(frame.maxX/5), height: 3.4*(frame.maxY/5)), cornerRadius: 10)
+        inforect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 0.75)
+        inforect.zPosition = 15
+        inforect.name = "infonode"
+        inforect.alpha = CGFloat(0)
+        inforect.lineWidth = CGFloat(3)
+        inforect.position = CGPoint(x: frame.midX, y: frame.midY)
+        inforect.setScale(0.3)
+        
+        let experiencerect = SKShapeNode(rectOf: CGSize(width: 1.5*(frame.maxX/3), height: 3.4*(frame.maxY/5)), cornerRadius: 15)
+        experiencerect.position = CGPoint(x: frame.midX, y: 4*(frame.maxY/5))
+        experiencerect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 0)
+        experiencerect.strokeColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
+        experiencerect.zPosition = 16
+        experiencerect.name = "infonode"
+        
+        
+        
+        addChild(experiencerect)
+        addChild(inforect)
+        inforect.run(SKAction.fadeIn(withDuration: 0.3))
+        inforect.run(SKAction.scale(to: 1, duration: 0.3))
+    }
+    func spawncoins(SpawnCount : Int    ) {
+
         let vector = SKAction.move(to: CGPoint(x: 0.85*(frame.maxX/4), y: 0.91*(frame.maxY/9)), duration: 0.85)
         let fadeout = SKAction.fadeOut(withDuration: 0.15)
         let Coins = SKSpriteNode(texture: SKTexture(imageNamed: "COINS1"))
@@ -115,13 +138,23 @@ class MenuScene: SKScene {
         let loop = SKAction.sequence([Animation])
         let final = SKAction.repeatForever(loop)
         addChild(Coins)
-
-        Coins.run(SKAction.rotate(toAngle: M_PI/2,duration: 0.0001))
-        Coins.position = CGPoint(x: 0.8*(self.frame.maxX/4), y: 0.3*(self.frame.maxY/9))
-        Coins.run(final)
-        Coins.run(SKAction.sequence([SKAction.wait(forDuration: 0.7),fadeout]))
-        Coins.run(vector)
+        let coinAction = SKAction.run {
+            Coins.run(SKAction.rotate(toAngle: M_PI/2,duration: 0.0001))
+            Coins.position = CGPoint(x: 0.8*(self.frame.maxX/4), y: 0.3*(self.frame.maxY/9))
+            Coins.run(final)
+            Coins.run(SKAction.sequence([SKAction.wait(forDuration: 0.7),fadeout]))
+            Coins.run(vector)
+            let CoinSound = SKAction.playSoundFileNamed("gamecoin.wav", waitForCompletion: false)
+            if self.defaults.bool(forKey: "soundon") == true{
+                self.run(SKAction.sequence([CoinSound]))
+            }
+        }
         
+        var Time = CGFloat(0)
+        for i in 1...SpawnCount {
+            run(SKAction.sequence([SKAction.wait(forDuration: Time),coinAction]))
+            Time = Time + CGFloat(0.5)
+        }
     }
     
     
@@ -148,8 +181,8 @@ class MenuScene: SKScene {
         
         AppearCoinsRect.run(SKAction.sequence([SKAction.wait(forDuration: 1.5),SKAction.fadeOut(withDuration: 0.5)]))
         
-        run(SKAction.sequence([SKAction.run{self.spawncoins()},SKAction.wait(forDuration: 0.6),SKAction.run{self.spawncoins()}]))
- 
+        spawncoins(SpawnCount: (defaults.integer(forKey: "LastGameCoins")))
+        defaults.set(0, forKey: "LastGameCoins")
     }
     
     func Particles(XValue : CGPoint){
@@ -198,20 +231,26 @@ class MenuScene: SKScene {
         defaults.set(previousExp - (previousLevel * 100), forKey: "UserExp")
     
         let lvluptext = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        lvluptext.position = CGPoint(x:1.9*(frame.maxX/3), y: (3.5 * (frame.maxY/5)))
+        lvluptext.position = CGPoint(x:1.9*(frame.maxX/3), y: (3.7 * (frame.maxY/5)))
         lvluptext.fontSize = 20
         lvluptext.text = "LEVEL UP!"
         lvluptext.zPosition = 4
+        addChild(lvluptext)
         lvluptext.run(SKAction.move(by: CGVector(dx: 0, dy: 10), duration: 1.75))
         lvluptext.run(SKAction.fadeOut(withDuration: 1.75))
         
         print("lvl up")
-        let lvluprect = SKShapeNode(rectOf: CGSize(width: 110, height: 35), cornerRadius: 10)
+        let lvluprect = SKShapeNode(rectOf: CGSize(width: 105, height: 42.5), cornerRadius: 10)
         lvluprect.fillColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
         lvluprect.strokeColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0)
         lvluprect.position = CGPoint(x:frame.midX, y: (3.95 * (frame.maxY/5)))
         lvluprect.zPosition = 3
+        addChild(lvluprect)
         lvluprect.run(SKAction.fadeOut(withDuration: 1.75))
+        
+        if defaults.integer(forKey: "UserLvl") == defaults.integer(forKey: "LevelNeeded") {
+            defaults.set( (defaults.integer(forKey:"CoinsBonus") + 1 ) , forKey: "CoinsBonus")
+        }
     }
     
     func pressedButton (button: SKSpriteNode, time : CGFloat, scale : CGFloat) -> SKAction {
@@ -505,6 +544,10 @@ class MenuScene: SKScene {
     
 
     func Unlock(Slot : AddSkinSlot){
+        let unlocksound = SKAction.playSoundFileNamed("unlock.wav", waitForCompletion: false)
+        if self.defaults.bool(forKey: "soundon") == true{
+            self.run(SKAction.sequence([unlocksound]))
+        }
         generator.impactOccurred()
         let previousCoinValue = defaults.integer(forKey: "UserCoins")
         Slot.PriceText.run(SKAction.fadeOut(withDuration: 0.5))
@@ -525,6 +568,10 @@ class MenuScene: SKScene {
     }
     
     func CheckIn(Slot : AddSkinSlot){
+        let selectsound = SKAction.playSoundFileNamed("select.wav", waitForCompletion: false)
+        if self.defaults.bool(forKey: "soundon") == true{
+            self.run(SKAction.sequence([selectsound]))
+        }
         generator.impactOccurred()
         let slotarray = [slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9]
         let str1 = defaults.string(forKey: "SlotChecked")
@@ -615,7 +662,7 @@ class MenuScene: SKScene {
 
         info.xScale = 0.04
         info.yScale = 0.04
-        info.name = "info_image"
+        info.name = "info"
         
         SkinShop = SKSpriteNode(imageNamed: "shop")
         SkinShop.xScale = 0.1
@@ -815,7 +862,7 @@ class MenuScene: SKScene {
                 
                 let waitMove = SKAction.wait(forDuration: 0.22)
                                 
-                let Scaleup = SKAction.sequence([SKAction.scaleY(to: 1.2*(xValue)	, duration: 0.2)])
+                let Scaleup = SKAction.sequence([SKAction.scaleY(to: 1.2*(xValue)    , duration: 0.2)])
                 let AlphaBack = SKAction.fadeAlpha(to: 1 , duration: 1)
 
                 let aa = SKAction.run {
@@ -1071,143 +1118,10 @@ class MenuScene: SKScene {
         for touch in touches {
             let location = touch.location(in: self)
             let touchedNode = self.nodes(at: location)
-            if SkinShopTouched == true {
-        
-                if mainrect.frame.contains(location){
-                    if slot1!.OuterRectangle.contains(location){
-                        if slot1!.LockState == false{
-                            if "Slot1" != defaults.string(forKey: "SlotChecked"){
-                                defaults.set("back basicblue", forKey: "SkinSelected")
-                                defaults.set("deck", forKey: "DeckSelected")
-                                CheckIn(Slot: slot1!)
-                            }
-                        }
-                    }else if slot2!.OuterRectangle.contains(location){
-                        if slot2!.LockState == true {
-                            if defaults.integer(forKey: "UserCoins") >= 50 {
-                                Unlock(Slot: slot2!)
-                            }
-                        }else if slot2!.LockState == false{
-                            if "Slot2" != defaults.string(forKey: "SlotChecked"){
-                                defaults.set("back red", forKey: "SkinSelected")
-                                defaults.set("deckred", forKey: "DeckSelected")
-                                CheckIn(Slot: slot2!)
-
-                            }
-                        }
-                    }else if slot3!.OuterRectangle.contains(location){
-                        if slot3!.LockState == true {
-                            if defaults.integer(forKey: "UserCoins") >= 50 {
-                                Unlock(Slot: slot3!)
-                            }
-                        }else if slot3!.LockState == false{
-                            if "Slot3" != defaults.string(forKey: "SlotChecked"){
-                                defaults.set("back blue", forKey: "SkinSelected")
-                                defaults.set("deckblue", forKey: "DeckSelected")
-                                CheckIn(Slot: slot3!)
-
-                            }
-                        }
-                    }else if slot4!.OuterRectangle.contains(location){
-                        if slot4!.LockState == true {
-                            if defaults.integer(forKey: "UserCoins") >= 50 {
-                                Unlock(Slot: slot4!)
-                            }
-                        }else if slot4!.LockState == false{
-                            if "Slot4" != defaults.string(forKey: "SlotChecked"){
-                                defaults.set("back halloween", forKey: "SkinSelected")
-                                defaults.set("deckhalloween", forKey: "DeckSelected")
-                                CheckIn(Slot: slot4!)
-
-                            }
-                        }
-                    }else if slot5!.OuterRectangle.contains(location){
-                        if slot5!.LockState == true {
-                            if defaults.integer(forKey: "UserCoins") >= 50 {
-                                Unlock(Slot: slot5!)
-                            }
-                        }else if slot5!.LockState == false{
-                            if "Slot5" != defaults.string(forKey: "SlotChecked"){
-                                defaults.set("back christmas", forKey: "SkinSelected")
-                                defaults.set("deckchristmas", forKey: "DeckSelected")
-                                CheckIn(Slot: slot5!)
-
-                            }
-                        }
-                    }else if slot6!.OuterRectangle.contains(location){
-                        if slot6!.LockState == true {
-                            if defaults.integer(forKey: "UserCoins") >= 50 {
-                                Unlock(Slot: slot6!)
-                            }
-                        }else if slot6!.LockState == false{
-                            if "Slot6" != defaults.string(forKey: "SlotChecked"){
-                                defaults.set("back black", forKey: "SkinSelected")
-                                defaults.set("deckblack", forKey: "DeckSelected")
-                                CheckIn(Slot: slot6!)
-
-                            }
-                        }
-                    }else if slot7!.OuterRectangle.contains(location){
-                        if slot7!.LockState == true {
-                            if defaults.integer(forKey: "UserCoins") >= 50 {
-                                Unlock(Slot: slot7!)
-                            }
-                        }else if slot7!.LockState == false{
-                            if "Slot7" != defaults.string(forKey: "SlotChecked"){
-                                defaults.set("back purple", forKey: "SkinSelected")
-                                defaults.set("deckpurple", forKey: "DeckSelected")
-                                CheckIn(Slot: slot7!)
-
-                            }
-                        }
-                    }else if slot8!.OuterRectangle.contains(location){
-                        if slot8!.LockState == true {
-                            if defaults.integer(forKey: "UserCoins") >= 50 {
-                                Unlock(Slot: slot8!)
-                            }
-                        }else if slot8!.LockState == false{
-                            if "Slot8" != defaults.string(forKey: "SlotChecked"){
-                                defaults.set("back cloud", forKey: "SkinSelected")
-                                defaults.set("deckcloud", forKey: "DeckSelected")
-                                CheckIn(Slot: slot8!)
-
-                            }
-                        }
-                    }else if slot9!.OuterRectangle.contains(location){
-                        if slot9!.LockState == true {
-                            if defaults.integer(forKey: "UserCoins") >= 50 {
-                                Unlock(Slot: slot9!)
-                            }
-                        }else if slot9!.LockState == false{
-                            if "Slot9" != defaults.string(forKey: "SlotChecked"){
-                                defaults.set("back sky", forKey: "SkinSelected")
-                                defaults.set("decksky", forKey: "DeckSelected")
-                                CheckIn(Slot: slot9!)
-
-                            }
-                        }
-                    }
-                    
-                }else{//////////////////////////// SORT DU SHOP
-                    for child in self.children {
-                        SkinShopTouched = false
-                        playRec.isUserInteractionEnabled = true
-                        if child.name == "shopnode"{
-                            child.run(SKAction.fadeOut(withDuration: 0.2))
-                            child.run(SKAction.sequence([SKAction.wait(forDuration: 0.25),SKAction.run{child.removeFromParent()}]))
-                        }else if child.name == "locknode"{
-                            child.run(SKAction.fadeOut(withDuration: 0.2))
-                            child.run(SKAction.sequence([SKAction.wait(forDuration: 0.25),SKAction.run{child.removeFromParent()}]))
-                        }
-                    }
-                }
-            }
             for node in touchedNode {
                 let generator = UIImpactFeedbackGenerator(style: .medium)
-
                 if node.name == "playrectangle"{
                     generator.impactOccurred()
-
                     if defaults.bool(forKey: "soundon") == true{
                         run(gouttesound)
                     }
@@ -1219,7 +1133,6 @@ class MenuScene: SKScene {
                     borderRect.run(SKAction.scaleY(to: 0.8, duration: 0.5))
                     playbutton.run(SKAction.scaleX(to: 0.93, duration: 0.43))
                     playbutton.run(SKAction.scaleY(to: 0.93, duration: 0.43))
-                    
                 }else if node.name == "sound_image"{
                     generator.impactOccurred()
 
@@ -1246,10 +1159,159 @@ class MenuScene: SKScene {
                 }else if node.name == "info" {
                     generator.impactOccurred()
                     pressedButton(button: info, time: 0.2, scale: 0.05)
-
+                    DisplayInfo()
                 }
             }
+            if SkinShopTouched == true {
+                if SkinShopTouched == true {
+                    if mainrect.frame.contains(location){
+                        if slot1!.OuterRectangle.contains(location){
+                            if slot1!.LockState == false{
+                                if "Slot1" != defaults.string(forKey: "SlotChecked"){
+                                    defaults.set("back basicblue", forKey: "SkinSelected")
+                                    defaults.set("deck", forKey: "DeckSelected")
+                                    CheckIn(Slot: slot1!)
+                                }
+                            }
+                        }else if slot2!.OuterRectangle.contains(location){
+                            if slot2!.LockState == true {
+                                if defaults.integer(forKey: "UserCoins") >= 50 {
+                                    Unlock(Slot: slot2!)
+                                }
+                            }else if slot2!.LockState == false{
+                                if "Slot2" != defaults.string(forKey: "SlotChecked"){
+                                    defaults.set("back red", forKey: "SkinSelected")
+                                    defaults.set("deckred", forKey: "DeckSelected")
+                                    CheckIn(Slot: slot2!)
+
+                                }
+                            }
+                        }else if slot3!.OuterRectangle.contains(location){
+                            if slot3!.LockState == true {
+                                if defaults.integer(forKey: "UserCoins") >= 50 {
+                                    Unlock(Slot: slot3!)
+                                }
+                            }else if slot3!.LockState == false{
+                                if "Slot3" != defaults.string(forKey: "SlotChecked"){
+                                    defaults.set("back blue", forKey: "SkinSelected")
+                                    defaults.set("deckblue", forKey: "DeckSelected")
+                                    CheckIn(Slot: slot3!)
+
+                                }
+                            }
+                        }else if slot4!.OuterRectangle.contains(location){
+                            if slot4!.LockState == true {
+                                if defaults.integer(forKey: "UserCoins") >= 50 {
+                                    Unlock(Slot: slot4!)
+                                }
+                            }else if slot4!.LockState == false{
+                                if "Slot4" != defaults.string(forKey: "SlotChecked"){
+                                    defaults.set("back halloween", forKey: "SkinSelected")
+                                    defaults.set("deckhalloween", forKey: "DeckSelected")
+                                    CheckIn(Slot: slot4!)
+
+                                }
+                            }
+                        }else if slot5!.OuterRectangle.contains(location){
+                            if slot5!.LockState == true {
+                                if defaults.integer(forKey: "UserCoins") >= 50 {
+                                    Unlock(Slot: slot5!)
+                                }
+                            }else if slot5!.LockState == false{
+                                if "Slot5" != defaults.string(forKey: "SlotChecked"){
+                                    defaults.set("back christmas", forKey: "SkinSelected")
+                                    defaults.set("deckchristmas", forKey: "DeckSelected")
+                                    CheckIn(Slot: slot5!)
+
+                                }
+                            }
+                        }else if slot6!.OuterRectangle.contains(location){
+                            if slot6!.LockState == true {
+                                if defaults.integer(forKey: "UserCoins") >= 50 {
+                                    Unlock(Slot: slot6!)
+                                }
+                            }else if slot6!.LockState == false{
+                                if "Slot6" != defaults.string(forKey: "SlotChecked"){
+                                    defaults.set("back black", forKey: "SkinSelected")
+                                    defaults.set("deckblack", forKey: "DeckSelected")
+                                    CheckIn(Slot: slot6!)
+
+                                }
+                            }
+                        }else if slot7!.OuterRectangle.contains(location){
+                            if slot7!.LockState == true {
+                                if defaults.integer(forKey: "UserCoins") >= 50 {
+                                    Unlock(Slot: slot7!)
+                                }
+                            }else if slot7!.LockState == false{
+                                if "Slot7" != defaults.string(forKey: "SlotChecked"){
+                                    defaults.set("back purple", forKey: "SkinSelected")
+                                    defaults.set("deckpurple", forKey: "DeckSelected")
+                                    CheckIn(Slot: slot7!)
+
+                                }
+                            }
+                        }else if slot8!.OuterRectangle.contains(location){
+                            if slot8!.LockState == true {
+                                if defaults.integer(forKey: "UserCoins") >= 50 {
+                                    Unlock(Slot: slot8!)
+                                }
+                            }else if slot8!.LockState == false{
+                                if "Slot8" != defaults.string(forKey: "SlotChecked"){
+                                    defaults.set("back cloud", forKey: "SkinSelected")
+                                    defaults.set("deckcloud", forKey: "DeckSelected")
+                                    CheckIn(Slot: slot8!)
+
+                                }
+                            }
+                        }else if slot9!.OuterRectangle.contains(location){
+                            if slot9!.LockState == true {
+                                if defaults.integer(forKey: "UserCoins") >= 50 {
+                                    Unlock(Slot: slot9!)
+                                }
+                            }else if slot9!.LockState == false{
+                                if "Slot9" != defaults.string(forKey: "SlotChecked"){
+                                    defaults.set("back sky", forKey: "SkinSelected")
+                                    defaults.set("decksky", forKey: "DeckSelected")
+                                    CheckIn(Slot: slot9!)
+
+                                }
+                            }
+                        }
+
+                        } else{//////////////////////////// SORT DU SHOP
+                            for child in self.children {
+                                SkinShopTouched = false
+                                playRec.isUserInteractionEnabled = true
+                                if child.name == "shopnode"{
+                                    child.run(SKAction.fadeOut(withDuration: 0.2))
+                                    child.run(SKAction.sequence([SKAction.wait(forDuration: 0.25),SKAction.run{child.removeFromParent()}]))
+                                }else if child.name == "locknode"{
+                                    child.run(SKAction.fadeOut(withDuration: 0.2))
+                                    child.run(SKAction.sequence([SKAction.wait(forDuration: 0.25),SKAction.run{child.removeFromParent()}]))
+                                }
+                            }
+                        }
+            
+                }
+
+                
+            }else if infotouched == true {
+                print("coco")
+
+                if inforect.frame.contains(location){
+                    
+                }else {/////////// SORT DU INFO
+                    print("caca")
+                    for child in self.children {
+                        if child.name == "infonode"{
+                            child.run(SKAction.fadeOut(withDuration: 0.2))
+                            child.run(SKAction.sequence([SKAction.wait(forDuration: 0.25),SKAction.run{child.removeFromParent()}]))
+                        }
+                    }
+                }
+            }
+
         }
     }
 }
-

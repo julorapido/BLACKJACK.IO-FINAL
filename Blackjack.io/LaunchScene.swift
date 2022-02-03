@@ -35,7 +35,12 @@ class LaunchScreen: SKScene{
             "Slot9Checked" : false,
             "SkinSelected" : "back basicblue",
             "DeckSelected" : "deck",
-            "PlayColor" : "basicblue"
+            "PlayColor" : "basicblue",
+            "LevelNeeded" : 5,
+            "CoinsBonus" : 0,
+            
+            "LastGameCoins" : 0
+            
         ])
         defaults.set(false, forKey: "MUSICEVERLAUNCHED")
 
@@ -78,9 +83,17 @@ class LaunchScreen: SKScene{
         generator.impactOccurred()
         
         let title = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        title.text = "BLACKJACK.IO ..."
-        title.fontSize = 19
+        title.text = "BLACKJACK.IO"
+        title.fontSize = 30
         title.position = CGPoint(x: frame.midX, y: 1*(frame.midY/5))
+        title.zPosition = 4
+        
+        let title2 = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        title2.text = "BLACKJACK.IO"
+        title2.fontSize = 30
+        title2.position = CGPoint(x: frame.midX + 2, y: 1*(frame.midY/5) - 2)
+        title2.fontColor = UIColor(red: 1/255, green: 122/255, blue: 255/255, alpha: 1.0)
+        title.zPosition = 3
         
         let bruh = SKShapeNode(rect: CGRect(x: (frame.minX + 20), y: (1*(frame.maxY/3)), width: 15, height: 25))
         bruh.fillColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
@@ -95,11 +108,17 @@ class LaunchScreen: SKScene{
         
         addChild(outerRect)
         addChild(title)
+        addChild(title2)
         addChild(template)
         addChild(bruh)
-    
-        bruh.run(SKAction.scaleX(to: 500, duration: 1))
+        bruh.run(SKAction.scale(by: 300, duration: 2))
+
     }
+    
+    
+    
+    
+    
     
     
     func Loading(){

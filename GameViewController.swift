@@ -45,8 +45,8 @@ class GameViewController: UIViewController {
 
             if print(scene.sceneDidLoad()) == () {
                     print("caca")
-                view.addSubview(banner)
-                bannerView.load(GADRequest())
+                //view.addSubview(banner)
+                //bannerView.load(GADRequest())
                 }
             
             }
