@@ -23,9 +23,11 @@
 		5E86864027ABF5580055C44D /* victory.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5E86863F27ABF5580055C44D /* victory.wav */; };
 		5E86864227ABF6B90055C44D /* select.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5E86864127ABF6B90055C44D /* select.wav */; };
 		5E86864427ABF82A0055C44D /* lost.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5E86864327ABF82A0055C44D /* lost.wav */; };
+		5E86864627AD3F1D0055C44D /* lvlup.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5E86864527AD3F1D0055C44D /* lvlup.wav */; };
+		5E86864827AD75EA0055C44D /* goutte.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5E86864727AD75EA0055C44D /* goutte.wav */; };
+		5E86864C27AD9B8C0055C44D /* playsound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5E86864B27AD9B8C0055C44D /* playsound.wav */; };
 		5E960527278A12C100019D6C /* LaunchScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E960526278A12C100019D6C /* LaunchScene.swift */; };
 		5ECE246B27A40D7600165095 /* gamecoin.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5ECE246A27A40D7600165095 /* gamecoin.wav */; };
-		5ECE246D27A48AD300165095 /* goutte.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5ECE246C27A48AD300165095 /* goutte.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,10 +48,12 @@
 		5E86863F27ABF5580055C44D /* victory.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = victory.wav; sourceTree = "<group>"; };
 		5E86864127ABF6B90055C44D /* select.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = select.wav; sourceTree = "<group>"; };
 		5E86864327ABF82A0055C44D /* lost.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lost.wav; sourceTree = "<group>"; };
+		5E86864527AD3F1D0055C44D /* lvlup.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lvlup.wav; sourceTree = "<group>"; };
+		5E86864727AD75EA0055C44D /* goutte.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = goutte.wav; sourceTree = "<group>"; };
+		5E86864B27AD9B8C0055C44D /* playsound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = playsound.wav; sourceTree = "<group>"; };
 		5E8C0F95271368AD006278C7 /* Blackjack-io-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Blackjack-io-Info.plist"; sourceTree = SOURCE_ROOT; };
 		5E960526278A12C100019D6C /* LaunchScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScene.swift; sourceTree = "<group>"; };
 		5ECE246A27A40D7600165095 /* gamecoin.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = gamecoin.wav; sourceTree = "<group>"; };
-		5ECE246C27A48AD300165095 /* goutte.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = goutte.wav; sourceTree = "<group>"; };
 		A2F8332C63F7A8663AB069C2 /* Pods-Blackjack.io.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blackjack.io.release.xcconfig"; path = "Target Support Files/Pods-Blackjack.io/Pods-Blackjack.io.release.xcconfig"; sourceTree = "<group>"; };
 		B9E0A50B1A5F0469395DA32C /* Pods-Blackjack.io.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blackjack.io.debug.xcconfig"; path = "Target Support Files/Pods-Blackjack.io/Pods-Blackjack.io.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -105,12 +109,14 @@
 				5E960526278A12C100019D6C /* LaunchScene.swift */,
 				5E827A6E2712E7970005C9D0 /* MenuScene.swift */,
 				5E61B5AA272A157C0073778C /* GameScene.swift */,
+				5E86864527AD3F1D0055C44D /* lvlup.wav */,
+				5E86864B27AD9B8C0055C44D /* playsound.wav */,
 				5E86863F27ABF5580055C44D /* victory.wav */,
 				5E86863D27ABF41F0055C44D /* unlock.wav */,
 				5E86864127ABF6B90055C44D /* select.wav */,
-				5ECE246C27A48AD300165095 /* goutte.wav */,
 				5E86863B27ABF3340055C44D /* expsound.wav */,
 				5E86864327ABF82A0055C44D /* lost.wav */,
+				5E86864727AD75EA0055C44D /* goutte.wav */,
 				5ECE246A27A40D7600165095 /* gamecoin.wav */,
 				5E01B9DA2736F22800AE40D4 /* cardflip.mp3 */,
 				5E01B9D62736EBE900AE40D4 /* cardmoov.mp3 */,
@@ -195,14 +201,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E86864627AD3F1D0055C44D /* lvlup.wav in Resources */,
 				5E827A612712E6F50005C9D0 /* Main.storyboard in Resources */,
 				5E86864427ABF82A0055C44D /* lost.wav in Resources */,
 				5E86863C27ABF3340055C44D /* expsound.wav in Resources */,
+				5E86864C27AD9B8C0055C44D /* playsound.wav in Resources */,
 				5E86864027ABF5580055C44D /* victory.wav in Resources */,
 				5E01B9DB2736F22800AE40D4 /* cardflip.mp3 in Resources */,
 				5E61B5A92729DD910073778C /* TextaW00-Heavy.ttf in Resources */,
 				5ECE246B27A40D7600165095 /* gamecoin.wav in Resources */,
-				5ECE246D27A48AD300165095 /* goutte.wav in Resources */,
+				5E86864827AD75EA0055C44D /* goutte.wav in Resources */,
 				5E86863E27ABF41F0055C44D /* unlock.wav in Resources */,
 				5E827A632712E6F60005C9D0 /* Assets.xcassets in Resources */,
 				5E01B9D72736EBE900AE40D4 /* cardmoov.mp3 in Resources */,

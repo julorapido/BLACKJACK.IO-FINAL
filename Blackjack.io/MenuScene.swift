@@ -99,6 +99,8 @@ class MenuScene: SKScene {
         MUSIClaunched = true
     }
     func DisplayInfo() {
+        
+        
         playRec.isUserInteractionEnabled = false
         infotouched = true
         inforect = SKShapeNode(rectOf: CGSize(width: 4*(frame.maxX/5), height: 3.4*(frame.maxY/5)), cornerRadius: 10)
@@ -109,7 +111,6 @@ class MenuScene: SKScene {
         inforect.lineWidth = CGFloat(3)
         inforect.position = CGPoint(x: frame.midX, y: frame.midY)
         inforect.setScale(0.3)
-        
         let experiencerect = SKShapeNode(rectOf: CGSize(width: 1.5*(frame.maxX/3), height: 35), cornerRadius: 15)
         experiencerect.position = CGPoint(x: frame.midX, y: 4*(frame.maxY/5))
         experiencerect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
@@ -131,35 +132,142 @@ class MenuScene: SKScene {
         experiencenode.zPosition = 16
         experiencenode.xScale = 0.1
         experiencenode.yScale = 0.1
+        experiencenode.alpha = 0
 
         let dealerbust = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        dealerbust.position = CGPoint(x: frame.midX - 60, y: 3.6*(frame.maxY/5))
+        dealerbust.position = CGPoint(x: frame.midX, y: 3.6*(frame.maxY/5))
         dealerbust.name = "infonode"
-        dealerbust.text = "- DEALER BUSTS + 35exp"
-        dealerbust.fontSize = 13.5
+        dealerbust.text = "DEALER BUSTS + 35exp"
+        dealerbust.fontSize = 17
         dealerbust.zPosition = 17
+        dealerbust.alpha = 0
         
         let playerlost = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        playerlost.position = CGPoint(x: frame.midX + 60, y: 3.6*(frame.maxY/5))
+        playerlost.position = CGPoint(x: frame.midX , y: 3.4*(frame.maxY/5))
         playerlost.name = "infonode"
-        playerlost.text = "- YOU BUST - 15exp"
-        playerlost.fontSize = 13.5
+        playerlost.text = "YOU BUST - 15exp"
+        playerlost.fontSize = 17
         playerlost.zPosition = 17
-        
+        playerlost.alpha = 0
+
         let playerwin = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        playerwin.position = CGPoint(x: frame.midX + 60, y: 3.45*(frame.maxY/5))
+        playerwin.position = CGPoint(x: frame.midX, y: 3.2*(frame.maxY/5))
         playerwin.name = "infonode"
-        playerwin.text = "- YOU WIN + 35exp"
-        playerwin.fontSize = 13.5
+        playerwin.text = "YOU WIN + 35exp"
+        playerwin.fontSize = 17
         playerwin.zPosition = 17
-        
+        playerwin.alpha = 0
+
         let dealerwin = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        dealerwin.position = CGPoint(x: frame.midX - 60, y: 3.45*(frame.maxY/5))
+        dealerwin.position = CGPoint(x: frame.midX, y: 3*(frame.maxY/5))
         dealerwin.name = "infonode"
-        dealerwin.text = "DEALERWINS + -15"
-        dealerwin.fontSize = 13.5
+        dealerwin.text = "DEALER WINS -20exp"
+        dealerwin.fontSize = 17
         dealerwin.zPosition = 17
+        dealerwin.alpha = 0
+
+        let blackjack = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        blackjack.position = CGPoint(x: frame.midX , y: 2.8*(frame.maxY/5))
+        blackjack.name = "infonode"
+        blackjack.text = "BLACKJACK + 80exp"
+        blackjack.fontSize = 17
+        blackjack.zPosition = 17
+        blackjack.alpha = 0
+
         
+        
+        
+        
+        
+        
+        let coinrect = SKShapeNode(rectOf: CGSize(width: 1.1*(frame.maxX/3), height: 35), cornerRadius: 15)
+        coinrect.position = CGPoint(x: frame.midX, y: 2.4*(frame.maxY/5))
+        coinrect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
+        coinrect.strokeColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
+        coinrect.zPosition = 16
+        coinrect.name = "infonode"
+        coinrect.lineWidth = CGFloat(4)
+        coinrect.alpha = 0
+
+        let cointext = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        cointext.position = CGPoint(x: frame.midX - 15, y: 2.35*(frame.maxY/5))
+        cointext.name = "infonode"
+        cointext.text = "COINS"
+        cointext.fontSize = 22
+        cointext.zPosition = 17
+        cointext.alpha = 0
+
+        
+        let coinsnode = SKSpriteNode(texture: SKTexture(imageNamed: "coinz"))
+        coinsnode.position = CGPoint(x: frame.midX + 37, y: 2.4*(frame.maxY/5))
+        coinsnode.name = "infonode"
+        coinsnode.zPosition = 16
+        coinsnode.xScale = 0.1
+        coinsnode.yScale = 0.1
+        coinsnode.alpha = 0
+
+        let wincoin = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        wincoin.position = CGPoint(x: frame.midX , y: 1.95*(frame.maxY/5))
+        wincoin.name = "infonode"
+        wincoin.text = "+2 COINS PER WIN"
+        wincoin.fontSize = 18
+        wincoin.zPosition = 17
+        wincoin.alpha = 0
+
+        let bjcoin = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        bjcoin.position = CGPoint(x: frame.midX , y: 1.75*(frame.maxY/5))
+        bjcoin.name = "infonode"
+        bjcoin.text = "+3 COINS FOR BLACKJACK"
+        bjcoin.fontSize = 18
+        bjcoin.zPosition = 17
+        bjcoin.alpha = 0
+
+        let coininfo1  = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        coininfo1.position = CGPoint(x: frame.midX, y: 1.45*(frame.maxY/5))
+        coininfo1.name = "infonode"
+        coininfo1.text = "EACH 5 LEVEL REACHED YOU GET"
+        coininfo1.fontSize = 17
+        coininfo1.zPosition = 17
+        coininfo1.alpha = 0
+
+        
+        let coininfo2 = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        coininfo2.position = CGPoint(x: frame.midX, y: 1.35*(frame.maxY/5))
+        coininfo2.name = "infonode"
+        coininfo2.text = "1 MORE COIN PER WIN"
+        coininfo2.fontSize = 17
+        coininfo2.zPosition = 17
+        coininfo2.alpha = 0
+
+        let actualbonus = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        actualbonus.position = CGPoint(x: frame.midX, y: 1.05*(frame.maxY/5))
+        actualbonus.name = "infonode"
+        actualbonus.text = "ACTUAL COIN BONUS : \(defaults.integer(forKey: "CoinsBonus"))"
+        actualbonus.fontSize = 18
+        actualbonus.fontColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
+        actualbonus.zPosition = 17
+        actualbonus.alpha = 0
+
+        let bonusrect = SKShapeNode(rectOf: CGSize(width: 2.05*(frame.maxX/3), height: 35), cornerRadius: 15)
+        bonusrect.position = CGPoint(x: frame.midX, y: 1.1*(frame.maxY/5))
+        bonusrect.fillColor = UIColor(red: 254/255, green: 219/255, blue: 65/255, alpha: 1)
+        bonusrect.strokeColor = UIColor(red: 254/255, green: 219/255, blue: 65/255, alpha: 1)
+        bonusrect.zPosition = 16
+        bonusrect.name = "infonode"
+        bonusrect.lineWidth = CGFloat(1)
+        bonusrect.alpha = 0
+
+        
+        addChild(bonusrect)
+        addChild(actualbonus)
+        addChild(coininfo2)
+        addChild(coininfo1)
+        addChild(bjcoin)
+        addChild(wincoin)
+        addChild(coinrect)
+        addChild(cointext)
+        addChild(coinsnode)
+        addChild(blackjack)
         addChild(dealerwin)
         addChild(playerwin)
         addChild(playerlost)
@@ -168,8 +276,26 @@ class MenuScene: SKScene {
         addChild(experiencetext)
         addChild(experiencerect)
         addChild(inforect)
+        experiencerect.run(SKAction.fadeIn(withDuration: 0.45))
+        experiencetext.run(SKAction.fadeIn(withDuration: 0.45))
+        experiencenode.run(SKAction.fadeIn(withDuration: 0.45))
+        dealerbust.run(SKAction.fadeIn(withDuration: 0.45))
+        dealerwin.run(SKAction.fadeIn(withDuration: 0.45))
+        playerwin.run(SKAction.fadeIn(withDuration: 0.45))
+        playerlost.run(SKAction.fadeIn(withDuration: 0.45))
+        blackjack.run(SKAction.fadeIn(withDuration: 0.45))
+        coinrect.run(SKAction.fadeIn(withDuration: 0.45))
+        cointext.run(SKAction.fadeIn(withDuration: 0.45))
+        coininfo2.run(SKAction.fadeIn(withDuration: 0.45))
+        coininfo1.run(SKAction.fadeIn(withDuration: 0.45))
+        coinsnode.run(SKAction.fadeIn(withDuration: 0.45))
+        actualbonus.run(SKAction.fadeIn(withDuration: 0.45))
+        bonusrect.run(SKAction.fadeIn(withDuration: 0.45))
+        wincoin.run(SKAction.fadeIn(withDuration: 0.45))
+        bjcoin.run(SKAction.fadeIn(withDuration: 0.45))
         inforect.run(SKAction.fadeIn(withDuration: 0.3))
         inforect.run(SKAction.scale(to: 1, duration: 0.3))
+        
     }
     func spawncoins( ) {
 
@@ -279,11 +405,16 @@ class MenuScene: SKScene {
         
     }
     func LevelUp(){
+        let lvl = SKAction.playSoundFileNamed("lvlup.wav", waitForCompletion: false)
+        if self.defaults.bool(forKey: "soundon") == true{
+            self.run(SKAction.sequence([lvl]))
+        }
         let previousLevel = defaults.integer(forKey: "UserLvl")
         let previousExp = defaults.integer(forKey: "UserExp")
         defaults.set(previousLevel + 1, forKey: "UserLvl")
         defaults.set(previousExp - (previousLevel * 100), forKey: "UserExp")
-    
+        generator.impactOccurred()
+        
         let lvluptext = SKLabelNode(fontNamed: "TextaW00-Heavy")
         lvluptext.position = CGPoint(x:1.9*(frame.maxX/3), y: (3.7 * (frame.maxY/5)))
         lvluptext.fontSize = 20
@@ -294,7 +425,7 @@ class MenuScene: SKScene {
         lvluptext.run(SKAction.fadeOut(withDuration: 1.75))
         
         print("lvl up")
-        let lvluprect = SKShapeNode(rectOf: CGSize(width: 120, height: 33), cornerRadius: 10)
+        let lvluprect = SKShapeNode(rectOf: CGSize(width: 115, height: 40), cornerRadius: 10)
         lvluprect.fillColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
         lvluprect.strokeColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0)
         lvluprect.position = CGPoint(x:frame.midX, y: (3.95 * (frame.maxY/5)))
@@ -304,6 +435,7 @@ class MenuScene: SKScene {
         
         if defaults.integer(forKey: "UserLvl") == defaults.integer(forKey: "LevelNeeded") {
             defaults.set( (defaults.integer(forKey:"CoinsBonus") + 1 ) , forKey: "CoinsBonus")
+            defaults.set( (defaults.integer(forKey:"LevelNeeded") + 5) , forKey: "LevelNeeded")
         }
     }
     
@@ -505,7 +637,7 @@ class MenuScene: SKScene {
     }
     let generator = UIImpactFeedbackGenerator(style: .medium)
 
-    
+    var cardshop : SKSpriteNode!
     var lvltext : SKLabelNode!
     var lvlrect : SKShapeNode!
     var CoinsAdaptivePos : CGPoint!
@@ -524,9 +656,11 @@ class MenuScene: SKScene {
     var skinshoprect : SKShapeNode!
     
     let gouttesound = SKAction.playSoundFileNamed("goutte.wav", waitForCompletion: true)
-
+    let playsound = SKAction.playSoundFileNamed("playsound.wav", waitForCompletion: true)
 
     func SkinShopFunc(){
+        
+        
         playRec.isUserInteractionEnabled = true
         SkinShopTouched = true
         mainrect = SKShapeNode(rectOf: CGSize(width: 4.5*(frame.maxX/5), height: 3.4*(frame.maxY/5)), cornerRadius: 10)
@@ -547,7 +681,13 @@ class MenuScene: SKScene {
         skinshoprect.lineWidth = CGFloat(3.75   )
         skinshoprect.alpha = 0
 
-
+        cardshop = SKSpriteNode(imageNamed: "cardshop")
+        cardshop.position = CGPoint(x: frame.minX - 50, y: 7.9*(frame.maxY/9))
+        cardshop.zPosition = 15
+        cardshop.alpha = 0
+        cardshop.xScale = 0.25
+        cardshop.yScale = 0.25
+        
         skinshoptxt = SKLabelNode(fontNamed: "TextaW00-Heavy")
         skinshoptxt.zPosition = 15
         skinshoptxt.text = "DECK SHOP"
@@ -558,15 +698,19 @@ class MenuScene: SKScene {
         
         skinshoprect.name = "shopnode"
         skinshoptxt.name = "shopnode"
+        cardshop.name = "shopnode"
 
         skinshoptxt.run(SKAction.fadeIn(withDuration: 0.35))
         skinshoprect.run(SKAction.fadeIn(withDuration: 0.35))
+        cardshop.run(SKAction.fadeIn(withDuration: 0.35))
 
         skinshoprect.run(SKAction.move(to: CGPoint(x: frame.midX, y: 8.05*(frame.maxY/9)), duration: 0.4))
         skinshoptxt.run(SKAction.move(to: CGPoint(x: frame.midX, y: 7.9*(frame.maxY/9)), duration: 0.4))
+        cardshop.run(SKAction.move(to: CGPoint(x: 2.5*(frame.maxX/3), y: 7.9*(frame.maxY/9)), duration: 0.4))
+
         addChild(skinshoprect)
         addChild(skinshoptxt)
-
+        addChild(cardshop)
         
         slot9 = AddSkinSlot.init(Position: CGPoint(x: 1.3*(frame.maxX/6), y: 1.2*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot9LockState"), SlotNumber: 9,CheckedState: defaults.bool(forKey: "Slot9Checked"))
         slot8 = AddSkinSlot.init(Position: CGPoint(x: 3*(frame.maxX/6), y: 1.2*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot8LockState"), SlotNumber: 8,CheckedState: defaults.bool(forKey: "Slot8Checked"))
@@ -1164,7 +1308,7 @@ class MenuScene: SKScene {
                 if node.name == "playrectangle"{
                     generator.impactOccurred()
                     if defaults.bool(forKey: "soundon") == true{
-                        run(gouttesound)
+                        run(playsound)
                     }
                     let waitAnimation = SKAction.wait(forDuration: 0.35)
                     let SwitchScene = SKAction.run{(self.startgame())}
@@ -1189,27 +1333,35 @@ class MenuScene: SKScene {
                         soundImage.texture = SKTexture(imageNamed: "sound on")
                         }
                 }else if node.name == "skinshop_image"{
-                    generator.impactOccurred()
-                    if defaults.bool(forKey: "soundon") == true{
-                        run(gouttesound)
-                    }
-                    disableUserInter(time: 1)
-                    SkinShopFunc()
+                    if SkinShopTouched == false {
+                        if infotouched == false {
+                            generator.impactOccurred()
+                            if defaults.bool(forKey: "soundon") == true{
+                                run(gouttesound)
+                            }
+                            disableUserInter(time: 1)
+                            SkinShopFunc()
+                        }
+                }
                 }else if node.name == "info" {
-                    generator.impactOccurred()
-                    DisplayInfo()
+                    if infotouched == false {
+                        if SkinShopTouched == false {
+                            if defaults.bool(forKey: "soundon") == true{
+                                run(gouttesound)
+                            }
+                            generator.impactOccurred()
+                            DisplayInfo()
+                        }
+                    }
                 }else if infotouched == true {
-                        print("coco")
                         if inforect.frame.contains(location){
                             for child in self.children {
                                 if child.name == "infonode"{
                                     child.run(SKAction.fadeOut(withDuration: 0.2))
-                                    child.run(SKAction.sequence([SKAction.wait(forDuration: 0.25),SKAction.run{child.removeFromParent()}]))
+                                    child.run(SKAction.sequence([SKAction.wait(forDuration: 0.25),SKAction.run{child.removeFromParent()},SKAction.run{self.infotouched = false}]))
                                 }
                             }
                         }else {/////////// SORT DU INFO
-                            print("caca")
-                           
                         }
                 }
             }

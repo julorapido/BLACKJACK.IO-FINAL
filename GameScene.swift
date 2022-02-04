@@ -408,6 +408,8 @@ class GameScene: SKScene {
         for child in self.children {
             if child.name == "kards"{
                 child.run(SKAction.sequence([SKAction.wait(forDuration: 2),SKAction.fadeOut(withDuration: 0.7),remove]))
+            }else if child.name == "TABLEJEU"{
+                child.run(SKAction.sequence([SKAction.wait(forDuration: 2),SKAction.fadeOut(withDuration: 0.7),remove]))
             }
         }
 
@@ -775,23 +777,25 @@ class GameScene: SKScene {
         }
         func MidRect(){
 
-            let rect1 = SKShapeNode(rectOf: CGSize(width: frame.maxX - 12, height: frame.midY + 61), cornerRadius: 10)
+            let rect1 = SKShapeNode(rectOf: CGSize(width: frame.maxX - 14, height: frame.midY + 62), cornerRadius: 10)
+            rect1.name = "TABLEJEU"
             rect1.position = CGPoint(x: frame.midX, y: frame.midY)
-            //rect1.fillColor = UIColor(red: 15/255, green: 33/255, blue: 200/255, alpha: 1.0)
             rect1.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
             rect1.lineWidth = CGFloat(3.5)
             rect1.zPosition = -10
+            rect1.alpha = 0
 
-            let rect2 = SKShapeNode(rectOf: CGSize(width: frame.maxX - 13, height: frame.midY + 60), cornerRadius: 10)
+            let rect2 = SKShapeNode(rectOf: CGSize(width: frame.maxX - 5, height: frame.midY + 52), cornerRadius: 10)
+            rect2.name = "TABLEJEU"
             rect2.position = CGPoint(x: frame.midX, y: frame.midY)
-            //rect2.fillColor = UIColor(red: 15/255, green: 33/255, blue: 46/255, alpha: 1.0)
-            rect2.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0.1)
-            rect2.lineWidth = CGFloat(3.5)
+            rect2.strokeColor = UIColor(red: 100/255, green: 100/255, blue: 200/255, alpha: 0.8)
+            rect2.lineWidth = CGFloat(3)
             rect2.zPosition = -9
+            
             addChild(rect1)
-            rect1.run(SKAction.fadeAlpha(to: 1, duration: 1))
-            //addChild(rect2)
-            //xrect2.run(SKAction.fadeAlpha(to: 1, duration: 1))
+            addChild(rect2)
+            rect1.run(SKAction.fadeAlpha(to: 1, duration: 0.5))
+            rect2.run(SKAction.fadeAlpha(to: 1, duration: 0.5))
         }
 
         func BottomRect(){
