@@ -102,23 +102,19 @@ class GameScene: SKScene {
           if dealerScore < playerScore {
                 won(alt: "VICTORY")
                 return(0)
-            }
-            }
+          }else if dealerScore > playerScore {
+              lost(way: "DealerBetterScore")
+              return(0)
+          }
+        }
         if dealerScore == playerScore {
             push()
         }
-        if DealerBusted == false {
-            if dealerScore > playerScore+playerHasAs {
-                lost(way: "DealerBetterScore")
-                return(0)
-
-            }
-        }
+        
         if dealerScore == 21 {
             if dealerScore > playerScore {
                 lost(way: "DealerBetterScore")
                 return(0)
-
 
             }
         }
@@ -279,7 +275,7 @@ class GameScene: SKScene {
         var vector : CGVector!
         var OperatorString : String!
         let ExpText = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        ExpText.position = CGPoint(x: 2.7*(frame.maxX/5), y: 1.7*(frame.maxY/4))
+        ExpText.position = CGPoint(x: 3.5*(frame.maxX/5), y: 1.4*(frame.maxY/4))
         ExpText.zPosition = 20
         if EXP > 0 {
             vector = CGVector(dx: 0, dy: 15)
@@ -501,8 +497,8 @@ class GameScene: SKScene {
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: true)
             InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
             DisplayEXPnumbers(EXP: 80)
-            ModifyPlayerData(Exp: 80, CoinsWon: 2 + defo.integer(forKey: "CoinsBonus"))
-            displayCoins(CoinsNumber: 3)
+            ModifyPlayerData(Exp: 80, CoinsWon: 3 + defo.integer(forKey: "CoinsBonus"))
+            displayCoins(CoinsNumber: 3 + defo.integer(forKey: "CoinsBonus"))
             defo.set(true,forKey: "LastGameVictory?")
             defo.set(3 + defo.integer(forKey: "CoinsBonus"), forKey: "LastGameCoins")
             
@@ -783,18 +779,9 @@ class GameScene: SKScene {
             rect1.lineWidth = CGFloat(3.5)
             rect1.zPosition = -10
             rect1.alpha = 0
-
-            let rect2 = SKShapeNode(rectOf: CGSize(width: frame.maxX - 24, height: frame.midY + 52), cornerRadius: 10)
-            rect2.name = "TABLEJEU"
-            rect2.position = CGPoint(x: frame.midX, y: frame.midY)
-            rect2.strokeColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 1)
-            rect2.lineWidth = CGFloat(4)
-            rect2.zPosition = -9
             
             addChild(rect1)
-            addChild(rect2)
             rect1.run(SKAction.fadeAlpha(to: 1, duration: 0.5))
-            rect2.run(SKAction.fadeAlpha(to: 1, duration: 0.5))
         }
 
         func BottomRect(){
@@ -1064,10 +1051,7 @@ class GameScene: SKScene {
             }
             func displaycards(){
 
-                
-                
-                
-                
+                                
                 let waitCard = SKAction.wait(forDuration: 0.7)
                 let updatePlayerAction = SKAction.run {
                     (self.updatePlayerScore())
@@ -1086,6 +1070,11 @@ class GameScene: SKScene {
                         if self.playerHasAs == 1 {
                         self.playerHasAsonStart = true
                     }
+                    
+                    
+                    self.DealerReturnedCard = SKSpriteNode()
+                    self.DealerReturnedCard.alpha = 0
+                    self.DealerReturnedCard.name = "kards"
                 }
                 
                 let dealerCard1Action = SKAction.run {

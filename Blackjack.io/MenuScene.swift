@@ -411,13 +411,7 @@ class MenuScene: SKScene {
         lvluptext.run(SKAction.fadeOut(withDuration: 1.75))
         
         print("lvl up")
-        let lvluprect = SKShapeNode(rectOf: CGSize(width: 115, height: 40), cornerRadius: 10)
-        lvluprect.fillColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
-        lvluprect.strokeColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0)
-        lvluprect.position = CGPoint(x:frame.midX, y: (3.95 * (frame.maxY/5)))
-        lvluprect.zPosition = 3
-        addChild(lvluprect)
-        lvluprect.run(SKAction.fadeOut(withDuration: 1.75))
+ 
         
         if defaults.integer(forKey: "UserLvl") == defaults.integer(forKey: "LevelNeeded") {
             defaults.set( (defaults.integer(forKey:"CoinsBonus") + 1 ) , forKey: "CoinsBonus")
@@ -517,12 +511,14 @@ class MenuScene: SKScene {
         var PriceText = SKLabelNode(fontNamed: "TextaW00-Heavy")
         var CoinsImage : SKSpriteNode!
 
+        var CoinsPrice = 0
+        
         var SkinSelec : SKSpriteNode!
         
         var CheckedBool : Bool!
         //ar checkbox : SKSpriteNode!
         
-        init(Position : CGPoint, SkinTexture : SKTexture, LockedState : Bool, SlotNumber : Int, CheckedState : Bool){
+        init(Position : CGPoint, SkinTexture : SKTexture, LockedState : Bool, SlotNumber : Int, CheckedState : Bool, SlotPrice : Int){
         
             
             checkbox = SKSpriteNode(texture: SKTexture(imageNamed: "locked"))
@@ -537,7 +533,7 @@ class MenuScene: SKScene {
             CheckedBool = CheckedState
             SkinSelec = SKSpriteNode(imageNamed: "back basicblue")
             SkinSelec.position = CGPoint(x: Position.x, y: Position.y + 65)
-
+            CoinsPrice = SlotPrice
             SkinSelec.zPosition = 30
             SkinSelec.xScale = 0.29
             SkinSelec.yScale = 0.235
@@ -567,12 +563,12 @@ class MenuScene: SKScene {
               
                 PriceBanner = SKShapeNode(rectOf: CGSize(width: 80, height: 26), cornerRadius: 0)
                 PriceBanner.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
-                PriceBanner.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
+                PriceBanner.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0)
 
                 CoinsImage = SKSpriteNode(texture: SKTexture(imageNamed: "COINS1"))
                 CoinsImage.xScale = 0.3
                 CoinsImage.yScale = 0.3
-                PriceText.text = "50"
+                PriceText.text = "\(CoinsPrice)"
                 PriceText.fontSize = 17
             
                 PriceBanner.position = CGPoint(x: Position.x, y: Position.y + 65)
@@ -583,9 +579,9 @@ class MenuScene: SKScene {
                 CoinsImage.zPosition = 41
                 PriceBanner.zPosition = 39
                 PriceText.zPosition = 40
-                PriceText.name = "locknode"
-                CoinsImage.name = "locknode"
-                PriceBanner.name = "locknode"
+                PriceText.name = "shopnode"
+                CoinsImage.name = "shopnode"
+                PriceBanner.name = "shopnode"
 
             }else if LockState == false{
                 let bruh = String(SlotNumber)
@@ -698,17 +694,17 @@ class MenuScene: SKScene {
         addChild(skinshoptxt)
         addChild(cardshop)
         
-        slot9 = AddSkinSlot.init(Position: CGPoint(x: 1.3*(frame.maxX/6), y: 1.2*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot9LockState"), SlotNumber: 9,CheckedState: defaults.bool(forKey: "Slot9Checked"))
-        slot8 = AddSkinSlot.init(Position: CGPoint(x: 3*(frame.maxX/6), y: 1.2*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot8LockState"), SlotNumber: 8,CheckedState: defaults.bool(forKey: "Slot8Checked"))
-        slot7 = AddSkinSlot.init(Position: CGPoint(x: 4.7*(frame.maxX/6), y: 1.2*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot7LockState"), SlotNumber: 7,CheckedState: defaults.bool(forKey: "Slot7Checked"))
+        slot9 = AddSkinSlot.init(Position: CGPoint(x: 1.3*(frame.maxX/6), y: 1.2*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot9LockState"), SlotNumber: 9,CheckedState: defaults.bool(forKey: "Slot9Checked"),SlotPrice: 300)
+        slot8 = AddSkinSlot.init(Position: CGPoint(x: 3*(frame.maxX/6), y: 1.2*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot8LockState"), SlotNumber: 8,CheckedState: defaults.bool(forKey: "Slot8Checked"),SlotPrice: 250)
+        slot7 = AddSkinSlot.init(Position: CGPoint(x: 4.7*(frame.maxX/6), y: 1.2*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot7LockState"), SlotNumber: 7,CheckedState: defaults.bool(forKey: "Slot7Checked"),SlotPrice: 250)
         
-        slot6 = AddSkinSlot.init(Position: CGPoint(x: 1.3*(frame.maxX/6), y: 2.6*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot6LockState"), SlotNumber: 6,CheckedState: defaults.bool(forKey: "Slot6Checked"))
-        slot5 = AddSkinSlot.init(Position: CGPoint(x: 3*(frame.maxX/6), y: 2.6*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot5LockState"), SlotNumber: 5,CheckedState: defaults.bool(forKey: "Slot5Checked"))
-        slot4 = AddSkinSlot.init(Position: CGPoint(x: 4.7*(frame.maxX/6), y: 2.6*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot4LockState"), SlotNumber: 4,CheckedState: defaults.bool(forKey: "Slot4Checked"))
+        slot6 = AddSkinSlot.init(Position: CGPoint(x: 1.3*(frame.maxX/6), y: 2.6*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot6LockState"), SlotNumber: 6,CheckedState: defaults.bool(forKey: "Slot6Checked"),SlotPrice: 150)
+        slot5 = AddSkinSlot.init(Position: CGPoint(x: 3*(frame.maxX/6), y: 2.6*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot5LockState"), SlotNumber: 5,CheckedState: defaults.bool(forKey: "Slot5Checked"),SlotPrice: 100)
+        slot4 = AddSkinSlot.init(Position: CGPoint(x: 4.7*(frame.maxX/6), y: 2.6*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot4LockState"), SlotNumber: 4,CheckedState: defaults.bool(forKey: "Slot4Checked"),SlotPrice: 100)
 
-        slot1 = AddSkinSlot.init(Position: CGPoint(x: 1.3*(frame.maxX/6), y: 3.9*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot1LockState"), SlotNumber: 1,CheckedState: defaults.bool(forKey: "Slot1Checked"))
-        slot2 = AddSkinSlot.init(Position: CGPoint(x: 3*(frame.maxX/6), y: 3.9*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot2LockState"), SlotNumber: 2,CheckedState: defaults.bool(forKey: "Slot2Checked"))
-        slot3 = AddSkinSlot.init(Position: CGPoint(x: 4.7*(frame.maxX/6), y: 3.9*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot3LockState"), SlotNumber: 3,CheckedState: defaults.bool(forKey: "Slot3Checked"))
+        slot1 = AddSkinSlot.init(Position: CGPoint(x: 1.3*(frame.maxX/6), y: 3.9*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot1LockState"), SlotNumber: 1,CheckedState: defaults.bool(forKey: "Slot1Checked"),SlotPrice: 0)
+        slot2 = AddSkinSlot.init(Position: CGPoint(x: 3*(frame.maxX/6), y: 3.9*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot2LockState"), SlotNumber: 2,CheckedState: defaults.bool(forKey: "Slot2Checked"),SlotPrice: 50)
+        slot3 = AddSkinSlot.init(Position: CGPoint(x: 4.7*(frame.maxX/6), y: 3.9*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot3LockState"), SlotNumber: 3,CheckedState: defaults.bool(forKey: "Slot3Checked"),SlotPrice: 75)
    
         addChild(slot9!.OuterRectangle); addChild(slot8!.OuterRectangle); addChild(slot7!.OuterRectangle); addChild(slot6!.OuterRectangle); addChild(slot5!.OuterRectangle); addChild(slot4!.OuterRectangle); addChild(slot3!.OuterRectangle); addChild(slot2!.OuterRectangle); addChild(slot1!.OuterRectangle)
         
@@ -735,7 +731,7 @@ class MenuScene: SKScene {
         Slot.PriceBanner.run(SKAction.fadeOut(withDuration: 0.5))
         Slot.checkbox.run(SKAction.fadeOut(withDuration: 0.5))
         Slot.checkbox.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.5), SKAction.run{Slot.checkbox.texture = SKTexture(imageNamed: "unchecked")}, SKAction.fadeIn(withDuration: 0.3)]))
-        defaults.set(previousCoinValue - 50, forKey: "UserCoins")
+        defaults.set(previousCoinValue - Slot.CoinsPrice, forKey: "UserCoins")
         Slot.LockState = false
         coinsInt = defaults.integer(forKey: "UserCoins")
         CoinsText.text = "\(coinsInt!)"
@@ -850,17 +846,6 @@ class MenuScene: SKScene {
         SkinShop.yScale = 0.085
         SkinShop.name = "skinshop_image"
         
-        GiftImage = SKSpriteNode(imageNamed: "gift")
-        GiftImage.xScale = 0.12
-        GiftImage.yScale = 0.12
-        GiftImage.name = "gift_image"
-        GiftImage.position = CGPoint(x: 5*(frame.maxX/6), y: 1.2*(frame.maxY/3))
-
-        
-        GiftText = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        GiftText.text = "FREE COINS +10"
-        GiftText.position = CGPoint(x: 5*(frame.maxX/6), y: 1*(frame.maxY/3))
-        GiftText.fontSize = 14
         
 
         
@@ -1122,8 +1107,7 @@ class MenuScene: SKScene {
         addChild(soundImage)
         addChild(info)
         addChild(SkinShop)
-        addChild(GiftImage)
-        addChild(GiftText)
+
     }
     var bruh : UIColor!
 
@@ -1292,21 +1276,23 @@ class MenuScene: SKScene {
             for node in touchedNode {
                 let generator = UIImpactFeedbackGenerator(style: .medium)
                 if node.name == "playrectangle"{
-                    generator.impactOccurred()
-                    if defaults.bool(forKey: "soundon") == true{
-                        run(playsound)
+                    if SkinShopTouched == false && infotouched == false {
+                            generator.impactOccurred()
+                            if defaults.bool(forKey: "soundon") == true{
+                                run(playsound)
+                            }
+                            let waitAnimation = SKAction.wait(forDuration: 0.35)
+                            let SwitchScene = SKAction.run{(self.startgame())}
+                            let PressedbuttoN = SKAction.sequence([waitAnimation,SwitchScene])
+                            run(PressedbuttoN)
+                            borderRect.run(SKAction.scaleX(to: 0.8, duration: 0.5))
+                            borderRect.run(SKAction.scaleY(to: 0.8, duration: 0.5))
+                            playbutton.run(SKAction.scaleX(to: 0.93, duration: 0.43))
+                            playbutton.run(SKAction.scaleY(to: 0.93, duration: 0.43))
                     }
-                    let waitAnimation = SKAction.wait(forDuration: 0.35)
-                    let SwitchScene = SKAction.run{(self.startgame())}
-                    let PressedbuttoN = SKAction.sequence([waitAnimation,SwitchScene])
-                    run(PressedbuttoN)
-                    borderRect.run(SKAction.scaleX(to: 0.8, duration: 0.5))
-                    borderRect.run(SKAction.scaleY(to: 0.8, duration: 0.5))
-                    playbutton.run(SKAction.scaleX(to: 0.93, duration: 0.43))
-                    playbutton.run(SKAction.scaleY(to: 0.93, duration: 0.43))
                 }else if node.name == "sound_image"{
+                    if SkinShopTouched == false && infotouched == false {
                     generator.impactOccurred()
-
                     if defaults.bool(forKey: "soundon") == true{
                         run(gouttesound)
                     }
@@ -1318,6 +1304,7 @@ class MenuScene: SKScene {
                         defaults.set(true, forKey: "soundon")
                         soundImage.texture = SKTexture(imageNamed: "sound on")
                         }
+                    }
                 }else if node.name == "skinshop_image"{
                     if SkinShopTouched == false {
                         if infotouched == false {
@@ -1377,7 +1364,7 @@ class MenuScene: SKScene {
                             }
                         }else if slot3!.OuterRectangle.contains(location){
                             if slot3!.LockState == true {
-                                if defaults.integer(forKey: "UserCoins") >= 50 {
+                                if defaults.integer(forKey: "UserCoins") >= 75 {
                                     Unlock(Slot: slot3!)
                                 }
                             }else if slot3!.LockState == false{
@@ -1390,7 +1377,7 @@ class MenuScene: SKScene {
                             }
                         }else if slot4!.OuterRectangle.contains(location){
                             if slot4!.LockState == true {
-                                if defaults.integer(forKey: "UserCoins") >= 50 {
+                                if defaults.integer(forKey: "UserCoins") >= 100 {
                                     Unlock(Slot: slot4!)
                                 }
                             }else if slot4!.LockState == false{
@@ -1403,7 +1390,7 @@ class MenuScene: SKScene {
                             }
                         }else if slot5!.OuterRectangle.contains(location){
                             if slot5!.LockState == true {
-                                if defaults.integer(forKey: "UserCoins") >= 50 {
+                                if defaults.integer(forKey: "UserCoins") >= 100 {
                                     Unlock(Slot: slot5!)
                                 }
                             }else if slot5!.LockState == false{
@@ -1416,7 +1403,7 @@ class MenuScene: SKScene {
                             }
                         }else if slot6!.OuterRectangle.contains(location){
                             if slot6!.LockState == true {
-                                if defaults.integer(forKey: "UserCoins") >= 50 {
+                                if defaults.integer(forKey: "UserCoins") >= 150 {
                                     Unlock(Slot: slot6!)
                                 }
                             }else if slot6!.LockState == false{
@@ -1429,7 +1416,7 @@ class MenuScene: SKScene {
                             }
                         }else if slot7!.OuterRectangle.contains(location){
                             if slot7!.LockState == true {
-                                if defaults.integer(forKey: "UserCoins") >= 50 {
+                                if defaults.integer(forKey: "UserCoins") >= 250 {
                                     Unlock(Slot: slot7!)
                                 }
                             }else if slot7!.LockState == false{
@@ -1442,7 +1429,7 @@ class MenuScene: SKScene {
                             }
                         }else if slot8!.OuterRectangle.contains(location){
                             if slot8!.LockState == true {
-                                if defaults.integer(forKey: "UserCoins") >= 50 {
+                                if defaults.integer(forKey: "UserCoins") >= 250 {
                                     Unlock(Slot: slot8!)
                                 }
                             }else if slot8!.LockState == false{
@@ -1455,7 +1442,7 @@ class MenuScene: SKScene {
                             }
                         }else if slot9!.OuterRectangle.contains(location){
                             if slot9!.LockState == true {
-                                if defaults.integer(forKey: "UserCoins") >= 50 {
+                                if defaults.integer(forKey: "UserCoins") >= 300 {
                                     Unlock(Slot: slot9!)
                                 }
                             }else if slot9!.LockState == false{
