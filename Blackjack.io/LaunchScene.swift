@@ -56,10 +56,10 @@ class LaunchScreen: SKScene{
     
     func startgame(){
         let Menuscene = MenuScene(size: view!.bounds.size)
-        let f = SKTransition.crossFade(withDuration: 0.66)
+        let f = SKTransition.moveIn(with: SKTransitionDirection.down, duration: 0.6)
         Menuscene.scaleMode = .aspectFill
         let switche = SKAction.run{self.view!.presentScene(Menuscene,transition: f)}
-        run(SKAction.sequence([SKAction.wait(forDuration: 1.5),switche]))
+        run(SKAction.sequence([SKAction.wait(forDuration: 1.8),switche]))
     }
     
     
@@ -72,46 +72,32 @@ class LaunchScreen: SKScene{
     func LaunchNodes(){
   
         
-        backgroundColor = UIColor(red: 15/255, green: 17/255, blue: 39/255, alpha: 1.0)
+        backgroundColor = UIColor(red: 1/255, green: 122/255, blue: 255/255, alpha: 1.0)
         
-        let template = SKSpriteNode(texture: SKTexture(imageNamed: "templatee"))
-        template.xScale = 0.85
-        template.yScale = 0.85
-        template.zPosition = 30
-        template.position = CGPoint(x: frame.midX, y: 2*(frame.maxY/3))
-        let generator = UIImpactFeedbackGenerator(style: .light)
+
+        let generator = UIImpactFeedbackGenerator(style: .heavy)
         generator.impactOccurred()
         
         let title = SKLabelNode(fontNamed: "TextaW00-Heavy")
         title.text = "BLACKJACK.IO"
-        title.fontSize = 30
-        title.position = CGPoint(x: frame.midX, y: 1*(frame.midY/5))
+        title.fontSize = 45
+        title.position = CGPoint(x: frame.midX, y: 1.95*(frame.maxY/3))
         title.zPosition = 4
         
-        let title2 = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        title2.text = "BLACKJACK.IO"
-        title2.fontSize = 30
-        title2.position = CGPoint(x: frame.midX + 2, y: 1*(frame.midY/5) - 2)
-        title2.fontColor = UIColor(red: 1/255, green: 122/255, blue: 255/255, alpha: 1.0)
-        title.zPosition = 3
+        let title2 = SKLabelNode(fontNamed: "ElanorFreePersonalUse-ExBdIt")
+        title2.text = "JULORAPIDO"
+        title2.fontSize = 45
+        title2.position = CGPoint(x: frame.midX, y: 1.25*(frame.maxY/3))
+        title.zPosition = 4
+ 
+        let gameover = SKSpriteNode(texture: SKTexture(imageNamed: "gameover"))
+        gameover.position = CGPoint(x: frame.midX, y: 0.85*(frame.maxY/3))
+        gameover.yScale = 0.17
+        gameover.xScale = 0.17
         
-        let bruh = SKShapeNode(rectOf: CGSize(width: 10, height: 25), cornerRadius: 3)
-        bruh.fillColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
-        bruh.zPosition = 4
-        bruh.position = CGPoint(x: frame.midX, y: frame.midY)
-        
-        outerRect = SKShapeNode(rectOf: CGSize(width: frame.maxX - 30, height: 25))
-        outerRect.position = CGPoint(x: frame.midX, y: frame.midY)
-        outerRect.fillColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0)
-        outerRect.lineWidth = CGFloat(3.5)
-        outerRect.zPosition = 2
-        
-        addChild(outerRect)
+        addChild(gameover)
         addChild(title)
         addChild(title2)
-        addChild(template)
-        addChild(bruh)
-        bruh.run(SKAction.scaleX(to: frame.maxX - 30, duration: 5))
 
     }
     

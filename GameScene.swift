@@ -452,8 +452,8 @@ class GameScene: SKScene {
             text.text = "YOU BUST"
             text.fontColor = UIColor.white
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: true)
-            DisplayEXPnumbers(EXP: -10)
-            ModifyPlayerData(Exp: -10, CoinsWon: 0)
+            DisplayEXPnumbers(EXP: -15)
+            ModifyPlayerData(Exp: -15, CoinsWon: 0)
             InnerRectangle.fillColor = UIColor(red: 15/255, green: 32/255, blue: 45/255, alpha: 1)
             if self.defo.bool(forKey: "soundon") == true{
                 self.run(SKAction.sequence([SKAction.wait(forDuration: 1),lostsound]))
@@ -463,11 +463,10 @@ class GameScene: SKScene {
             text.text = "VICTORY"
             text.fontColor = UIColor.white
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: false)
-            DisplayEXPnumbers(EXP: 25)
-            ModifyPlayerData(Exp: 200, CoinsWon: 200 + defo.integer(forKey: "CoinsBonus"))
+            DisplayEXPnumbers(EXP: 45)
+            ModifyPlayerData(Exp: 45, CoinsWon: 2 + defo.integer(forKey: "CoinsBonus"))
             
             displayCoins(CoinsNumber: 2 + defo.integer(forKey: "CoinsBonus"))
-            print("ppupuepute")
             defo.set(true,forKey: "LastGameVictory?")
             defo.set(2 + defo.integer(forKey: "CoinsBonus"), forKey: "LastGameCoins")
             InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
@@ -480,8 +479,8 @@ class GameScene: SKScene {
             text.text = "DEALER WINS"
             text.fontColor = UIColor.white
             EndGameScoreColorRect(User: "Dealer", Color: UIColor.white, WinState: true)
-            DisplayEXPnumbers(EXP: -15)
-            ModifyPlayerData(Exp: -15, CoinsWon: 0)
+            DisplayEXPnumbers(EXP: -20)
+            ModifyPlayerData(Exp: -20, CoinsWon: 0)
             InnerRectangle.fillColor = UIColor(red: 15/255, green: 32/255, blue: 45/255, alpha: 1)
             if self.defo.bool(forKey: "soundon") == true{
                 self.run(SKAction.sequence([SKAction.wait(forDuration: 1),lostsound]))
@@ -501,8 +500,8 @@ class GameScene: SKScene {
             text.fontColor = UIColor.white
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: true)
             InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
-            DisplayEXPnumbers(EXP: 50)
-            ModifyPlayerData(Exp: 500, CoinsWon: 2 + defo.integer(forKey: "CoinsBonus"))
+            DisplayEXPnumbers(EXP: 80)
+            ModifyPlayerData(Exp: 80, CoinsWon: 2 + defo.integer(forKey: "CoinsBonus"))
             displayCoins(CoinsNumber: 3)
             defo.set(true,forKey: "LastGameVictory?")
             defo.set(3 + defo.integer(forKey: "CoinsBonus"), forKey: "LastGameCoins")
@@ -512,11 +511,11 @@ class GameScene: SKScene {
             }
         }else if way == "DealerBust"{
             
-            text.text = "DEALERBUST"
+            text.text = "DEALER BUSTS"
             text.fontColor = UIColor.white
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: true)
             DisplayEXPnumbers(EXP: 35)
-            ModifyPlayerData(Exp: 500, CoinsWon: 200 + defo.integer(forKey: "CoinsBonus"))
+            ModifyPlayerData(Exp: 35, CoinsWon: 2 + defo.integer(forKey: "CoinsBonus"))
             displayCoins(CoinsNumber: 2 + defo.integer(forKey: "CoinsBonus"))
             InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
             defo.set(true,forKey: "LastGameVictory?")
@@ -780,16 +779,16 @@ class GameScene: SKScene {
             let rect1 = SKShapeNode(rectOf: CGSize(width: frame.maxX - 14, height: frame.midY + 62), cornerRadius: 10)
             rect1.name = "TABLEJEU"
             rect1.position = CGPoint(x: frame.midX, y: frame.midY)
-            rect1.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
+            rect1.strokeColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
             rect1.lineWidth = CGFloat(3.5)
             rect1.zPosition = -10
             rect1.alpha = 0
 
-            let rect2 = SKShapeNode(rectOf: CGSize(width: frame.maxX - 5, height: frame.midY + 52), cornerRadius: 10)
+            let rect2 = SKShapeNode(rectOf: CGSize(width: frame.maxX - 24, height: frame.midY + 52), cornerRadius: 10)
             rect2.name = "TABLEJEU"
             rect2.position = CGPoint(x: frame.midX, y: frame.midY)
-            rect2.strokeColor = UIColor(red: 100/255, green: 100/255, blue: 200/255, alpha: 0.8)
-            rect2.lineWidth = CGFloat(3)
+            rect2.strokeColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 1)
+            rect2.lineWidth = CGFloat(4)
             rect2.zPosition = -9
             
             addChild(rect1)
@@ -1234,7 +1233,6 @@ class GameScene: SKScene {
                 //let repeatAction = SKAction.repeat(SKAction.sequence([giveNewCard,waitNextCard,dealerUpdate]),count: 20)
                 run(SKAction.sequence([spawnReturnedCard,waitCardAnim,returnUpdate,waitNextCard,boucle]))
                 
-                print("Playerscore stayed : \(playerScore)")
 
             }
     

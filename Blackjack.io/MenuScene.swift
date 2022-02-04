@@ -83,28 +83,14 @@ class MenuScene: SKScene {
         UserCoins = defaults.integer(forKey: "UserCoins")
 
     }
-    func BackgroundMusic(){
-        if let r = Bundle.main.path(forResource: "MainMusic", ofType: "mp3"){
-            let bgmusic = NSURL(fileURLWithPath: r)
-            do {
-                MusicPlayer = try AVAudioPlayer(contentsOf: bgmusic as URL)
-                guard let MusicPlayer = MusicPlayer else {return}
-                MusicPlayer.numberOfLoops = -1
-                MusicPlayer.prepareToPlay()
-                MusicPlayer.play()
-            } catch {
-                print("queue")
-            }
-        }
-        MUSIClaunched = true
-    }
+
     func DisplayInfo() {
         
         
         playRec.isUserInteractionEnabled = false
         infotouched = true
         inforect = SKShapeNode(rectOf: CGSize(width: 4*(frame.maxX/5), height: 3.4*(frame.maxY/5)), cornerRadius: 10)
-        inforect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 0.87)
+        inforect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 0.97)
         inforect.zPosition = 15
         inforect.name = "infonode"
         inforect.alpha = CGFloat(0)
@@ -117,10 +103,10 @@ class MenuScene: SKScene {
         experiencerect.strokeColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
         experiencerect.zPosition = 16
         experiencerect.name = "infonode"
-        experiencerect.lineWidth = CGFloat(4)
+        experiencerect.lineWidth = CGFloat(3.5)
         
         let experiencetext = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        experiencetext.position = CGPoint(x: frame.midX - 15, y: 3.94*(frame.maxY/5))
+        experiencetext.position = CGPoint(x: frame.midX - 15, y: 3.9575*(frame.maxY/5))
         experiencetext.name = "infonode"
         experiencetext.text = "EXPERIENCE"
         experiencetext.fontSize = 22
@@ -135,7 +121,7 @@ class MenuScene: SKScene {
         experiencenode.alpha = 0
 
         let dealerbust = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        dealerbust.position = CGPoint(x: frame.midX, y: 3.6*(frame.maxY/5))
+        dealerbust.position = CGPoint(x: frame.midX, y: 3.2*(frame.maxY/5))
         dealerbust.name = "infonode"
         dealerbust.text = "DEALER BUSTS + 35exp"
         dealerbust.fontSize = 17
@@ -143,7 +129,7 @@ class MenuScene: SKScene {
         dealerbust.alpha = 0
         
         let playerlost = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        playerlost.position = CGPoint(x: frame.midX , y: 3.4*(frame.maxY/5))
+        playerlost.position = CGPoint(x: frame.midX , y: 3*(frame.maxY/5))
         playerlost.name = "infonode"
         playerlost.text = "YOU BUST - 15exp"
         playerlost.fontSize = 17
@@ -151,15 +137,15 @@ class MenuScene: SKScene {
         playerlost.alpha = 0
 
         let playerwin = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        playerwin.position = CGPoint(x: frame.midX, y: 3.2*(frame.maxY/5))
+        playerwin.position = CGPoint(x: frame.midX, y: 3.4*(frame.maxY/5))
         playerwin.name = "infonode"
-        playerwin.text = "YOU WIN + 35exp"
+        playerwin.text = "YOU WIN + 45exp"
         playerwin.fontSize = 17
         playerwin.zPosition = 17
         playerwin.alpha = 0
 
         let dealerwin = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        dealerwin.position = CGPoint(x: frame.midX, y: 3*(frame.maxY/5))
+        dealerwin.position = CGPoint(x: frame.midX, y: 2.8*(frame.maxY/5))
         dealerwin.name = "infonode"
         dealerwin.text = "DEALER WINS -20exp"
         dealerwin.fontSize = 17
@@ -167,7 +153,7 @@ class MenuScene: SKScene {
         dealerwin.alpha = 0
 
         let blackjack = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        blackjack.position = CGPoint(x: frame.midX , y: 2.8*(frame.maxY/5))
+        blackjack.position = CGPoint(x: frame.midX , y: 3.6*(frame.maxY/5))
         blackjack.name = "infonode"
         blackjack.text = "BLACKJACK + 80exp"
         blackjack.fontSize = 17
@@ -186,7 +172,7 @@ class MenuScene: SKScene {
         coinrect.strokeColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
         coinrect.zPosition = 16
         coinrect.name = "infonode"
-        coinrect.lineWidth = CGFloat(4)
+        coinrect.lineWidth = CGFloat(3.5)
         coinrect.alpha = 0
 
         let cointext = SKLabelNode(fontNamed: "TextaW00-Heavy")
@@ -223,7 +209,7 @@ class MenuScene: SKScene {
         bjcoin.alpha = 0
 
         let coininfo1  = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        coininfo1.position = CGPoint(x: frame.midX, y: 1.45*(frame.maxY/5))
+        coininfo1.position = CGPoint(x: frame.midX, y: 1.475*(frame.maxY/5))
         coininfo1.name = "infonode"
         coininfo1.text = "EACH 5 LEVEL REACHED YOU GET"
         coininfo1.fontSize = 17
@@ -240,7 +226,7 @@ class MenuScene: SKScene {
         coininfo2.alpha = 0
 
         let actualbonus = SKLabelNode(fontNamed: "TextaW00-Heavy")
-        actualbonus.position = CGPoint(x: frame.midX, y: 1.05*(frame.maxY/5))
+        actualbonus.position = CGPoint(x: frame.midX, y: 1.062*(frame.maxY/5))
         actualbonus.name = "infonode"
         actualbonus.text = "ACTUAL COIN BONUS : \(defaults.integer(forKey: "CoinsBonus"))"
         actualbonus.fontSize = 18
@@ -682,7 +668,7 @@ class MenuScene: SKScene {
         skinshoprect.alpha = 0
 
         cardshop = SKSpriteNode(imageNamed: "cardshop")
-        cardshop.position = CGPoint(x: frame.minX - 50, y: 7.9*(frame.maxY/9))
+        cardshop.position = CGPoint(x: frame.minX - 50, y: 8*(frame.maxY/9))
         cardshop.zPosition = 15
         cardshop.alpha = 0
         cardshop.xScale = 0.25
@@ -706,7 +692,7 @@ class MenuScene: SKScene {
 
         skinshoprect.run(SKAction.move(to: CGPoint(x: frame.midX, y: 8.05*(frame.maxY/9)), duration: 0.4))
         skinshoptxt.run(SKAction.move(to: CGPoint(x: frame.midX, y: 7.9*(frame.maxY/9)), duration: 0.4))
-        cardshop.run(SKAction.move(to: CGPoint(x: 2.5*(frame.maxX/3), y: 7.9*(frame.maxY/9)), duration: 0.4))
+        cardshop.run(SKAction.move(to: CGPoint(x: 2.45*(frame.maxX/3), y: 8.05*(frame.maxY/9)), duration: 0.4))
 
         addChild(skinshoprect)
         addChild(skinshoptxt)

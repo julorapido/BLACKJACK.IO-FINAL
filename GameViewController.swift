@@ -8,11 +8,12 @@
 // INTERSTITIAL : ca-app-pub-4889346564502252/4587133227
 // ID app : ca-app-pub-4889346564502252~7541718210
 //  google if bottom ad : ca-app-pub-3940256099942544/2934735716
+//  google rewarded add: ca-app-pub-3940256099942544/1712485313
 import UIKit
 import SpriteKit
 import GameplayKit
 import GoogleMobileAds
-class GameViewController: UIViewController {
+class GameViewController: UIViewController, GADFullScreenContentDelegate {
     public let defaults = UserDefaults.standard
     
     private let banner: GADBannerView = {
@@ -21,7 +22,6 @@ class GameViewController: UIViewController {
         banner.load(GADRequest())
         return banner
     }()
-    
     
     
     override func viewDidLoad() {
@@ -34,23 +34,47 @@ class GameViewController: UIViewController {
 
         
         if let view = self.view as! SKView? {
-            let anal = view.scene
-            let scene = MenuScene(size: view.bounds.size)
+            let menuu = MenuScene(size: view.bounds.size)
             let launch = LaunchScreen(size: view.bounds.size)
     
-                scene.scaleMode = .aspectFill
+                menuu.scaleMode = .aspectFill
                 view.presentScene(launch)
                 view.ignoresSiblingOrder = true
                 view.showsNodeCount = true
+      
+            let anal = view.scene
 
-            if print(scene.sceneDidLoad()) == () {
-                    print("caca")
-                //view.addSubview(banner)
-                //bannerView.load(GADRequest())
+                if anal == launch.scene {
+                    view.addSubview(banner)
+                    bannerView.load(GADRequest())
                 }
+                
+                if anal == menuu.scene {
+                    print("bro")
+                }
+            
+          
             
             }
         }
+    
+    @IBAction func playVideoAd(_ sender: Any) {
+
+        
+
+        if GADRewardBasedVideoAd.sharedInstance().isReady == true {
+
+            
+
+            GADRewardBasedVideoAd.sharedInstance().present(fromRootViewController: self)
+
+            
+
+        }
+
+        
+
+    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()

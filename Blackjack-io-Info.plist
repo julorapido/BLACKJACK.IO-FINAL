@@ -159,6 +159,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>TextaW00-Heavy.ttf</string>
+		<string>ElanorFreePersonalUse-ExBdIt.otf</string>
 	</array>
 </dict>
 </plist>
