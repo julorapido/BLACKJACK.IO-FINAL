@@ -95,10 +95,10 @@ class LaunchScreen: SKScene{
         title2.fontColor = UIColor(red: 1/255, green: 122/255, blue: 255/255, alpha: 1.0)
         title.zPosition = 3
         
-        let bruh = SKShapeNode(rect: CGRect(x: (frame.minX + 20), y: (1*(frame.maxY/3)), width: 15, height: 25))
+        let bruh = SKShapeNode(rectOf: CGSize(width: 10, height: 25), cornerRadius: 3)
         bruh.fillColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
         bruh.zPosition = 4
-    
+        bruh.position = CGPoint(x: frame.midX, y: frame.midY)
         
         outerRect = SKShapeNode(rectOf: CGSize(width: frame.maxX - 30, height: 25))
         outerRect.position = CGPoint(x: frame.midX, y: frame.midY)
@@ -111,7 +111,7 @@ class LaunchScreen: SKScene{
         addChild(title2)
         addChild(template)
         addChild(bruh)
-        bruh.run(SKAction.scale(by: 300, duration: 2))
+        bruh.run(SKAction.scaleX(to: frame.maxX - 30, duration: 5))
 
     }
     

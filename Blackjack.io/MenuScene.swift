@@ -102,7 +102,7 @@ class MenuScene: SKScene {
         playRec.isUserInteractionEnabled = false
         infotouched = true
         inforect = SKShapeNode(rectOf: CGSize(width: 4*(frame.maxX/5), height: 3.4*(frame.maxY/5)), cornerRadius: 10)
-        inforect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 0.75)
+        inforect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 0.87)
         inforect.zPosition = 15
         inforect.name = "infonode"
         inforect.alpha = CGFloat(0)
@@ -110,23 +110,71 @@ class MenuScene: SKScene {
         inforect.position = CGPoint(x: frame.midX, y: frame.midY)
         inforect.setScale(0.3)
         
-        let experiencerect = SKShapeNode(rectOf: CGSize(width: 1.5*(frame.maxX/3), height: 3.4*(frame.maxY/5)), cornerRadius: 15)
+        let experiencerect = SKShapeNode(rectOf: CGSize(width: 1.5*(frame.maxX/3), height: 35), cornerRadius: 15)
         experiencerect.position = CGPoint(x: frame.midX, y: 4*(frame.maxY/5))
-        experiencerect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 0)
+        experiencerect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
         experiencerect.strokeColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
         experiencerect.zPosition = 16
         experiencerect.name = "infonode"
+        experiencerect.lineWidth = CGFloat(4)
         
+        let experiencetext = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        experiencetext.position = CGPoint(x: frame.midX - 15, y: 3.94*(frame.maxY/5))
+        experiencetext.name = "infonode"
+        experiencetext.text = "EXPERIENCE"
+        experiencetext.fontSize = 22
+        experiencetext.zPosition = 17
+
+        let experiencenode = SKSpriteNode(texture: SKTexture(imageNamed: "exp"))
+        experiencenode.position = CGPoint(x: frame.midX + 64, y: 4*(frame.maxY/5))
+        experiencenode.name = "infonode"
+        experiencenode.zPosition = 16
+        experiencenode.xScale = 0.1
+        experiencenode.yScale = 0.1
+
+        let dealerbust = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        dealerbust.position = CGPoint(x: frame.midX - 60, y: 3.6*(frame.maxY/5))
+        dealerbust.name = "infonode"
+        dealerbust.text = "- DEALER BUSTS + 35exp"
+        dealerbust.fontSize = 13.5
+        dealerbust.zPosition = 17
         
+        let playerlost = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        playerlost.position = CGPoint(x: frame.midX + 60, y: 3.6*(frame.maxY/5))
+        playerlost.name = "infonode"
+        playerlost.text = "- YOU BUST - 15exp"
+        playerlost.fontSize = 13.5
+        playerlost.zPosition = 17
         
+        let playerwin = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        playerwin.position = CGPoint(x: frame.midX + 60, y: 3.45*(frame.maxY/5))
+        playerwin.name = "infonode"
+        playerwin.text = "- YOU WIN + 35exp"
+        playerwin.fontSize = 13.5
+        playerwin.zPosition = 17
+        
+        let dealerwin = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        dealerwin.position = CGPoint(x: frame.midX - 60, y: 3.45*(frame.maxY/5))
+        dealerwin.name = "infonode"
+        dealerwin.text = "DEALERWINS + -15"
+        dealerwin.fontSize = 13.5
+        dealerwin.zPosition = 17
+        
+        addChild(dealerwin)
+        addChild(playerwin)
+        addChild(playerlost)
+        addChild(dealerbust)
+        addChild(experiencenode)
+        addChild(experiencetext)
         addChild(experiencerect)
         addChild(inforect)
         inforect.run(SKAction.fadeIn(withDuration: 0.3))
         inforect.run(SKAction.scale(to: 1, duration: 0.3))
     }
-    func spawncoins(SpawnCount : Int    ) {
+    func spawncoins( ) {
 
-        let vector = SKAction.move(to: CGPoint(x: 0.85*(frame.maxX/4), y: 0.91*(frame.maxY/9)), duration: 0.85)
+        let vector = SKAction.move(to: (Coins.position), duration: 0.5)
+        
         let fadeout = SKAction.fadeOut(withDuration: 0.15)
         let Coins = SKSpriteNode(texture: SKTexture(imageNamed: "COINS1"))
         Coins.xScale = 0.35
@@ -135,26 +183,24 @@ class MenuScene: SKScene {
         let wait = SKAction.wait(forDuration: 0.09)
         let Animation = SKAction.sequence([
             (SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS2")}),wait,(SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS3")}),wait,(SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS4")}),wait,(SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS5")}),wait,(SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS6")}),wait,(SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS7")}),wait,(SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS8")}),wait,(SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS9")}),wait,(SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS10")}),wait,(SKAction.run{Coins.texture = SKTexture(imageNamed: "COINS1")})])
+        
+        let remove = SKAction.run {
+            Coins.removeFromParent()
+        }
         let loop = SKAction.sequence([Animation])
         let final = SKAction.repeatForever(loop)
         addChild(Coins)
-        let coinAction = SKAction.run {
             Coins.run(SKAction.rotate(toAngle: M_PI/2,duration: 0.0001))
             Coins.position = CGPoint(x: 0.8*(self.frame.maxX/4), y: 0.3*(self.frame.maxY/9))
             Coins.run(final)
-            Coins.run(SKAction.sequence([SKAction.wait(forDuration: 0.7),fadeout]))
+            Coins.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),fadeout,remove]))
             Coins.run(vector)
             let CoinSound = SKAction.playSoundFileNamed("gamecoin.wav", waitForCompletion: false)
             if self.defaults.bool(forKey: "soundon") == true{
                 self.run(SKAction.sequence([CoinSound]))
             }
-        }
-        
-        var Time = CGFloat(0)
-        for i in 1...SpawnCount {
-            run(SKAction.sequence([SKAction.wait(forDuration: Time),coinAction]))
-            Time = Time + CGFloat(0.5)
-        }
+      
+ 
     }
     
     
@@ -169,7 +215,11 @@ class MenuScene: SKScene {
         ApparitionRect.run(SKAction.sequence([SKAction.wait(forDuration: 1.5),SKAction.fadeOut(withDuration: 0.5)]))
 
         
-        let AppearCoinsRect = SKShapeNode(rectOf: CGSize(width: 85, height: 40), cornerRadius: 10)
+        var AppearCoinsRect = SKShapeNode(rectOf: CGSize(width: 85, height: 40), cornerRadius: 10)
+        
+        if defaults.integer(forKey: "UserCoins") >= 1000 {
+            AppearCoinsRect = SKShapeNode(rectOf: CGSize(width: 115, height: 42), cornerRadius: 10)
+        }
         AppearCoinsRect.position = CGPoint(x: 0.725*(frame.maxX/4), y: 0.9*(frame.maxY/9))
         AppearCoinsRect.fillColor = UIColor(red: 254/255, green: 207/255, blue: 41/255, alpha: 1)
         AppearCoinsRect.strokeColor = UIColor(red: 254/255, green: 207/255, blue: 41/255, alpha: 1)
@@ -180,8 +230,12 @@ class MenuScene: SKScene {
         
         
         AppearCoinsRect.run(SKAction.sequence([SKAction.wait(forDuration: 1.5),SKAction.fadeOut(withDuration: 0.5)]))
-        
-        spawncoins(SpawnCount: (defaults.integer(forKey: "LastGameCoins")))
+        var time = CGFloat(0)
+        let entier = defaults.integer(forKey: "LastGameCoins")
+        for i in 1...entier {
+            run(SKAction.sequence([SKAction.wait(forDuration: time),SKAction.run{self.spawncoins()}]))
+            time = time + CGFloat(0.4)
+        }
         defaults.set(0, forKey: "LastGameCoins")
     }
     
@@ -240,7 +294,7 @@ class MenuScene: SKScene {
         lvluptext.run(SKAction.fadeOut(withDuration: 1.75))
         
         print("lvl up")
-        let lvluprect = SKShapeNode(rectOf: CGSize(width: 105, height: 42.5), cornerRadius: 10)
+        let lvluprect = SKShapeNode(rectOf: CGSize(width: 120, height: 33), cornerRadius: 10)
         lvluprect.fillColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
         lvluprect.strokeColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0)
         lvluprect.position = CGPoint(x:frame.midX, y: (3.95 * (frame.maxY/5)))
@@ -349,12 +403,11 @@ class MenuScene: SKScene {
         
         var CheckedBool : Bool!
         //ar checkbox : SKSpriteNode!
-     
         
         init(Position : CGPoint, SkinTexture : SKTexture, LockedState : Bool, SlotNumber : Int, CheckedState : Bool){
         
             
-            
+            checkbox = SKSpriteNode(texture: SKTexture(imageNamed: "locked"))
             OuterRectangle.zPosition = 16
             OuterRectangle.lineWidth = CGFloat(3)
             positionn = Position
@@ -393,9 +446,10 @@ class MenuScene: SKScene {
             
             if LockState == true{
                 checkbox = SKSpriteNode(texture: SKTexture(imageNamed: "locked"))
+              
                 PriceBanner = SKShapeNode(rectOf: CGSize(width: 80, height: 26), cornerRadius: 0)
                 PriceBanner.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
-                PriceBanner.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0)
+                PriceBanner.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
 
                 CoinsImage = SKSpriteNode(texture: SKTexture(imageNamed: "COINS1"))
                 CoinsImage.xScale = 0.3
@@ -423,23 +477,25 @@ class MenuScene: SKScene {
                 
                 if defo.string(forKey: "SlotChecked") == str {
                     checkbox = SKSpriteNode(texture: SKTexture(imageNamed: "checked"))
-                    OuterRectangle.strokeColor = UIColor.green
+                
+                    OuterRectangle.strokeColor = UIColor(red: 76/255, green: 175/255, blue: 80/255, alpha: 0)
                 }else {
                     checkbox = SKSpriteNode(texture: SKTexture(imageNamed: "unchecked"))
-                    OuterRectangle.strokeColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 0)
+              
+                    OuterRectangle.strokeColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0)
 
                 }
         
                 
             }
-            checkbox.xScale = 0.2
-            checkbox.yScale = 0.2
+            checkbox.xScale = 0.042
+            checkbox.yScale = 0.042
             checkbox.alpha = 1
             OuterRectangle.alpha = 1
             checkbox.zPosition = 16
             checkbox.run(SKAction.fadeIn(withDuration: 0.3))
             OuterRectangle.run(SKAction.fadeIn(withDuration: 0.3))
-            checkbox.position = positionn
+            checkbox.position = CGPoint(x: positionn.x, y: positionn.y - 3)
             OuterRectangle.name = "shopnode"
             SkinSelec.name = "shopnode"
             checkbox.name = "shopnode"
@@ -463,7 +519,7 @@ class MenuScene: SKScene {
     var slot3 : AddSkinSlot!
     var slot2 : AddSkinSlot!
     var slot1 : AddSkinSlot!
-    
+    var location : CGPoint!
     var skinshoptxt : SKLabelNode!
     var skinshoprect : SKShapeNode!
     
@@ -524,15 +580,11 @@ class MenuScene: SKScene {
         slot2 = AddSkinSlot.init(Position: CGPoint(x: 3*(frame.maxX/6), y: 3.9*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot2LockState"), SlotNumber: 2,CheckedState: defaults.bool(forKey: "Slot2Checked"))
         slot3 = AddSkinSlot.init(Position: CGPoint(x: 4.7*(frame.maxX/6), y: 3.9*(frame.maxY/6)), SkinTexture: SKTexture(), LockedState: defaults.bool(forKey: "Slot3LockState"), SlotNumber: 3,CheckedState: defaults.bool(forKey: "Slot3Checked"))
    
- 
-
         addChild(slot9!.OuterRectangle); addChild(slot8!.OuterRectangle); addChild(slot7!.OuterRectangle); addChild(slot6!.OuterRectangle); addChild(slot5!.OuterRectangle); addChild(slot4!.OuterRectangle); addChild(slot3!.OuterRectangle); addChild(slot2!.OuterRectangle); addChild(slot1!.OuterRectangle)
         
         addChild(slot9!.CoinsImage); addChild(slot8!.CoinsImage); addChild(slot7!.CoinsImage); addChild(slot6!.CoinsImage); addChild(slot5!.CoinsImage); addChild(slot4!.CoinsImage); addChild(slot3!.CoinsImage); addChild(slot2!.CoinsImage); addChild(slot1!.CoinsImage)
         
         addChild(slot9!.SkinSelec); addChild(slot8!.SkinSelec); addChild(slot7!.SkinSelec); addChild(slot6!.SkinSelec); addChild(slot5!.SkinSelec); addChild(slot4!.SkinSelec); addChild(slot3!.SkinSelec); addChild(slot2!.SkinSelec); addChild(slot1!.SkinSelec)
-        
-   
         
         addChild(slot9!.checkbox); addChild(slot8!.checkbox); addChild(slot7!.checkbox); addChild(slot6!.checkbox); addChild(slot5!.checkbox); addChild(slot4!.checkbox); addChild(slot3!.checkbox); addChild(slot2!.checkbox); addChild(slot1!.checkbox)
         
@@ -541,8 +593,6 @@ class MenuScene: SKScene {
         addChild(slot9!.PriceBanner); addChild(slot8!.PriceBanner); addChild(slot7!.PriceBanner) ;addChild(slot6!.PriceBanner) ;addChild(slot5!.PriceBanner) ;addChild(slot4!.PriceBanner) ;addChild(slot3!.PriceBanner) ;addChild(slot2!.PriceBanner) ;addChild(slot1!.PriceBanner)
     }
     
-    
-
     func Unlock(Slot : AddSkinSlot){
         let unlocksound = SKAction.playSoundFileNamed("unlock.wav", waitForCompletion: false)
         if self.defaults.bool(forKey: "soundon") == true{
@@ -556,6 +606,7 @@ class MenuScene: SKScene {
         Slot.checkbox.run(SKAction.fadeOut(withDuration: 0.5))
         Slot.checkbox.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.5), SKAction.run{Slot.checkbox.texture = SKTexture(imageNamed: "unchecked")}, SKAction.fadeIn(withDuration: 0.3)]))
         defaults.set(previousCoinValue - 50, forKey: "UserCoins")
+        Slot.LockState = false
         coinsInt = defaults.integer(forKey: "UserCoins")
         CoinsText.text = "\(coinsInt!)"
         let a = String(Slot.SlotNumberValue)
@@ -583,7 +634,7 @@ class MenuScene: SKScene {
             }
         }
         Slot.checkbox.texture = SKTexture(imageNamed: "checked")
-        Slot.OuterRectangle.strokeColor = UIColor.green
+        Slot.OuterRectangle.strokeColor = UIColor(red: 76/255, green: 175/255, blue: 80/255, alpha: 1)
         let a = String(Slot.SlotNumberValue)
         let stringg = "Slot\(a)"
         let FadeRect = SKShapeNode(rectOf: CGSize(width: 82, height: 91), cornerRadius: 7)
@@ -654,19 +705,19 @@ class MenuScene: SKScene {
             soundImage.texture = SKTexture(imageNamed: "sound off")
         }
         soundImage.position = CGPoint(x: frame.minX + 55, y: 14.75*(frame.maxY/20))
-        soundImage.xScale = 0.065
-        soundImage.yScale = 0.065
+        soundImage.yScale = 0.085
+        soundImage.xScale = 0.085
         soundImage.name = "sound_image"
         
         info = SKSpriteNode(imageNamed: "info")
 
-        info.xScale = 0.04
-        info.yScale = 0.04
+        info.xScale = 0.085
+        info.yScale = 0.085
         info.name = "info"
         
         SkinShop = SKSpriteNode(imageNamed: "shop")
-        SkinShop.xScale = 0.1
-        SkinShop.yScale = 0.1
+        SkinShop.xScale = 0.085
+        SkinShop.yScale = 0.085
         SkinShop.name = "skinshop_image"
         
         GiftImage = SKSpriteNode(imageNamed: "gift")
@@ -681,16 +732,7 @@ class MenuScene: SKScene {
         GiftText.position = CGPoint(x: 5*(frame.maxX/6), y: 1*(frame.maxY/3))
         GiftText.fontSize = 14
         
-        
-        
-        func SideButtons(Scaling : CGFloat){
-            info.xScale = Scaling/1.5
-            info.yScale = Scaling/1.5
-            soundImage.xScale = Scaling
-            soundImage.yScale = Scaling
-            SkinShop.xScale = Scaling/1.3
-            SkinShop.yScale = Scaling/1.3
-        }
+
         
         lvltext = SKLabelNode(fontNamed: "TextaW00-Heavy")
         lvltext.position = CGPoint(x:frame.midX, y: (3.9 * (frame.maxY/5)))
@@ -755,7 +797,7 @@ class MenuScene: SKScene {
             CoinsRect.position = CGPoint(x: 0.725*(frame.maxX/4), y: 0.9*(frame.maxY/9))
             CoinsRect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
             CoinsRect.strokeColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
-            Coins.position = CGPoint(x: 0.85*(frame.maxX/4), y: 0.91*(frame.maxY/9))
+            Coins.position = CGPoint(x: 0.9*(frame.maxX/4), y: 0.91*(frame.maxY/9))
             CoinsRect.zPosition = 4
             print("caca")
 
@@ -796,34 +838,33 @@ class MenuScene: SKScene {
             var AdaptiveValue : CGFloat!
             if (frame.maxY) <= CGFloat(580){///////////////// IPOD
                 AdaptiveValue = CGFloat(0.45)
-                SideButtons(Scaling: 0.2)
                 
             }else if (frame.maxY) > CGFloat(600) && (frame.maxY) < CGFloat(730){///////////////// IPHONE 7 8
                 AdaptiveValue = CGFloat(0.52)
+                info.position = CGPoint(x: frame.minX + 55, y: 14.4*(frame.maxY/20))
+                SkinShop.position = CGPoint(x: frame.minX + 53, y: 12.7*(frame.maxY/20))
+                soundImage.position = CGPoint(x: frame.minX + 55, y: 11.1*(frame.maxY/20))
+                
                 CoinsAdaptivePos = CGPoint(x: 0.575*(frame.maxX/4), y: 0.81*(frame.maxY/9))
-                info.position = CGPoint(x: frame.minX + 55, y: 13.75*(frame.maxY/20))
-                SkinShop.position = CGPoint(x: frame.minX + 55, y: 12.4*(frame.maxY/20))
-                soundImage.position = CGPoint(x: frame.minX + 55, y: 11.05*(frame.maxY/20))
                 CoinsText.position = CGPoint(x: 0.575*(frame.maxX/4), y: 0.81*(frame.maxY/9))
 
-                SideButtons(Scaling: 0.18)
             }else if (frame.maxY) > CGFloat(736) && (frame.maxY) < CGFloat(900){////////////////// IPHONE XR 11 12 13
                 AdaptiveValue = CGFloat(0.55)
-                info.position = CGPoint(x: frame.minX + 55, y: 13.75*(frame.maxY/20))
-                SkinShop.position = CGPoint(x: frame.minX + 55, y: 12.75*(frame.maxY/20))
+                info.position = CGPoint(x: frame.minX + 55, y: 14.2*(frame.maxY/20))
+                SkinShop.position = CGPoint(x: frame.minX + 53, y: 12.7*(frame.maxY/20))
+                soundImage.position = CGPoint(x: frame.minX + 55, y: 11.3*(frame.maxY/20))
+                
                 CoinsAdaptivePos = CGPoint(x: 0.575*(frame.maxX/4), y: 0.83*(frame.maxY/9))
                 CoinsText.position = CGPoint(x: 0.575*(frame.maxX/4), y: 0.83*(frame.maxY/9))
-                soundImage.position = CGPoint(x: frame.minX + 55, y: 11.75*(frame.maxY/20))
-                SideButtons(Scaling: 0.2)
             }else if (frame.maxY) > CGFloat(900){///////////// IPHONE MAX 13 MAX 12 MAX
                 AdaptiveValue = CGFloat(0.585)
-                info.position = CGPoint(x: frame.minX + 55, y: 13.75*(frame.maxY/20))
-                SkinShop.position = CGPoint(x: frame.minX + 55, y: 12.75*(frame.maxY/20))
-                soundImage.position = CGPoint(x: frame.minX + 55, y: 11.75*(frame.maxY/20))
+                info.position = CGPoint(x: frame.minX + 55, y: 14.1*(frame.maxY/20))
+                SkinShop.position = CGPoint(x: frame.minX + 53, y: 12.7*(frame.maxY/20))
+                soundImage.position = CGPoint(x: frame.minX + 55, y: 11.4*(frame.maxY/20))
+                
                 CoinsAdaptivePos = CGPoint(x: 0.575*(frame.maxX/4), y: 0.845*(frame.maxY/9))
                 CoinsText.position = CGPoint(x: 0.575*(frame.maxX/4), y: 0.845*(frame.maxY/9))
 
-                SideButtons(Scaling: 0.21)
             }
             upperCard.alpha = CGFloat(0.6)
             bottomCard.alpha = CGFloat(0.6)
@@ -1009,7 +1050,7 @@ class MenuScene: SKScene {
         let rect = CGPoint(x: 0.725*(frame.maxX/4), y: 0.9*(frame.maxY/9))
         var coin : CGPoint!
         if defaults.integer(forKey: "UserCoins") < 1000 {
-             coin = CGPoint(x: 0.85*(frame.maxX/4), y: 0.91*(frame.maxY/9))
+             coin = CGPoint(x: 0.9*(frame.maxX/4), y: 0.91*(frame.maxY/9))
         }else if defaults.integer(forKey: "UserCoins") >= 1000 {
              coin = CGPoint(x: 1*(frame.maxX/4), y: 0.91*(frame.maxY/9))
 
@@ -1116,7 +1157,7 @@ class MenuScene: SKScene {
 
         
         for touch in touches {
-            let location = touch.location(in: self)
+            location = touch.location(in: self)
             let touchedNode = self.nodes(at: location)
             for node in touchedNode {
                 let generator = UIImpactFeedbackGenerator(style: .medium)
@@ -1139,7 +1180,6 @@ class MenuScene: SKScene {
                     if defaults.bool(forKey: "soundon") == true{
                         run(gouttesound)
                     }
-                    pressedButton(button: soundImage, time: 0.2, scale: 0.2)
                     disableUserInter(time: 1)
                     if defaults.bool(forKey: "soundon") == true {
                         defaults.set(false, forKey: "soundon")
@@ -1153,13 +1193,24 @@ class MenuScene: SKScene {
                     if defaults.bool(forKey: "soundon") == true{
                         run(gouttesound)
                     }
-                    pressedButton(button: SkinShop, time: 0.2, scale: 0.15)
                     disableUserInter(time: 1)
                     SkinShopFunc()
                 }else if node.name == "info" {
                     generator.impactOccurred()
-                    pressedButton(button: info, time: 0.2, scale: 0.05)
                     DisplayInfo()
+                }else if infotouched == true {
+                        print("coco")
+                        if inforect.frame.contains(location){
+                            for child in self.children {
+                                if child.name == "infonode"{
+                                    child.run(SKAction.fadeOut(withDuration: 0.2))
+                                    child.run(SKAction.sequence([SKAction.wait(forDuration: 0.25),SKAction.run{child.removeFromParent()}]))
+                                }
+                            }
+                        }else {/////////// SORT DU INFO
+                            print("caca")
+                           
+                        }
                 }
             }
             if SkinShopTouched == true {
@@ -1206,8 +1257,8 @@ class MenuScene: SKScene {
                                 }
                             }else if slot4!.LockState == false{
                                 if "Slot4" != defaults.string(forKey: "SlotChecked"){
-                                    defaults.set("back halloween", forKey: "SkinSelected")
-                                    defaults.set("deckhalloween", forKey: "DeckSelected")
+                                    defaults.set("back black", forKey: "SkinSelected")
+                                    defaults.set("deckblack", forKey: "DeckSelected")
                                     CheckIn(Slot: slot4!)
 
                                 }
@@ -1232,8 +1283,8 @@ class MenuScene: SKScene {
                                 }
                             }else if slot6!.LockState == false{
                                 if "Slot6" != defaults.string(forKey: "SlotChecked"){
-                                    defaults.set("back black", forKey: "SkinSelected")
-                                    defaults.set("deckblack", forKey: "DeckSelected")
+                                    defaults.set("back halloween", forKey: "SkinSelected")
+                                    defaults.set("deckhalloween", forKey: "DeckSelected")
                                     CheckIn(Slot: slot6!)
 
                                 }
@@ -1286,29 +1337,10 @@ class MenuScene: SKScene {
                                 if child.name == "shopnode"{
                                     child.run(SKAction.fadeOut(withDuration: 0.2))
                                     child.run(SKAction.sequence([SKAction.wait(forDuration: 0.25),SKAction.run{child.removeFromParent()}]))
-                                }else if child.name == "locknode"{
-                                    child.run(SKAction.fadeOut(withDuration: 0.2))
-                                    child.run(SKAction.sequence([SKAction.wait(forDuration: 0.25),SKAction.run{child.removeFromParent()}]))
                                 }
                             }
                         }
             
-                }
-
-                
-            }else if infotouched == true {
-                print("coco")
-
-                if inforect.frame.contains(location){
-                    
-                }else {/////////// SORT DU INFO
-                    print("caca")
-                    for child in self.children {
-                        if child.name == "infonode"{
-                            child.run(SKAction.fadeOut(withDuration: 0.2))
-                            child.run(SKAction.sequence([SKAction.wait(forDuration: 0.25),SKAction.run{child.removeFromParent()}]))
-                        }
-                    }
                 }
             }
 

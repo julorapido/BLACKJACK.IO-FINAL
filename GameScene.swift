@@ -462,7 +462,8 @@ class GameScene: SKScene {
             text.fontColor = UIColor.white
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: false)
             DisplayEXPnumbers(EXP: 25)
-            ModifyPlayerData(Exp: 200, CoinsWon: 2 + defo.integer(forKey: "CoinsBonus"))
+            ModifyPlayerData(Exp: 200, CoinsWon: 200 + defo.integer(forKey: "CoinsBonus"))
+            
             displayCoins(CoinsNumber: 2 + defo.integer(forKey: "CoinsBonus"))
             print("ppupuepute")
             defo.set(true,forKey: "LastGameVictory?")
@@ -513,7 +514,7 @@ class GameScene: SKScene {
             text.fontColor = UIColor.white
             EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: true)
             DisplayEXPnumbers(EXP: 35)
-            ModifyPlayerData(Exp: 500, CoinsWon: 2 + defo.integer(forKey: "CoinsBonus"))
+            ModifyPlayerData(Exp: 500, CoinsWon: 200 + defo.integer(forKey: "CoinsBonus"))
             displayCoins(CoinsNumber: 2 + defo.integer(forKey: "CoinsBonus"))
             InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
             defo.set(true,forKey: "LastGameVictory?")
