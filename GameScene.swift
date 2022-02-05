@@ -447,7 +447,7 @@ class GameScene: SKScene {
         if way == "PlayerBust"{
             text.text = "YOU BUST"
             text.fontColor = UIColor.white
-            EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: true)
+            EndGameScoreColorRect(User: "Player", Color: UIColor.red, WinState: true)
             DisplayEXPnumbers(EXP: -15)
             ModifyPlayerData(Exp: -15, CoinsWon: 0)
             InnerRectangle.fillColor = UIColor(red: 15/255, green: 32/255, blue: 45/255, alpha: 1)
@@ -458,7 +458,7 @@ class GameScene: SKScene {
         }else if way == "Victory" {
             text.text = "VICTORY"
             text.fontColor = UIColor.white
-            EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: false)
+            EndGameScoreColorRect(User: "Player", Color: UIColor.green, WinState: false)
             DisplayEXPnumbers(EXP: 45)
             ModifyPlayerData(Exp: 45, CoinsWon: 2 + defo.integer(forKey: "CoinsBonus"))
             
@@ -474,7 +474,7 @@ class GameScene: SKScene {
         }else if way == "DealerWins" {
             text.text = "DEALER WINS"
             text.fontColor = UIColor.white
-            EndGameScoreColorRect(User: "Dealer", Color: UIColor.white, WinState: true)
+            EndGameScoreColorRect(User: "Dealer", Color: UIColor.red, WinState: true)
             DisplayEXPnumbers(EXP: -20)
             ModifyPlayerData(Exp: -20, CoinsWon: 0)
             InnerRectangle.fillColor = UIColor(red: 15/255, green: 32/255, blue: 45/255, alpha: 1)
@@ -484,8 +484,8 @@ class GameScene: SKScene {
         }else if way == "Push"{
             text.text = "PUSH"
             text.fontColor = UIColor.white
-            EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: false)
-            EndGameScoreColorRect(User: "Dealer", Color: UIColor.white, WinState: false)
+            EndGameScoreColorRect(User: "Player", Color: UIColor.orange, WinState: false)
+            EndGameScoreColorRect(User: "Dealer", Color: UIColor.orange, WinState: false)
             InnerRectangle.fillColor = UIColor(red: 15/255, green: 32/255, blue: 45/255, alpha: 1)
             DisplayEXPnumbers(EXP: 0)
             ModifyPlayerData(Exp: 0, CoinsWon: 0)
@@ -494,7 +494,7 @@ class GameScene: SKScene {
             
             text.text = "BLACKJACK"
             text.fontColor = UIColor.white
-            EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: true)
+            EndGameScoreColorRect(User: "Player", Color: UIColor.cyan, WinState: true)
             InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
             DisplayEXPnumbers(EXP: 80)
             ModifyPlayerData(Exp: 80, CoinsWon: 3 + defo.integer(forKey: "CoinsBonus"))
@@ -509,7 +509,7 @@ class GameScene: SKScene {
             
             text.text = "DEALER BUSTS"
             text.fontColor = UIColor.white
-            EndGameScoreColorRect(User: "Player", Color: UIColor.white, WinState: true)
+            EndGameScoreColorRect(User: "Player", Color: UIColor.green, WinState: true)
             DisplayEXPnumbers(EXP: 35)
             ModifyPlayerData(Exp: 35, CoinsWon: 2 + defo.integer(forKey: "CoinsBonus"))
             displayCoins(CoinsNumber: 2 + defo.integer(forKey: "CoinsBonus"))

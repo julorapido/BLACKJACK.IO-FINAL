@@ -340,12 +340,17 @@ class MenuScene: SKScene {
         addChild(AppearCoinsRect)
         addChild(ApparitionRect)
         
-        
+        CoinsText.text = "\(defaults.integer(forKey: "UserCoins") - defaults.integer(forKey: "LastGameCoins"))"
         AppearCoinsRect.run(SKAction.sequence([SKAction.wait(forDuration: 1.5),SKAction.fadeOut(withDuration: 0.5)]))
         var time = CGFloat(0)
+        let previouscoin = defaults.integer(forKey: "UserCoins") - defaults.integer(forKey: "LastGameCoins")
         let entier = defaults.integer(forKey: "LastGameCoins")
         for i in 1...entier {
-            run(SKAction.sequence([SKAction.wait(forDuration: time),SKAction.run{self.spawncoins()}]))
+            run(SKAction.sequence([SKAction.wait(forDuration: time),
+                                   SKAction.run{self.spawncoins()},
+                                   SKAction.run{self.CoinsText.text = "\(previouscoin + i)"},
+                                   
+                                  ]))
             time = time + CGFloat(0.4)
         }
         defaults.set(0, forKey: "LastGameCoins")
@@ -892,7 +897,9 @@ class MenuScene: SKScene {
         coinsInt = defaults.integer(forKey: "UserCoins")
         CoinsText = SKLabelNode(fontNamed: "TextaW00-Heavy")
         CoinsText.position = CGPoint(x: 0.575*(frame.maxX/4), y: 0.81*(frame.maxY/9))
-        CoinsText.text = "\(coinsInt!)"
+        if defaults.bool(forKey: "LastGameVictory?") == false{
+            CoinsText.text = "\(coinsInt!)"
+        }
         CoinsText.fontSize = 20
         CoinsText.zPosition = 5
         CoinsRect = SKShapeNode(rectOf: CGSize(width: 80, height: 35), cornerRadius: 10)
