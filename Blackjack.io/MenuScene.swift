@@ -49,8 +49,9 @@ class MenuScene: SKScene {
 
     var MUSIClaunched = false
     
-    var usexp : Double!
-    var uselvl : Double!
+    var lastgamelevelup = false
+    var usexp :      Int!
+    var uselvl : Int!
     var UserCoins : Int!
     var MusicPlayer: AVAudioPlayer!
     var inforect : SKShapeNode!
@@ -69,21 +70,147 @@ class MenuScene: SKScene {
                                             ]
     
     
-    var expNeeded : Double!
+    var expNeeded : Int!
 
+    var inte : Int!
     func UserData() {
 
         
         if defaults.integer(forKey: "UserExp") > (defaults.integer(forKey: "UserLvl") * 100){
             LevelUp()
+            lastgamelevelup = true
         }
-        usexp = defaults.double(forKey: "UserExp")
-        uselvl = defaults.double(forKey: "UserLvl")
+        usexp = defaults.integer(forKey: "UserExp")
+        uselvl = defaults.integer(forKey: "UserLvl")
         expNeeded = uselvl * 100
         UserCoins = defaults.integer(forKey: "UserCoins")
 
     }
+    func StatMenu(){
+        playRec.isUserInteractionEnabled = false
+        statTouched = true
+        statrect = SKShapeNode(rectOf: CGSize(width: 4*(frame.maxX/5), height: 2*(frame.maxY/5)), cornerRadius: 10)
+        statrect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 0.97)
+        statrect.zPosition = 15
+        statrect.name = "statnode"
+        statrect.alpha = CGFloat(0)
+        statrect.lineWidth = CGFloat(3)
+        statrect.position = CGPoint(x: frame.midX, y: 2*(frame.maxY/3))
+        statrect.setScale(0.2)
+ 
+        let gameplayed = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        gameplayed.position = CGPoint(x: frame.midX, y: 3.95*(frame.maxY/5))
+        gameplayed.name = "statnode"
+        gameplayed.text = "GAMES PLAYED = \(defaults.integer(forKey: "GameWon"))"
+        gameplayed.fontSize = 22
+        gameplayed.fontColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 0.97)
+        gameplayed.zPosition = 17
+        gameplayed.alpha = 0
+        
+        let gamerect = SKShapeNode(rectOf: CGSize(width: 1.7*(frame.maxX/3), height: 35), cornerRadius: 15)
+        gamerect.position = CGPoint(x: frame.midX, y: 3.95*(frame.maxY/5) + 8)
+        gamerect.fillColor = UIColor(red: 254/255, green: 219/255, blue: 65/255, alpha: 1)
+        gamerect.strokeColor = UIColor(red: 254/255, green: 219/255, blue: 65/255, alpha: 1)
+        gamerect.zPosition = 16
+        gamerect.name = "statnode"
+        gamerect.lineWidth = CGFloat(1)
+        gamerect.alpha = 0
+        
+        let victory = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        victory.position = CGPoint(x: frame.midX, y: 3.6*(frame.maxY/5))
+        victory.name = "statnode"
+        victory.text = "GAMES WON : \(defaults.integer(forKey: "GameWon"))"
+        victory.fontSize = 20
+        victory.zPosition = 17
+        victory.alpha = 0
+        
+        let lost = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        lost.position = CGPoint(x: frame.midX, y: 3.3*(frame.maxY/5))
+        lost.name = "statnode"
+        lost.text = "LOST GAMES : \(defaults.integer(forKey: "GameLost"))"
+        lost.fontSize = 20
+        lost.zPosition = 17
+        lost.alpha = 0
+        
+        let blackjack = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        blackjack.position = CGPoint(x: frame.midX, y: 3*(frame.maxY/5))
+        blackjack.name = "statnode"
+        blackjack.text = "BLACKJACKS : \(defaults.integer(forKey: "Blackjacks"))"
+        blackjack.fontSize = 20
+        blackjack.zPosition = 17
+        blackjack.alpha = 0
+        
 
+        
+        let winrate = SKLabelNode(fontNamed: "TextaW00-Heavy")
+        winrate.position = CGPoint(x: frame.midX, y: 2.6*(frame.maxY/5))
+        winrate.name = "statnode"
+        if defaults.integer(forKey: "GamesPlayed") == 0 {
+            let pourcentage = 0
+            winrate.text = "WINRATE = \(pourcentage)"
+
+        }else if defaults.integer(forKey: "GamesPlayed") > 0{
+            let vic = defaults.double(forKey: "GameWon") + defaults.double(forKey: "Blackjacks")
+            let joue = defaults.double(forKey: "GamesPlayed")
+            let rt = ( ((vic/joue) * 100 ) )
+            inte = Int(rt)
+            winrate.text = "WINRATE \(inte!) %"
+            print(rt)
+        }
+        winrate.fontSize = 22
+        winrate.zPosition = 17
+        winrate.alpha = 0
+        winrate.fontColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 0.97)
+        
+        let winraterect = SKShapeNode(rectOf: CGSize(width: 1.5*(frame.maxX/3), height: 35), cornerRadius: 15)
+        winraterect.position = CGPoint(x: frame.midX, y: 2.6*(frame.maxY/5) + 6)
+        winraterect.fillColor = UIColor(red: 254/255, green: 219/255, blue: 65/255, alpha: 1)
+        winraterect.strokeColor = UIColor(red: 254/255, green: 219/255, blue: 65/255, alpha: 1)
+        winraterect.zPosition = 16
+        winraterect.name = "statnode"
+        winraterect.lineWidth = CGFloat(1)
+        winraterect.alpha = 0
+        if inte <=  20{
+            winraterect.fillColor = UIColor(red: 254/255, green: 60/255, blue: 60/255, alpha: 1)
+            winraterect.strokeColor = UIColor(red: 254/255, green: 60/255, blue: 60/255, alpha: 1)
+        }else if inte > 20 && inte <= 40 {
+            winraterect.fillColor = UIColor(red: 254/255, green: 131/255, blue: 34/255, alpha: 1)
+            winraterect.strokeColor = UIColor(red: 254/255, green: 131/255, blue: 34/255, alpha: 1)
+        }else if inte > 40 && inte <= 45 {
+            winraterect.fillColor = UIColor(red: 254/255, green: 218/255, blue: 63/255, alpha: 1)
+            winraterect.strokeColor = UIColor(red: 254/255, green: 218/255, blue: 63/255, alpha: 1)
+        }else if inte > 45 && inte <= 50 {
+            winraterect.fillColor = UIColor(red: 255/255, green: 238/255, blue: 63/255, alpha: 1)
+            winraterect.strokeColor = UIColor(red: 254/255, green: 218/255, blue: 63/255, alpha: 1)
+        }else if inte > 50 && inte <= 55 {
+            winraterect.fillColor = UIColor(red: 1/255, green: 122/255, blue: 255/255, alpha: 1.0)
+            winraterect.strokeColor = UIColor(red: 1/255, green: 122/255, blue: 255/255, alpha: 1.0)
+        }else if inte > 55 && inte <= 65 {
+            winraterect.fillColor = UIColor(red: 1/255, green: 200/255, blue: 255/255, alpha: 1.0)
+            winraterect.strokeColor = UIColor(red: 1/255, green: 200/255, blue: 255/255, alpha: 1.0)
+        }else if inte > 65 {
+            winraterect.fillColor = UIColor(red: 1/255, green: 230/255, blue: 255/255, alpha: 1.0)
+            winraterect.strokeColor = UIColor(red: 1/255, green: 230/255, blue: 255/255, alpha: 1.0)
+        }
+        addChild(gamerect)
+        addChild(gameplayed)
+        addChild(winraterect)
+        addChild(winrate)
+        addChild(blackjack)
+        addChild(lost)
+        addChild(victory)
+        addChild(statrect)
+        statrect.run(SKAction.sequence([SKAction.scaleX(to: 1, duration: 0.15),SKAction.wait(forDuration: 0.01),SKAction.scaleY(to: 1, duration: 0.19)]))
+        statrect.run(SKAction.fadeIn(withDuration: 0.3))
+        lost.run(SKAction.fadeIn(withDuration: 0.45))
+        victory.run(SKAction.fadeIn(withDuration: 0.45))
+        blackjack.run(SKAction.fadeIn(withDuration: 0.45))
+        winrate.run(SKAction.fadeIn(withDuration: 0.45))
+        gameplayed.run(SKAction.fadeIn(withDuration: 0.45))
+        winraterect.run(SKAction.fadeIn(withDuration: 0.45))
+        gameplayed.run(SKAction.fadeIn(withDuration: 0.45))
+        gamerect.run(SKAction.fadeIn(withDuration: 0.45))
+    }
     func DisplayInfo() {
         
         
@@ -97,9 +224,9 @@ class MenuScene: SKScene {
         inforect.lineWidth = CGFloat(3)
         inforect.position = CGPoint(x: frame.midX, y: frame.midY)
         inforect.setScale(0.3)
-        let experiencerect = SKShapeNode(rectOf: CGSize(width: 1.5*(frame.maxX/3), height: 35), cornerRadius: 15)
+        let experiencerect = SKShapeNode(rectOf: CGSize(width: 1.5*(frame.maxX/3), height: 32), cornerRadius: 15)
         experiencerect.position = CGPoint(x: frame.midX, y: 4*(frame.maxY/5))
-        experiencerect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
+        experiencerect.fillColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
         experiencerect.strokeColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
         experiencerect.zPosition = 16
         experiencerect.name = "infonode"
@@ -110,6 +237,7 @@ class MenuScene: SKScene {
         experiencetext.name = "infonode"
         experiencetext.text = "EXPERIENCE"
         experiencetext.fontSize = 22
+        experiencetext.fontColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
         experiencetext.zPosition = 17
 
         let experiencenode = SKSpriteNode(texture: SKTexture(imageNamed: "exp"))
@@ -166,9 +294,9 @@ class MenuScene: SKScene {
         
         
         
-        let coinrect = SKShapeNode(rectOf: CGSize(width: 1.1*(frame.maxX/3), height: 35), cornerRadius: 15)
+        let coinrect = SKShapeNode(rectOf: CGSize(width: 1.1*(frame.maxX/3), height: 33), cornerRadius: 15)
         coinrect.position = CGPoint(x: frame.midX, y: 2.4*(frame.maxY/5))
-        coinrect.fillColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 1)
+        coinrect.fillColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
         coinrect.strokeColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
         coinrect.zPosition = 16
         coinrect.name = "infonode"
@@ -181,6 +309,7 @@ class MenuScene: SKScene {
         cointext.text = "COINS"
         cointext.fontSize = 22
         cointext.zPosition = 17
+        cointext.fontColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 0.97)
         cointext.alpha = 0
 
         
@@ -354,6 +483,26 @@ class MenuScene: SKScene {
             time = time + CGFloat(0.4)
         }
         defaults.set(0, forKey: "LastGameCoins")
+        
+        if lastgamelevelup == false {
+            
+                let previousExp = defaults.integer(forKey: "UserExp")
+                let tour = defaults.integer(forKey: "LastGameExp")
+                var timing = CGFloat(0)
+                defaults.set(previousExp - tour, forKey: "UserExp")
+                usexp = defaults.integer(forKey: "UserExp")
+                expText.text = "EXP  \(Int(usexp))/\((Int(uselvl)) * 100)"
+                for i in 1...tour {
+                    run(SKAction.sequence([
+                        SKAction.wait(forDuration: timing),
+                        SKAction.run{self.expText.text = "EXP  \(Int(self.usexp + i))|\((Int(self.uselvl)) * 100)"},
+                        SKAction.run{self.defaults.set(self.usexp + i, forKey: "UserExp")}
+                    ]))
+                    timing = timing + CGFloat(0.02)
+                }
+            
+        }
+        defaults.set(0, forKey: "LastGameExp")
     }
     
     func Particles(XValue : CGPoint){
@@ -396,6 +545,7 @@ class MenuScene: SKScene {
         
     }
     func LevelUp(){
+        lastgamelevelup = true
         let lvl = SKAction.playSoundFileNamed("lvlup.wav", waitForCompletion: false)
         if self.defaults.bool(forKey: "soundon") == true{
             self.run(SKAction.sequence([lvl]))
@@ -471,9 +621,9 @@ class MenuScene: SKScene {
     let pressedAction = SKAction.scale(to: 0.7, duration: 0.3)
     var info :SKSpriteNode!
     var coinsInt : Int!
-  
-    
-
+    var statsNode : SKSpriteNode!
+    var statTouched = false
+    var statrect : SKShapeNode!
     func disableUserInter(time :Double){
         let disable = SKAction.run {
             self.isUserInteractionEnabled = false
@@ -851,8 +1001,10 @@ class MenuScene: SKScene {
         SkinShop.yScale = 0.085
         SkinShop.name = "skinshop_image"
         
-        
-
+        statsNode = SKSpriteNode(imageNamed: "stats")
+        statsNode.xScale = 0.076
+        statsNode.yScale = 0.078
+        statsNode.name = "stats"
         
         lvltext = SKLabelNode(fontNamed: "TextaW00-Heavy")
         lvltext.position = CGPoint(x:frame.midX, y: (3.9 * (frame.maxY/5)))
@@ -869,7 +1021,13 @@ class MenuScene: SKScene {
         
         expText = SKLabelNode(fontNamed: "TextaW00-Heavy")
         expText.position = CGPoint(x: 3.25*(frame.maxX/4), y: 0.85*(frame.maxY/9))
-        expText.text = "EXP  \(Int(usexp))|\((Int(uselvl)) * 100)"
+        
+        
+        if defaults.bool(forKey: "LastGameVictory?") == false{
+            expText.text = "EXP  \(Int(usexp))/\((Int(uselvl)) * 100)"
+        }else if lastgamelevelup == true {
+            expText.text = "EXP  \(Int(usexp))/\((Int(uselvl)) * 100)"
+        }
         expText.fontSize = 15
         expText.zPosition = 5
         
@@ -882,6 +1040,7 @@ class MenuScene: SKScene {
         
         
         info.position = CGPoint(x: frame.minX + 55, y: 13.75*(frame.maxY/20))
+        statsNode.position = CGPoint(x: frame.maxX - 40, y: 14.3*(frame.maxY/20))
         SkinShop.position = CGPoint(x: frame.minX + 55, y: 12.75*(frame.maxY/20))
         soundImage.position = CGPoint(x: frame.minX + 55, y: 11.75*(frame.maxY/20))
         
@@ -975,7 +1134,8 @@ class MenuScene: SKScene {
                 info.position = CGPoint(x: frame.minX + 55, y: 14.2*(frame.maxY/20))
                 SkinShop.position = CGPoint(x: frame.minX + 53, y: 12.7*(frame.maxY/20))
                 soundImage.position = CGPoint(x: frame.minX + 55, y: 11.3*(frame.maxY/20))
-                
+                lvlrect = SKShapeNode(rectOf: CGSize(width: 100, height: 40), cornerRadius: 10)
+
                 CoinsAdaptivePos = CGPoint(x: 0.575*(frame.maxX/4), y: 0.83*(frame.maxY/9))
                 CoinsText.position = CGPoint(x: 0.575*(frame.maxX/4), y: 0.83*(frame.maxY/9))
             }else if (frame.maxY) > CGFloat(900){///////////// IPHONE MAX 13 MAX 12 MAX
@@ -983,7 +1143,8 @@ class MenuScene: SKScene {
                 info.position = CGPoint(x: frame.minX + 55, y: 14.1*(frame.maxY/20))
                 SkinShop.position = CGPoint(x: frame.minX + 53, y: 12.7*(frame.maxY/20))
                 soundImage.position = CGPoint(x: frame.minX + 55, y: 11.4*(frame.maxY/20))
-                
+                lvlrect = SKShapeNode(rectOf: CGSize(width: 100, height: 40), cornerRadius: 10)
+
                 CoinsAdaptivePos = CGPoint(x: 0.575*(frame.maxX/4), y: 0.845*(frame.maxY/9))
                 CoinsText.position = CGPoint(x: 0.575*(frame.maxX/4), y: 0.845*(frame.maxY/9))
 
@@ -1114,7 +1275,7 @@ class MenuScene: SKScene {
         addChild(soundImage)
         addChild(info)
         addChild(SkinShop)
-
+        addChild(statsNode)
     }
     var bruh : UIColor!
 
@@ -1298,7 +1459,7 @@ class MenuScene: SKScene {
                             playbutton.run(SKAction.scaleY(to: 0.93, duration: 0.43))
                     }
                 }else if node.name == "sound_image"{
-                    if SkinShopTouched == false && infotouched == false {
+                    if SkinShopTouched == false && infotouched == false && statTouched == false {
                     generator.impactOccurred()
                     if defaults.bool(forKey: "soundon") == true{
                         run(gouttesound)
@@ -1314,17 +1475,20 @@ class MenuScene: SKScene {
                     }
                 }else if node.name == "skinshop_image"{
                     if SkinShopTouched == false {
-                        if infotouched == false {
-                            generator.impactOccurred()
-                            if defaults.bool(forKey: "soundon") == true{
-                                run(gouttesound)
+                        if statTouched == false {
+                            if infotouched == false {
+                                generator.impactOccurred()
+                                if defaults.bool(forKey: "soundon") == true{
+                                    run(gouttesound)
+                                }
+                                disableUserInter(time: 1)
+                                SkinShopFunc()
                             }
-                            disableUserInter(time: 1)
-                            SkinShopFunc()
                         }
                 }
                 }else if node.name == "info" {
                     if infotouched == false {
+                        if statTouched == false {
                         if SkinShopTouched == false {
                             if defaults.bool(forKey: "soundon") == true{
                                 run(gouttesound)
@@ -1332,6 +1496,7 @@ class MenuScene: SKScene {
                             generator.impactOccurred()
                             DisplayInfo()
                         }
+                    }
                     }
                 }else if infotouched == true {
                         if inforect.frame.contains(location){
@@ -1343,7 +1508,30 @@ class MenuScene: SKScene {
                             }
                         }else {/////////// SORT DU INFO
                         }
+                }else if node.name == "stats" {
+                    if statTouched == false {
+                        if SkinShopTouched == false{
+                            if infotouched == false {
+                                if defaults.bool(forKey: "soundon") == true{
+                                    run(gouttesound)
+                                }
+                                generator.impactOccurred()
+                                StatMenu()
+                            }
+                        }
+                    }
+                    
+                }else if statTouched == true {
+                    if statrect.frame.contains(location){
+                        for child in self.children {
+                            if child.name == "statnode"{
+                                child.run(SKAction.fadeOut(withDuration: 0.2))
+                                child.run(SKAction.sequence([SKAction.wait(forDuration: 0.25),SKAction.run{child.removeFromParent()},SKAction.run{self.statTouched = false}]))
+                            }
+                        }
+                    }
                 }
+                    
             }
             if SkinShopTouched == true {
                 if SkinShopTouched == true {

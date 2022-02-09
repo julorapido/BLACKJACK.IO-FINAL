@@ -25,7 +25,6 @@ class GameScene: SKScene {
         
         disableUserInter(time: 2.3)
 
-
     }
     func ModifyPlayerData(Exp : Int, CoinsWon : Int ){
         var PreviousCoin = defo.integer(forKey: "UserCoins")
@@ -397,6 +396,9 @@ class GameScene: SKScene {
         view!.presentScene(comebackScene,transition: reveal)
     }
     func EndGameText(way:String){
+        
+        defo.set(defo.integer(forKey:"GamesPlayed") + 1, forKey: "GamesPlayed")
+        
         generator.impactOccurred()
         let remove = SKAction.run {
             self.removeFromParent()
@@ -409,7 +411,7 @@ class GameScene: SKScene {
             }
         }
 
-        let wait = SKAction.wait(forDuration: 2.5)
+        let wait = SKAction.wait(forDuration: 2.3)
         let trans = SKAction.run({self.transition()})
         let text = SKLabelNode(fontNamed: "TextaW00-Heavy")
         text.fontSize = 33
@@ -450,6 +452,7 @@ class GameScene: SKScene {
             EndGameScoreColorRect(User: "Player", Color: UIColor.red, WinState: true)
             DisplayEXPnumbers(EXP: -15)
             ModifyPlayerData(Exp: -15, CoinsWon: 0)
+            defo.set(defo.integer(forKey:"GameLost") + 1, forKey: "GameLost")
             InnerRectangle.fillColor = UIColor(red: 15/255, green: 32/255, blue: 45/255, alpha: 1)
             if self.defo.bool(forKey: "soundon") == true{
                 self.run(SKAction.sequence([SKAction.wait(forDuration: 1),lostsound]))
@@ -458,13 +461,17 @@ class GameScene: SKScene {
         }else if way == "Victory" {
             text.text = "VICTORY"
             text.fontColor = UIColor.white
-            EndGameScoreColorRect(User: "Player", Color: UIColor.green, WinState: false)
+            EndGameScoreColorRect(User: "Player", Color: UIColor(red: 1/255, green: 200/255, blue: 255/255, alpha: 1), WinState: false)
+            
             DisplayEXPnumbers(EXP: 45)
             ModifyPlayerData(Exp: 45, CoinsWon: 2 + defo.integer(forKey: "CoinsBonus"))
-            
+            defo.set(defo.integer(forKey:"GameWon") + 1, forKey: "GameWon")
             displayCoins(CoinsNumber: 2 + defo.integer(forKey: "CoinsBonus"))
             defo.set(true,forKey: "LastGameVictory?")
+            
             defo.set(2 + defo.integer(forKey: "CoinsBonus"), forKey: "LastGameCoins")
+            defo.set(45 + defo.integer(forKey: "LastGameExp"), forKey: "LastGameExp")
+            
             InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
 
             if self.defo.bool(forKey: "soundon") == true{
@@ -477,6 +484,7 @@ class GameScene: SKScene {
             EndGameScoreColorRect(User: "Dealer", Color: UIColor.red, WinState: true)
             DisplayEXPnumbers(EXP: -20)
             ModifyPlayerData(Exp: -20, CoinsWon: 0)
+            defo.set(defo.integer(forKey:"GameLost") + 1, forKey: "GameLost")
             InnerRectangle.fillColor = UIColor(red: 15/255, green: 32/255, blue: 45/255, alpha: 1)
             if self.defo.bool(forKey: "soundon") == true{
                 self.run(SKAction.sequence([SKAction.wait(forDuration: 1),lostsound]))
@@ -498,10 +506,16 @@ class GameScene: SKScene {
             InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
             DisplayEXPnumbers(EXP: 80)
             ModifyPlayerData(Exp: 80, CoinsWon: 3 + defo.integer(forKey: "CoinsBonus"))
+            
             displayCoins(CoinsNumber: 3 + defo.integer(forKey: "CoinsBonus"))
             defo.set(true,forKey: "LastGameVictory?")
+            
+            defo.set(80 + defo.integer(forKey: "LastGameExp"), forKey: "LastGameExp")
             defo.set(3 + defo.integer(forKey: "CoinsBonus"), forKey: "LastGameCoins")
             
+            
+            defo.set(defo.integer(forKey:"Blackjacks") + 1, forKey: "Blackjacks")
+
             if self.defo.bool(forKey: "soundon") == true{
                 self.run(SKAction.sequence([SKAction.wait(forDuration: 1),victorySound]))
             }
@@ -509,15 +523,17 @@ class GameScene: SKScene {
             
             text.text = "DEALER BUSTS"
             text.fontColor = UIColor.white
-            EndGameScoreColorRect(User: "Player", Color: UIColor.green, WinState: true)
+            EndGameScoreColorRect(User: "Player", Color: UIColor(red: 1/255, green: 200/255, blue: 255/255, alpha: 1), WinState: true)
             DisplayEXPnumbers(EXP: 35)
             ModifyPlayerData(Exp: 35, CoinsWon: 2 + defo.integer(forKey: "CoinsBonus"))
             displayCoins(CoinsNumber: 2 + defo.integer(forKey: "CoinsBonus"))
             InnerRectangle.fillColor = UIColor(red: 1/255, green: 123/255, blue: 255/255, alpha: 0.8)
             defo.set(true,forKey: "LastGameVictory?")
+            
+            defo.set(35 + defo.integer(forKey: "LastGameExp"), forKey: "LastGameExp")
             defo.set(2 + defo.integer(forKey: "CoinsBonus"), forKey: "LastGameCoins")
             
-            
+            defo.set(defo.integer(forKey:"GameWon") + 1, forKey: "GameWon")
             if self.defo.bool(forKey: "soundon") == true{
                 self.run(SKAction.sequence([SKAction.wait(forDuration: 1),victorySound]))
             }
@@ -910,6 +926,10 @@ class GameScene: SKScene {
         }
         returnedCard.xScale = 0.33
         returnedCard.yScale = 0.31
+        if (frame.maxY) > CGFloat(736) {
+            returnedCard.xScale = 0.43
+            returnedCard.yScale = 0.4
+        }
         returnedCard.zPosition = zCardPositions
         returnedCard.position = CGPoint(x: frame.maxX, y: frame.maxY)
         //let moveToPointX = SKAction.moveTo(x: xPos, duration: 0.5)
@@ -930,7 +950,12 @@ class GameScene: SKScene {
             returnedCard.run(SKAction.scaleX(to: -0.32, duration: 0))////////////// SPAWN CARTE EN MIROIR
             returnedCard.run(SKAction.scaleX(to: -0.05, duration: 0.08))//////// RETOURNEMENT 1/2
             returnedCard.run(SKAction.scaleX(to: 0.05, duration: 0))//////////// MIROIR LA CARTE (taille reduite)
-            returnedCard.run(SKAction.scaleX(to: 0.33, duration: 0.15))////////////// REMET A TAILLE NORMALE
+            ///
+            if (self.frame.maxY) < CGFloat(736) {
+                returnedCard.run(SKAction.scaleX(to: 0.33, duration: 0.15))////////////// REMET A TAILLE NORMALE
+            }else {
+                returnedCard.run(SKAction.scaleX(to: 0.43, duration: 0.15))////////////// REMET A TAILLE NORMALE
+            }
             // ||
         }
         if (user != "StayDealer") && (user != "Returned") {
@@ -961,7 +986,11 @@ class GameScene: SKScene {
             card.run(SKAction.scaleX(to: -0.32, duration: 0))////////////// SPAWN CARTE EN MIROIR
             card.run(SKAction.scaleX(to: -0.05, duration: 0.08))//////// RETOURNEMENT 1/2
             card.run(SKAction.scaleX(to: 0.05, duration: 0))//////////// MIROIR LA CARTE (taille reduite)
-            card.run(SKAction.scaleX(to: 0.33, duration: 0.15))
+            if (self.frame.maxY) < CGFloat(736) {
+                card.run(SKAction.scaleX(to: 0.33, duration: 0.15))////////////// REMET A TAILLE NORMALE
+            }else {
+                card.run(SKAction.scaleX(to: 0.43, duration: 0.15))////////////// REMET A TAILLE NORMALE
+            }
 
         }
         if defo.bool(forKey: "soundon") == true{

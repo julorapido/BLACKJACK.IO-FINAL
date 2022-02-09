@@ -39,7 +39,12 @@ class LaunchScreen: SKScene{
             "LevelNeeded" : 5,
             "CoinsBonus" : 0,
             
-            "LastGameCoins" : 0
+            "GamesPlayed" : 0,
+            "LastGameCoins" : 0,
+            "LastGameExp" : 0,
+            "GameWon" : 0,
+            "GameLost" : 0,
+            "Blackjacks" : 0
             
         ])
         defaults.set(false, forKey: "MUSICEVERLAUNCHED")
@@ -92,8 +97,8 @@ class LaunchScreen: SKScene{
  
         let gameover = SKSpriteNode(texture: SKTexture(imageNamed: "gameover"))
         gameover.position = CGPoint(x: frame.midX, y: 0.85*(frame.maxY/3))
-        gameover.yScale = 0.17
-        gameover.xScale = 0.17
+        gameover.yScale = 0.22
+        gameover.xScale = 0.22
         
         addChild(gameover)
         addChild(title)
