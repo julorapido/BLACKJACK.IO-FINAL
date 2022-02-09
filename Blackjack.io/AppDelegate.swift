@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISceneDelegate , SKScene
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        //FirebaseApp.configure()
         GADMobileAds.sharedInstance().start(completionHandler: nil)
         //GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [ GADSimulatorID ]
         //GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [ GADSimulatorID ]
