@@ -48,7 +48,7 @@ class LaunchScreen: SKScene{
             
         ])
         defaults.set(false, forKey: "MUSICEVERLAUNCHED")
-
+        print("MAX Y \(frame.maxY)" )
         defaults.set(true, forKey: "FirstLaunch")
         LaunchNodes()
         Loading()

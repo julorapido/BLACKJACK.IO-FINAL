@@ -951,7 +951,7 @@ class GameScene: SKScene {
             returnedCard.run(SKAction.scaleX(to: -0.05, duration: 0.08))//////// RETOURNEMENT 1/2
             returnedCard.run(SKAction.scaleX(to: 0.05, duration: 0))//////////// MIROIR LA CARTE (taille reduite)
             ///
-            if (self.frame.maxY) < CGFloat(736) {
+            if (self.frame.maxY) <= CGFloat(736) {
                 returnedCard.run(SKAction.scaleX(to: 0.33, duration: 0.15))////////////// REMET A TAILLE NORMALE
             }else {
                 returnedCard.run(SKAction.scaleX(to: 0.43, duration: 0.15))////////////// REMET A TAILLE NORMALE
@@ -986,7 +986,7 @@ class GameScene: SKScene {
             card.run(SKAction.scaleX(to: -0.32, duration: 0))////////////// SPAWN CARTE EN MIROIR
             card.run(SKAction.scaleX(to: -0.05, duration: 0.08))//////// RETOURNEMENT 1/2
             card.run(SKAction.scaleX(to: 0.05, duration: 0))//////////// MIROIR LA CARTE (taille reduite)
-            if (self.frame.maxY) < CGFloat(736) {
+            if (self.frame.maxY) <= CGFloat(736) {
                 card.run(SKAction.scaleX(to: 0.33, duration: 0.15))////////////// REMET A TAILLE NORMALE
             }else {
                 card.run(SKAction.scaleX(to: 0.43, duration: 0.15))////////////// REMET A TAILLE NORMALE
@@ -1005,7 +1005,7 @@ class GameScene: SKScene {
         if (frame.maxY) <= CGFloat(580){///////////////// IPOD
 
             
-        }else if (frame.maxY) > CGFloat(600) && (frame.maxY) < CGFloat(730){///////////////// IPHONE 7 8
+        }else if (frame.maxY) > CGFloat(600) && (frame.maxY) <= CGFloat(736){///////////////// IPHONE 7 8
             deckpos = CGPoint(x: frame.maxX - 75, y: ((frame.maxY)-(frame.maxY / 8.3)))
         }else if (frame.maxY) > CGFloat(736) && (frame.maxY) < CGFloat(900){////////////////// IPHONE XR 11 12 13
             deckpos = CGPoint(x: frame.maxX - 75, y: ((frame.maxY)-(frame.maxY / 9.5)))

@@ -72,7 +72,7 @@ class MenuScene: SKScene {
     
     var expNeeded : Int!
 
-    var inte : Int!
+    var inte = 0
     func UserData() {
 
         
@@ -101,7 +101,7 @@ class MenuScene: SKScene {
         let gameplayed = SKLabelNode(fontNamed: "TextaW00-Heavy")
         gameplayed.position = CGPoint(x: frame.midX, y: 3.95*(frame.maxY/5))
         gameplayed.name = "statnode"
-        gameplayed.text = "GAMES PLAYED = \(defaults.integer(forKey: "GameWon"))"
+        gameplayed.text = "\(defaults.integer(forKey: "GamesPlayed")) GAMES PLAYED"
         gameplayed.fontSize = 22
         gameplayed.fontColor = UIColor(red: 26/255, green: 36/255, blue: 63/255, alpha: 0.97)
         gameplayed.zPosition = 17
@@ -145,17 +145,16 @@ class MenuScene: SKScene {
         let winrate = SKLabelNode(fontNamed: "TextaW00-Heavy")
         winrate.position = CGPoint(x: frame.midX, y: 2.6*(frame.maxY/5))
         winrate.name = "statnode"
+        
+        
         if defaults.integer(forKey: "GamesPlayed") == 0 {
-            let pourcentage = 0
-            winrate.text = "WINRATE = \(pourcentage)"
-
-        }else if defaults.integer(forKey: "GamesPlayed") > 0{
+            winrate.text = "WINRATE 0 %"
+        }else {
             let vic = defaults.double(forKey: "GameWon") + defaults.double(forKey: "Blackjacks")
             let joue = defaults.double(forKey: "GamesPlayed")
             let rt = ( ((vic/joue) * 100 ) )
             inte = Int(rt)
-            winrate.text = "WINRATE \(inte!) %"
-            print(rt)
+            winrate.text = "WINRATE \(inte) %"
         }
         winrate.fontSize = 22
         winrate.zPosition = 17
@@ -495,7 +494,7 @@ class MenuScene: SKScene {
                 for i in 1...tour {
                     run(SKAction.sequence([
                         SKAction.wait(forDuration: timing),
-                        SKAction.run{self.expText.text = "EXP  \(Int(self.usexp + i))|\((Int(self.uselvl)) * 100)"},
+                        SKAction.run{self.expText.text = "EXP \(Int(self.usexp + i))/\((Int(self.uselvl)) * 100)"},
                         SKAction.run{self.defaults.set(self.usexp + i, forKey: "UserExp")}
                     ]))
                     timing = timing + CGFloat(0.02)
@@ -1120,7 +1119,7 @@ class MenuScene: SKScene {
             if (frame.maxY) <= CGFloat(580){///////////////// IPOD
                 AdaptiveValue = CGFloat(0.45)
                 
-            }else if (frame.maxY) > CGFloat(600) && (frame.maxY) < CGFloat(730){///////////////// IPHONE 7 8
+            }else if (frame.maxY) > CGFloat(600) && (frame.maxY) <= CGFloat(736){///////////////// IPHONE 7 8
                 AdaptiveValue = CGFloat(0.52)
                 info.position = CGPoint(x: frame.minX + 55, y: 14.4*(frame.maxY/20))
                 SkinShop.position = CGPoint(x: frame.minX + 53, y: 12.7*(frame.maxY/20))

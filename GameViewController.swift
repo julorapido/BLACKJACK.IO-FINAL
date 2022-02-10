@@ -38,7 +38,7 @@ class GameViewController: UIViewController {
                 menuu.scaleMode = .aspectFill
                 view.presentScene(launch)
                 view.ignoresSiblingOrder = true
-                view.addSubview(bannertop)
+                //view.addSubview(bannertop)
             
         }
 
