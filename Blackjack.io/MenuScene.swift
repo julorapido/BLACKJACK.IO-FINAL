@@ -481,10 +481,12 @@ class MenuScene: SKScene {
                                   ]))
             time = time + CGFloat(0.4)
         }
+ 
         defaults.set(0, forKey: "LastGameCoins")
         
         if lastgamelevelup == false {
-            
+            let CoinSound = SKAction.playSoundFileNamed("trigger.wav", waitForCompletion: false)
+
                 let previousExp = defaults.integer(forKey: "UserExp")
                 let tour = defaults.integer(forKey: "LastGameExp")
                 var timing = CGFloat(0)
@@ -499,8 +501,17 @@ class MenuScene: SKScene {
                     ]))
                     timing = timing + CGFloat(0.02)
                 }
+            if defaults.bool(forKey: "soundon") == true {
+                run(SKAction.run {
+                    for i in 1...entier {
+                        self.run(CoinSound)
+                    }
+
+                })
+            }
             
         }
+ 
         defaults.set(0, forKey: "LastGameExp")
     }
     

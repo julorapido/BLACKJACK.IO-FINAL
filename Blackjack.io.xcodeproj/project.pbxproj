@@ -29,6 +29,7 @@
 		5E86865227ADB45D0055C44D /* ElanorFreePersonalUse-ExBdIt.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5E86865127ADB45D0055C44D /* ElanorFreePersonalUse-ExBdIt.otf */; };
 		5E960527278A12C100019D6C /* LaunchScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E960526278A12C100019D6C /* LaunchScene.swift */; };
 		5ECE246B27A40D7600165095 /* gamecoin.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5ECE246A27A40D7600165095 /* gamecoin.wav */; };
+		5ED1BF2C27FCC426007FC8C0 /* trigger.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5ED1BF2B27FCC426007FC8C0 /* trigger.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		5E8C0F95271368AD006278C7 /* Blackjack-io-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Blackjack-io-Info.plist"; sourceTree = SOURCE_ROOT; };
 		5E960526278A12C100019D6C /* LaunchScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScene.swift; sourceTree = "<group>"; };
 		5ECE246A27A40D7600165095 /* gamecoin.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = gamecoin.wav; sourceTree = "<group>"; };
+		5ED1BF2B27FCC426007FC8C0 /* trigger.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = trigger.wav; sourceTree = "<group>"; };
 		A2F8332C63F7A8663AB069C2 /* Pods-Blackjack.io.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blackjack.io.release.xcconfig"; path = "Target Support Files/Pods-Blackjack.io/Pods-Blackjack.io.release.xcconfig"; sourceTree = "<group>"; };
 		B9E0A50B1A5F0469395DA32C /* Pods-Blackjack.io.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blackjack.io.debug.xcconfig"; path = "Target Support Files/Pods-Blackjack.io/Pods-Blackjack.io.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -113,6 +115,7 @@
 				5E61B5AA272A157C0073778C /* GameScene.swift */,
 				5E86864527AD3F1D0055C44D /* lvlup.wav */,
 				5E86864B27AD9B8C0055C44D /* playsound.wav */,
+				5ED1BF2B27FCC426007FC8C0 /* trigger.wav */,
 				5E86863F27ABF5580055C44D /* victory.wav */,
 				5E86863D27ABF41F0055C44D /* unlock.wav */,
 				5E86864127ABF6B90055C44D /* select.wav */,
@@ -208,6 +211,7 @@
 				5E86864627AD3F1D0055C44D /* lvlup.wav in Resources */,
 				5E827A612712E6F50005C9D0 /* Main.storyboard in Resources */,
 				5E86864427ABF82A0055C44D /* lost.wav in Resources */,
+				5ED1BF2C27FCC426007FC8C0 /* trigger.wav in Resources */,
 				5E86863C27ABF3340055C44D /* expsound.wav in Resources */,
 				5E86864C27AD9B8C0055C44D /* playsound.wav in Resources */,
 				5E86864027ABF5580055C44D /* victory.wav in Resources */,

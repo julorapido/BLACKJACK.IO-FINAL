@@ -404,9 +404,11 @@ class GameScene: SKScene {
             self.removeFromParent()
         }
         for child in self.children {
-            if child.name == "kards"{
+            if child.name == "kardbot"{
                 child.run(SKAction.sequence([SKAction.wait(forDuration: 2),SKAction.fadeOut(withDuration: 0.7),remove]))
             }else if child.name == "TABLEJEU"{
+                child.run(SKAction.sequence([SKAction.wait(forDuration: 2),SKAction.fadeOut(withDuration: 0.7),remove]))
+            }else if child.name == "kardtop" {
                 child.run(SKAction.sequence([SKAction.wait(forDuration: 2),SKAction.fadeOut(withDuration: 0.7),remove]))
             }
         }
@@ -935,11 +937,17 @@ class GameScene: SKScene {
         //let moveToPointX = SKAction.moveTo(x: xPos, duration: 0.5)
         //let moveToPointY = SKAction.moveTo(y: yPos, duration: 0.5)
         //let moveXandY = SKAction.sequence([moveToPointX,moveToPointY])
-        let waitCardVector = SKAction.wait(forDuration: 0.55)
+        let waitCardVector = SKAction.wait(forDuration: 0.45)
         let topleft = CGPoint(x: frame.maxX - 70, y: frame.maxY - 75)
         let CardPoint = CGPoint(x: xPos, y: yPos)
-        let vector = CGVector(dx: CardPoint.x - topleft.x, dy: CardPoint.y - topleft.y)
-        let vectorAction = SKAction.move(by: vector, duration: 0.4)
+        
+        let vector = CGVector(dx: CardPoint.x - topleft.x + 25, dy: CardPoint.y - topleft.y - 8)
+        let vectorAction = SKAction.move(by: vector, duration: 0.3)
+        
+        let vector2 = CGVector(dx: -25, dy: 8)
+        let vectorAction2 = SKAction.move(by: vector2, duration: 0.15)
+
+        let ee = SKAction.sequence([vectorAction,SKAction.wait(forDuration: 0.25),vectorAction2])
         let movementSound = SKAction.playSoundFileNamed("cardmoov.mp3", waitForCompletion: false)
         let flippingSound = SKAction.playSoundFileNamed("cardflip.mp3", waitForCompletion: false)
         let waitSound = SKAction.wait(forDuration: 0.59)
@@ -958,13 +966,37 @@ class GameScene: SKScene {
             }
             // ||
         }
+        
+        let moveBotCards = SKAction.run {
+            for child in self.children {
+                if child.name == "kardbot"{
+                    child.run(SKAction.moveBy(x: -2, y: 0, duration: 0.2))
+                }
+                
+            }
+        }
+        let moveTopCards = SKAction.run {
+            for child in self.children {
+                if child.name == "kardtop"{
+                    child.run(SKAction.moveBy(x: -2, y: 0, duration: 0.2))
+                }
+                
+            }
+        }
+        
         if (user != "StayDealer") && (user != "Returned") {
-            run(SKAction.sequence([SKAction.run{returnedCard.run(vectorAction)},waitCardVector,swapCardSide]))
+            run(SKAction.sequence([SKAction.run{returnedCard.run(ee)},waitCardVector,swapCardSide]))
             if defo.bool(forKey: "soundon") == true{
                 run(SKAction.sequence([movementSound,waitSound,flippingSound]))
             }
+            if (user == "Player") {
+                run(moveBotCards)
+            }else if user == "Dealer" {
+                run(moveTopCards)
+            }
         }else if user == "Returned"{
-            returnedCard.run(SKAction.sequence([vectorAction]))
+            
+            returnedCard.run(SKAction.sequence([ee]))
             if defo.bool(forKey: "soundon") == true{
                 run(SKAction.sequence([movementSound]))
             }
@@ -1092,7 +1124,7 @@ class GameScene: SKScene {
              
                 let playerAction1 = SKAction.run {
                     self.playercard1 = self.spawnRandomCard(user: "Player", xPos: -10, yPos: self.frame.maxY / 3.6 )
-                    self.playercard1.name = "kards"
+                    self.playercard1.name = "kardbot"
                     if self.playerScore == 10 {
                         self.playerHas10onStart += 1
                     }
@@ -1103,17 +1135,17 @@ class GameScene: SKScene {
                     
                     self.DealerReturnedCard = SKSpriteNode()
                     self.DealerReturnedCard.alpha = 0
-                    self.DealerReturnedCard.name = "kards"
+                    self.DealerReturnedCard.name = "kardtop"
                 }
                 
                 let dealerCard1Action = SKAction.run {
                     self.dealercard1 = self.spawnRandomCard(user: "Dealer", xPos: -10, yPos: 2 * (self.frame.maxY / 3.6) );
-                    self.dealercard1.name = "kards"
+                    self.dealercard1.name = "kardtop"
                 }
                 
                 let playerAction2 = SKAction.run {
                     self.playercard2 = self.spawnRandomCard(user: "Player", xPos: 30 , yPos: self.frame.maxY / 3.6 - 10);
-                    self.playercard2.name = "kards"
+                    self.playercard2.name = "kardbot"
 
                     if self.playerScore == 10 {
                         self.playerHas10onStart += 1
@@ -1125,7 +1157,7 @@ class GameScene: SKScene {
 
                 let dealerCard2Action = SKAction.run {
                     self.DealerReturnedCard = self.spawnRandomCard(user: "Returned", xPos: 30, yPos: 2 * (self.frame.maxY / 3.6) - 10);
-                    self.DealerReturnedCard.name = "kards"
+                    self.DealerReturnedCard.name = "kardtop"
 
                 }
                 run(SKAction.sequence([playerAction1,waitCard,updatePlayerAction,
@@ -1158,7 +1190,7 @@ class GameScene: SKScene {
                     self.updatePlayerScore()
                 }
                 playercard3 = spawnRandomCard(user : "Player", xPos: PlayerNewCardX, yPos: self.frame.maxY / 3.6 - PlayerNewCardY)
-                playercard3.name = "kards"
+                playercard3.name = "kardbot"
 
                 run(SKAction.sequence([waitCard,PlayerUpdate]))
 
@@ -1228,7 +1260,7 @@ class GameScene: SKScene {
                 let giveNewCard = SKAction.run {
                     if self.dealerScore < 17 {
                         self.dealercard3 = self.spawnRandomCard(user: "Dealer", xPos: stayX, yPos:  2 * (self.frame.maxY / 3.6) - stayY)
-                        self.dealercard3.name = "kards"
+                        self.dealercard3.name = "kardtop"
                         stayX += 40
                         stayY += 10
                     }else{
