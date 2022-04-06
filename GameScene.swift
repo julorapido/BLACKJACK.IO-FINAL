@@ -405,10 +405,12 @@ class GameScene: SKScene {
         }
         for child in self.children {
             if child.name == "kardbot"{
+                child.run(SKAction.sequence([SKAction.wait(forDuration: 2),SKAction.move(by: CGVector(dx: 5, dy: -10), duration: 0.7)]))
                 child.run(SKAction.sequence([SKAction.wait(forDuration: 2),SKAction.fadeOut(withDuration: 0.7),remove]))
             }else if child.name == "TABLEJEU"{
                 child.run(SKAction.sequence([SKAction.wait(forDuration: 2),SKAction.fadeOut(withDuration: 0.7),remove]))
             }else if child.name == "kardtop" {
+                child.run(SKAction.sequence([SKAction.wait(forDuration: 2),SKAction.move(by: CGVector(dx: 8, dy: -10), duration: 0.7)]))
                 child.run(SKAction.sequence([SKAction.wait(forDuration: 2),SKAction.fadeOut(withDuration: 0.7),remove]))
             }
         }

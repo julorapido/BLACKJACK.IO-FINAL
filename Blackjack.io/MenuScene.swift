@@ -443,7 +443,13 @@ class MenuScene: SKScene {
  
     }
     
-    
+    func ExpSound (count : Int) {
+        let ExpSound = SKAction.playSoundFileNamed("trigger.wav", waitForCompletion: true)
+
+        if defaults.bool(forKey: "soundon") == true {
+            run(ExpSound)
+        }
+    }
     func LastGameVictory(){
         let ApparitionRect = SKShapeNode(rectOf: CGSize(width: 105, height: 32.5), cornerRadius: 10)
         ApparitionRect.position = CGPoint(x: 3.25*(frame.maxX/4), y: 0.91*(frame.maxY/9))
@@ -474,6 +480,9 @@ class MenuScene: SKScene {
         let previouscoin = defaults.integer(forKey: "UserCoins") - defaults.integer(forKey: "LastGameCoins")
         let entier = defaults.integer(forKey: "LastGameCoins")
         for i in 1...entier {
+            run(SKAction.run {
+                self.generator.impactOccurred()
+            })
             run(SKAction.sequence([SKAction.wait(forDuration: time),
                                    SKAction.run{self.spawncoins()},
                                    SKAction.run{self.CoinsText.text = "\(previouscoin + i)"},
@@ -485,8 +494,9 @@ class MenuScene: SKScene {
         defaults.set(0, forKey: "LastGameCoins")
         
         if lastgamelevelup == false {
-            let CoinSound = SKAction.playSoundFileNamed("trigger.wav", waitForCompletion: false)
 
+          
+            
                 let previousExp = defaults.integer(forKey: "UserExp")
                 let tour = defaults.integer(forKey: "LastGameExp")
                 var timing = CGFloat(0)
@@ -494,6 +504,14 @@ class MenuScene: SKScene {
                 usexp = defaults.integer(forKey: "UserExp")
                 expText.text = "EXP  \(Int(usexp))/\((Int(uselvl)) * 100)"
                 for i in 1...tour {
+                    
+                    run(SKAction.sequence([
+                        SKAction.wait(forDuration: timing),
+                        SKAction.run {self.ExpSound(count: tour)}
+                    
+                    
+                    ]))
+                      
                     run(SKAction.sequence([
                         SKAction.wait(forDuration: timing),
                         SKAction.run{self.expText.text = "EXP \(Int(self.usexp + i))/\((Int(self.uselvl)) * 100)"},
@@ -501,15 +519,8 @@ class MenuScene: SKScene {
                     ]))
                     timing = timing + CGFloat(0.02)
                 }
-            if defaults.bool(forKey: "soundon") == true {
-                run(SKAction.run {
-                    for i in 1...entier {
-                        self.run(CoinSound)
-                    }
 
-                })
-            }
-            
+          
         }
  
         defaults.set(0, forKey: "LastGameExp")
