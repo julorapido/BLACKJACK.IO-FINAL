@@ -403,15 +403,23 @@ class GameScene: SKScene {
         let remove = SKAction.run {
             self.removeFromParent()
         }
+        var toploop : Double
+        var botloop : Double
+        botloop = 0
+        toploop = 0
         for child in self.children {
+
             if child.name == "kardbot"{
-                child.run(SKAction.sequence([SKAction.wait(forDuration: 2),SKAction.move(by: CGVector(dx: 5, dy: -10), duration: 0.7)]))
+                child.run(SKAction.sequence([SKAction.wait(forDuration: 2 + botloop),SKAction.move(by: CGVector(dx: 5, dy: -10), duration: 0.4)]))
                 child.run(SKAction.sequence([SKAction.wait(forDuration: 2),SKAction.fadeOut(withDuration: 0.7),remove]))
+                botloop += 0.2
+
             }else if child.name == "TABLEJEU"{
-                child.run(SKAction.sequence([SKAction.wait(forDuration: 2),SKAction.fadeOut(withDuration: 0.7),remove]))
+                child.run(SKAction.sequence([SKAction.wait(forDuration: 2),SKAction.fadeOut(withDuration: 0.4),remove]))
             }else if child.name == "kardtop" {
-                child.run(SKAction.sequence([SKAction.wait(forDuration: 2),SKAction.move(by: CGVector(dx: 8, dy: -10), duration: 0.7)]))
+                child.run(SKAction.sequence([SKAction.wait(forDuration: 2 + toploop),SKAction.move(by: CGVector(dx: 8, dy: -10), duration: 0.7)]))
                 child.run(SKAction.sequence([SKAction.wait(forDuration: 2),SKAction.fadeOut(withDuration: 0.7),remove]))
+                toploop += 0.2
             }
         }
 
@@ -796,7 +804,7 @@ class GameScene: SKScene {
             rect1.name = "TABLEJEU"
             rect1.position = CGPoint(x: frame.midX, y: frame.midY)
             rect1.strokeColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
-            rect1.lineWidth = CGFloat(3.5)
+            rect1.lineWidth = CGFloat(2)
             rect1.zPosition = -10
             rect1.alpha = 0
             
@@ -972,7 +980,7 @@ class GameScene: SKScene {
         let moveBotCards = SKAction.run {
             for child in self.children {
                 if child.name == "kardbot"{
-                    child.run(SKAction.moveBy(x: -2, y: 0, duration: 0.2))
+                    child.run(SKAction.moveBy(x: -2.5, y: 0, duration: 0.2))
                 }
                 
             }
@@ -980,7 +988,7 @@ class GameScene: SKScene {
         let moveTopCards = SKAction.run {
             for child in self.children {
                 if child.name == "kardtop"{
-                    child.run(SKAction.moveBy(x: -2, y: 0, duration: 0.2))
+                    child.run(SKAction.moveBy(x: -2.5, y: 0, duration: 0.2))
                 }
                 
             }
